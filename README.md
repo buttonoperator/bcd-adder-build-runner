@@ -73,6 +73,13 @@ gates wired to the wrong sum bits.
   carries. Pins light blue for the current step and green once wired.
 - **A step-scoped breadboard diagram.** All 254 drawn wire elements carry their step index,
   so only the current step's connections are lit; completed wires dim, future wires ghost.
+- **Click any pin to trace its net.** Every pin and every breadboard wire is tagged with the
+  net it carries, so one click lights all four Z3 pins across U1, U3 and U2 along with the three
+  wires joining them, and dims everything else. Esc or a second click clears it.
+- **Two labels per pin.** The bold name is the signal *this build* puts on the pin. The small
+  grey name is the chip's *own* pin name from its datasheet. They differ because the datasheet
+  numbers bits from 1 while this build numbers them from 0, and because the same physical pin
+  carries `A0` on U1 but `Z0` on U2.
 - **Logic levels under every chip.** Set any two operands in the rail and the page solves the
   whole circuit, printing what each IC produces in a readout below it: the operands on SW1,
   `K` and `Z3..Z0` on U1, both AND terms on U3, `C` on U4, `S3..S0` on U2, the segment pattern

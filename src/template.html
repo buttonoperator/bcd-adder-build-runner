@@ -8,6 +8,7 @@
   --accent:#1f5f8b; --accent-soft:#e3edf4; --done:#2f9e5e;
   --board:#e4e1d8; --board-edge:#c9c4b8; --chan:#d0ccc1; --hole:#a9a399;
   --ic:#2b2e33; --ic-fg:#e9e6df; --res:#cfa86a; --led:#4fbf72;
+  --sel:#c2410c;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
 }
@@ -16,9 +17,11 @@
   --accent:#6fb3dd; --accent-soft:#1c2a33; --done:#4fbf72;
   --board:#2a2d32; --board-edge:#3a3e45; --chan:#1f2226; --hole:#5d636b;
   --ic:#0e1013; --ic-fg:#d6d3cc; --res:#b08a4e; --led:#4fbf72;
+  --sel:#f0914a;
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
+  --sel:#f0914a;
   --bg:#15171a; --surface:#1d2024; --fg:#e8e6e1; --muted:#9aa0a8; --line:#32363c;
   --accent:#6fb3dd; --accent-soft:#1c2a33; --done:#4fbf72;
   --board:#2a2d32; --board-edge:#3a3e45; --chan:#1f2226; --hole:#5d636b;
@@ -217,7 +220,8 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 #cm .cpart{font:400 9.5px var(--mono);fill:#9aa0a8;text-anchor:middle}
 #cm .pad{fill:var(--surface);stroke:var(--line);stroke-width:1}
 #cm .pnum{font:600 9.5px var(--mono);fill:var(--muted);text-anchor:middle}
-#cm .pnet{font:500 10px var(--mono);fill:#8d929a}
+#cm .pnet{font:600 10px var(--mono);fill:#8d929a}
+#cm .pds{font:400 7.5px var(--mono);fill:#6d727a;letter-spacing:.04em}
 #cm .pnl{text-anchor:start}
 #cm .pnr{text-anchor:end}
 #cm .pin.wired .pad{fill:var(--done);stroke:var(--done)}
@@ -226,6 +230,23 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 #cm .pin.now .pad{fill:var(--accent);stroke:var(--accent)}
 #cm .pin.now .pnum{fill:#fff}
 #cm .pin.now .pnet{fill:#fff;font-weight:600}
+#cm .pin[data-net]{cursor:pointer}
+#cm .pin[data-net]:hover .pad{stroke:var(--sel);stroke-width:2}
+/* traced net */
+#cm .pin.sel .pad{stroke:var(--sel);stroke-width:2.5}
+#cm .pin.sel .pnet{fill:var(--sel)}
+#cm.tracing .pin:not(.sel){opacity:.35}
+#cm.tracing .ro,#cm.tracing .rostem{opacity:.45}
+#bb .sw.sel{opacity:1}
+#bb .w.sel{stroke-width:4.4}
+#bb .wd.sel{r:5}
+#bb.tracing .sw:not(.sel){opacity:.06}
+.trace{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-family:var(--mono);
+  font-size:11px;color:var(--muted);min-height:22px}
+.trace b{color:var(--sel);font-size:12px}
+.trace .pins{color:var(--fg)}
+.trace button{font:600 10px var(--mono);padding:3px 8px;border-radius:5px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
 /* breadboard diagram */
 #bb .bd{fill:var(--board);stroke:var(--board-edge);stroke-width:1.5}
 #bb .ch{fill:var(--chan)}
@@ -435,9 +456,13 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   </div>
   <div class="panes" id="panes">
   <div class="pane" id="ppin">
-    <p class="ptitle">Chips, left to right in signal order &mdash; pins, and the levels each one produces</p>
+    <p class="ptitle">Chips, left to right in signal order &mdash; click any pin to trace its net</p>
     <div class="cmap" tabindex="0" aria-label="IC pin map for this step, scrollable">
 <!--CHIPS-->
+    </div>
+    <div class="trace" id="trace">
+      <span class="thint" id="thint">Bold names are this build's signals. Small grey names are
+      the chip's own pin names, which number from&nbsp;1 where this build numbers from&nbsp;0.</span>
     </div>
     <div class="legend">
       <span><i class="n"></i>this step</span>
@@ -811,7 +836,7 @@ var STEPS = [
   y:"Goal: pin down the three bits C never touches. U2's B3 and B0 stay at zero so its B "
     + "inputs can only ever read 0000 or 0110, never anything in between. Both carry-ins are "
     + "grounded because neither adder has a stage below it.",
-  W:[["U1 pin 7 (C0)","GND"],["U2 pin 7 (C0)","GND"],["U2 pin 6 (B1)","GND"],["U2 pin 11 (B4)","GND"]]},
+  W:[["U1 pin 7 (C0)","GND"],["U2 pin 7 (C0)","GND"],["U2 pin 6 (B0)","GND"],["U2 pin 11 (B3)","GND"]]},
  {g:"Tie-offs", t:"Strap the CD4511", w:"Three control pins",
   d:"Do not skip this one.",
   W:[["U5 pin 3 (/LT)","+5 V"],["U5 pin 4 (/BL)","+5 V"],["U5 pin 5 (LE)","GND"]],
@@ -864,7 +889,7 @@ var STEPS = [
     + "presents 0110 (six) when high and 0000 when low. Binary rolls over at 16 but decimal "
     + "rolls over at 10, so adding that six forces the rollover and leaves the right ones "
     + "digit behind.",
-  W:[["U4 pin 6 (C)","U2 pin 15 (B3)"],["U4 pin 6 (C)","U2 pin 2 (B2)"]],
+  W:[["U4 pin 6 (C)","U2 pin 15 (B2)"],["U4 pin 6 (C)","U2 pin 2 (B1)"]],
   fk:"Why", f:"With pins 6 and 11 already grounded, U2's B inputs read 0110 when C is high. That is the +6."},
  {g:"Correction logic", t:"Wire the tens LED", w:"Board 1, columns 55 to 60",
   d:"C drives the tens digit directly.",
@@ -1030,7 +1055,7 @@ function expand(list){
 
   var el = {};
   ['count','phase','pct','fill','where','title','detail','wires','wbody','flag','flagk','flagt',
-   'go','back','groups','reset','ppin','pbb','ball','bbnote','goal','goalt',
+   'go','back','groups','reset','ppin','pbb','ball','bbnote','goal','goalt','trace',
    'zin','zout','zfit','zlab','undo','dia',
    'pzin','pzout','pzfit','pzlab','panes','rcount','rtitle','rwhere',
    'opa','opb','bitsa','bitsb','lsum','lread','tled','ttext','lnote','outs'].forEach(function(k){ el[k] = document.getElementById(k); });
@@ -1044,6 +1069,58 @@ function expand(list){
   Array.prototype.forEach.call(document.querySelectorAll('#cm .cbody'), function(r){
     bodyEls[r.id.slice(2)] = r;
   });
+
+  // ---- trace a net: click a pin, light every pin and wire on the same net ----
+  var selNet = null;
+  var netPins = {};
+  Array.prototype.forEach.call(document.querySelectorAll('#cm .pin[data-net]'), function(g){
+    var n = g.getAttribute('data-net');
+    (netPins[n] = netPins[n] || []).push(g.id.slice(2).replace(/-(\d+)$/, ' pin $1'));
+    g.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      setTrace(selNet === n ? null : n);
+    });
+  });
+
+  function setTrace(n){
+    selNet = n;
+    if (bbMapEl) bbMapEl.classList.toggle('tracing', !!n);
+    if (bb) bb.classList.toggle('tracing', !!n);
+    Array.prototype.forEach.call(document.querySelectorAll('#cm .pin'), function(g){
+      g.classList.toggle('sel', !!n && g.getAttribute('data-net') === n);
+    });
+    if (bb) {
+      Array.prototype.forEach.call(bb.querySelectorAll('.sw'), function(w){
+        w.classList.toggle('sel', !!n && w.getAttribute('data-net') === n);
+      });
+    }
+    el.trace.textContent = '';
+    if (!n) {
+      var hint = document.createElement('span');
+      hint.innerHTML = "Bold names are this build&#39;s signals. Small grey names are the "
+        + "chip&#39;s own pin names, which number from&nbsp;1 where this build numbers "
+        + "from&nbsp;0.";
+      el.trace.appendChild(hint);
+      return;
+    }
+    var nm = document.createElement('b'); nm.textContent = n;
+    var pins = document.createElement('span');
+    pins.className = 'pins';
+    pins.textContent = (netPins[n] || []).join(', ');
+    var wires = bb ? bb.querySelectorAll('.w[data-net="' + n + '"]').length : 0;
+    var cnt = document.createElement('span');
+    cnt.textContent = wires ? wires + ' on the board' : 'rail net';
+    var clr = document.createElement('button');
+    clr.type = 'button'; clr.textContent = 'clear';
+    clr.addEventListener('click', function(){ setTrace(null); });
+    el.trace.appendChild(nm); el.trace.appendChild(pins);
+    el.trace.appendChild(cnt); el.trace.appendChild(clr);
+  }
+  if (bbMapEl) {
+    bbMapEl.addEventListener('click', function(ev){
+      if (!ev.target.closest || !ev.target.closest('.pin[data-net]')) setTrace(null);
+    });
+  }
 
   function paintMap(){
     var now = {}, wired = {}, seat = {};
@@ -1062,6 +1139,11 @@ function expand(list){
     Object.keys(bodyEls).forEach(function(r){
       bodyEls[r].classList.toggle('seat', !!seat[r]);
     });
+    if (selNet) {
+      Object.keys(pinEls).forEach(function(k){
+        pinEls[k].classList.toggle('sel', pinEls[k].getAttribute('data-net') === selNet);
+      });
+    }
   }
 
   // breadboard, scoped to the current step
@@ -1085,6 +1167,7 @@ function expand(list){
       bbSteps[k].forEach(function(n){
         n.classList.toggle('wnow', now);
         n.classList.toggle('wdone', wired);
+        if (selNet) n.classList.toggle('sel', n.getAttribute('data-net') === selNet);
       });
     });
     if (el.bbnote) {
@@ -1159,6 +1242,7 @@ function expand(list){
     else if (ev.key === '+' || ev.key === '=') { zoomBy(1); ev.preventDefault(); }
     else if (ev.key === '-' || ev.key === '_') { zoomBy(-1); ev.preventDefault(); }
     else if (ev.key === '0') { zi = 2; applyZoom(); ev.preventDefault(); }
+    else if (ev.key === 'Escape' && selNet) { setTrace(null); ev.preventDefault(); }
   });
   function step(d){
     var n = Math.min(STEPS.length - 1, Math.max(0, cur + d));

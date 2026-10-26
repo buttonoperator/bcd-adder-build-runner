@@ -108,33 +108,36 @@ def pt(board, col, row):
 RED, BLK, ORA = '#d1495b', '#3d4451', '#e08b2a'
 BLU, GRN, PUR, SEG = '#2f7fd6', '#2f9e5e', '#8b5cf6', '#c2410c'
 
-def wire(a, b, color, lane, group, step):
+def N(net):
+    return (' data-net="%s"' % net) if net else ''
+
+def wire(a, b, color, lane, group, step, net=''):
     (x1, y1), (x2, y2) = pt(*a), pt(*b)
     ly = lane * P
     d = 'M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f' % (x1, y1, x1, ly, x2, ly, x2, y2)
-    e('<path class="w sw g-%s" data-s="%d" d="%s" stroke="%s" stroke-width="2.2"/>'
-      % (group, step, d, color))
+    e('<path class="w sw g-%s" data-s="%d"%s d="%s" stroke="%s" stroke-width="2.2"/>'
+      % (group, step, N(net), d, color))
     for (xx, yy) in ((x1, y1), (x2, y2)):
-        e('<circle class="wd sw g-%s" data-s="%d" cx="%.1f" cy="%.1f" r="3.4" fill="%s"/>'
-          % (group, step, xx, yy, color))
+        e('<circle class="wd sw g-%s" data-s="%d"%s cx="%.1f" cy="%.1f" r="3.4" fill="%s"/>'
+          % (group, step, N(net), xx, yy, color))
 
-def stub(a, rail, color, group, step):
+def stub(a, rail, color, group, step, net=''):
     board, col, row = a
     x, y1 = X(col), Y(board, row)
     y2 = Y(board, rail)
-    e('<path class="w sw g-%s" data-s="%d" d="M %.1f %.1f L %.1f %.1f" stroke="%s" stroke-width="2.2"/>'
-      % (group, step, x, y1, x, y2, color))
-    e('<circle class="wd sw g-%s" data-s="%d" cx="%.1f" cy="%.1f" r="3.4" fill="%s"/>'
-      % (group, step, x, y1, color))
-    e('<circle class="wd sw g-%s" data-s="%d" cx="%.1f" cy="%.1f" r="3.4" fill="%s"/>'
-      % (group, step, x, y2, color))
+    e('<path class="w sw g-%s" data-s="%d"%s d="M %.1f %.1f L %.1f %.1f" stroke="%s" stroke-width="2.2"/>'
+      % (group, step, N(net), x, y1, x, y2, color))
+    e('<circle class="wd sw g-%s" data-s="%d"%s cx="%.1f" cy="%.1f" r="3.4" fill="%s"/>'
+      % (group, step, N(net), x, y1, color))
+    e('<circle class="wd sw g-%s" data-s="%d"%s cx="%.1f" cy="%.1f" r="3.4" fill="%s"/>'
+      % (group, step, N(net), x, y2, color))
 
-def resistor(a, b, label, group, step, color='#9a7b4f'):
+def resistor(a, b, label, group, step, net='', color='#9a7b4f'):
     (x1, y1), (x2, y2) = pt(*a), pt(*b)
     mx, my = (x1 + x2) / 2, (y1 + y2) / 2
     horiz = abs(x2 - x1) >= abs(y2 - y1)
     bl, bw = (26, 9) if horiz else (9, 26)
-    e('<g class="sw g-%s" data-s="%d">' % (group, step))
+    e('<g class="sw g-%s" data-s="%d"%s>' % (group, step, N(net)))
     e('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8"/>'
       % (x1, y1, x2, y2, color))
     e('<rect class="res" x="%.1f" y="%.1f" width="%d" height="%d" rx="2"/>'
@@ -154,66 +157,70 @@ def R(*a):
 
 # power
 for p, vpin, gpin in ((U1, 16, 8), (U2, 16, 8), (U3, 14, 7), (U4, 14, 7), (U5, 16, 8)):
-    S(p.hole(vpin), 'R+T', RED, 'pwr', 7)
-    S(p.hole(gpin), 'R-B', BLK, 'pwr', 7)
+    S(p.hole(vpin), 'R+T', RED, 'pwr', 7, 'VCC')
+    S(p.hole(gpin), 'R-B', BLK, 'pwr', 7, 'GND')
 for c in range(2, 10):
-    S((1, c, 'F'), 'R+T', RED, 'pwr', 13)
+    S((1, c, 'F'), 'R+T', RED, 'pwr', 13, 'VCC')
 
 # operand entry
-IN = [(2, U1, 5), (3, U1, 3), (4, U1, 14), (5, U1, 12),
-      (6, U1, 6), (7, U1, 2), (8, U1, 15), (9, U1, 11)]
-for i, (c, p, pin) in enumerate(IN):
-    R((1, c, 'B'), (1, c, 'R-B'), '10k', 'in', 14)
-    W((1, c, 'A'), p.hole(pin), ORA, 15.4 + 0.32 * i, 'in', 15 if i < 4 else 16)
+IN = [(2, U1, 5, 'A0'), (3, U1, 3, 'A1'), (4, U1, 14, 'A2'), (5, U1, 12, 'A3'),
+      (6, U1, 6, 'B0'), (7, U1, 2, 'B1'), (8, U1, 15, 'B2'), (9, U1, 11, 'B3')]
+for i, (c, p, pin, nm) in enumerate(IN):
+    R((1, c, 'B'), (1, c, 'R-B'), '10k', 'in', 14, nm)
+    W((1, c, 'A'), p.hole(pin), ORA, 15.4 + 0.32 * i, 'in', 15 if i < 4 else 16, nm)
 
 # Z bus
 Z = {0: U1.hole(4), 1: U1.hole(1), 2: U1.hole(13), 3: U1.hole(10)}
 K = U1.hole(9)
-zpairs = [(Z[0], U2.hole(5)), (Z[1], U2.hole(3)), (Z[2], U2.hole(14)), (Z[3], U2.hole(12)),
-          (Z[3], U3.hole(1)), (Z[2], U3.hole(2)), (Z[3], U3.hole(4)), (Z[1], U3.hole(5))]
+zpairs = [(Z[0], U2.hole(5), 'Z0'), (Z[1], U2.hole(3), 'Z1'),
+          (Z[2], U2.hole(14), 'Z2'), (Z[3], U2.hole(12), 'Z3'),
+          (Z[3], U3.hole(1), 'Z3'), (Z[2], U3.hole(2), 'Z2'),
+          (Z[3], U3.hole(4), 'Z3'), (Z[1], U3.hole(5), 'Z1')]
 # Z2 and Z3 run from U1's top side to U2's top side, so route them over the top of the
 # board instead of dragging them under it. Everything else crosses the channel anyway.
 TOPLANE = {2: 2.3, 3: 2.9}
-for i, (src, dst) in enumerate(zpairs):
-    W(src, dst, BLU, TOPLANE.get(i, 17.8 - 0.30 * i), 'z', 18 if i < 4 else 19)
-W(K, U4.hole(5), BLU, 3.6, 'z', 20)
+for i, (src, dst, nm) in enumerate(zpairs):
+    W(src, dst, BLU, TOPLANE.get(i, 17.8 - 0.30 * i), 'z', 18 if i < 4 else 19, nm)
+W(K, U4.hole(5), BLU, 3.6, 'z', 20, 'K')
 
 # correction logic
-W(U3.hole(3), U4.hole(1), GRN, 15.5, 'corr', 20)
-W(U3.hole(6), U4.hole(2), GRN, 15.9, 'corr', 20)
-W(U4.hole(3), U4.hole(4), GRN, 16.3, 'corr', 20)
-W(U4.hole(6), U2.hole(2), GRN, 16.7, 'corr', 21)
-W(U4.hole(6), U2.hole(15), GRN, 17.1, 'corr', 21)
-W(U4.hole(6), (1, 55, 'A'), GRN, 17.5, 'corr', 22)
-R((1, 55, 'C'), (1, 58, 'C'), '330', 'corr', 22)
+W(U3.hole(3), U4.hole(1), GRN, 15.5, 'corr', 20, 'Z3\u00B7Z2')
+W(U3.hole(6), U4.hole(2), GRN, 15.9, 'corr', 20, 'Z3\u00B7Z1')
+W(U4.hole(3), U4.hole(4), GRN, 16.3, 'corr', 20, 'N3')
+W(U4.hole(6), U2.hole(2), GRN, 16.7, 'corr', 21, 'C')
+W(U4.hole(6), U2.hole(15), GRN, 17.1, 'corr', 21, 'C')
+W(U4.hole(6), (1, 55, 'A'), GRN, 17.5, 'corr', 22, 'C')
+R((1, 55, 'C'), (1, 58, 'C'), '330', 'corr', 22, 'LED')
 
 # tie-offs
 for h in [U3.hole(9), U3.hole(10), U3.hole(12), U3.hole(13),
           U4.hole(9), U4.hole(10), U4.hole(12), U4.hole(13)]:
-    S(h, 'R-T', BLK, 'tie', 10)
-S(U2.hole(11), 'R-T', BLK, 'tie', 11)
+    S(h, 'R-T', BLK, 'tie', 10, 'GND')
+S(U2.hole(11), 'R-T', BLK, 'tie', 11, 'GND')
 for h in [U1.hole(7), U2.hole(7), U2.hole(6)]:
-    S(h, 'R-B', BLK, 'tie', 11)
-S(U5.hole(5), 'R-B', BLK, 'tie', 12)
-S(U5.hole(3), 'R+B', RED, 'tie', 12)
-S(U5.hole(4), 'R+B', RED, 'tie', 12)
+    S(h, 'R-B', BLK, 'tie', 11, 'GND')
+S(U5.hole(5), 'R-B', BLK, 'tie', 12, 'GND')
+S(U5.hole(3), 'R+B', RED, 'tie', 12, 'VCC')
+S(U5.hole(4), 'R+B', RED, 'tie', 12, 'VCC')
 
 # S bus across boards
-for i, (src, dst) in enumerate([(U2.hole(4), U5.hole(7)), (U2.hole(1), U5.hole(1)),
-                                (U2.hole(13), U5.hole(2)), (U2.hole(10), U5.hole(6))]):
-    W(src, dst, PUR, INTER + 0.45 * i, 'sbus', 23)
+for i, (src, dst, nm) in enumerate([(U2.hole(4), U5.hole(7), 'S0'),
+                                    (U2.hole(1), U5.hole(1), 'S1'),
+                                    (U2.hole(13), U5.hole(2), 'S2'),
+                                    (U2.hole(10), U5.hole(6), 'S3')]):
+    W(src, dst, PUR, INTER + 0.45 * i, 'sbus', 23, nm)
 
 # segment network
 SEGMAP = [('a', 13, 20, 22, 7), ('b', 12, 24, 26, 6), ('c', 11, 28, 30, 4),
           ('d', 10, 32, 34, 2), ('e', 9, 36, 38, 1), ('f', 15, 40, 42, 9),
           ('g', 14, 44, 46, 10)]
 for i, (nm, upin, rl, rr, dpin) in enumerate(SEGMAP):
-    W(U5.hole(upin), (2, rl, 'J'), SEG, B2Y + 1.7 + 0.30 * i, 'seg', 25)
-    R((2, rl, 'J'), (2, rr, 'J'), '330', 'seg', 24)
+    W(U5.hole(upin), (2, rl, 'J'), SEG, B2Y + 1.7 + 0.30 * i, 'seg', 25, nm)
+    R((2, rl, 'J'), (2, rr, 'J'), '330', 'seg', 24, nm)
     db, dc, dr = DSP.hole(dpin)
-    W((2, rr, 'I'), (db, dc, dr), SEG, B2Y + 3.9 - 0.30 * i, 'seg', 26)
-S(DSP.hole(3), 'R-B', BLK, 'seg', 27)
-S(DSP.hole(8), 'R-B', BLK, 'seg', 27)
+    W((2, rr, 'I'), (db, dc, dr), SEG, B2Y + 3.9 - 0.30 * i, 'seg', 26, nm)
+S(DSP.hole(3), 'R-B', BLK, 'seg', 27, 'GND')
+S(DSP.hole(8), 'R-B', BLK, 'seg', 27, 'GND')
 
 e('<g id="root">')
 draw_board(1, 'BOARD 1   OPERAND ENTRY / ADDER / CORRECTION LOGIC')
@@ -228,25 +235,25 @@ for kind, a in WIRES:
 
 lx1, lx2 = X(58), X(60)
 ly = Y(1, 'A')
-e('<g class="sw g-corr" data-s="22">')
+e('<g class="sw g-corr" data-s="22" data-net="LED">')
 e('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.8"/>'
   % (lx1, ly, lx2, ly, GRN))
 e('<circle class="led" cx="%.1f" cy="%.1f" r="8"/>' % ((lx1 + lx2) / 2, ly))
 e('<text class="reslab" x="%.1f" y="%.1f">LED1 tens</text>' % ((lx1 + lx2) / 2, ly - 13))
 e('</g>')
-stub((1, 60, 'B'), 'R-B', BLK, 'corr', 22)
+stub((1, 60, 'B'), 'R-B', BLK, 'corr', 22, 'GND')
 
 for bd in (1, 2):
-    e('<path class="w sw g-pwr" data-s="5" d="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f" '
+    e('<path class="w sw g-pwr" data-s="5" data-net="GND" d="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f" '
       'stroke="%s" stroke-width="2.2" fill="none"/>'
       % (X(62), Y(bd, 'R-T'), X(63), Y(bd, 'R-T'), X(63), Y(bd, 'R-B'), X(62), Y(bd, 'R-B'), BLK))
-    e('<path class="w sw g-pwr" data-s="5" d="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f" '
+    e('<path class="w sw g-pwr" data-s="5" data-net="VCC" d="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f" '
       'stroke="%s" stroke-width="2.2" fill="none"/>'
       % (X(1), Y(bd, 'R+T'), X(1) - P * 0.55, Y(bd, 'R+T'),
          X(1) - P * 0.55, Y(bd, 'R+B'), X(1), Y(bd, 'R+B'), RED))
-e('<path class="w sw g-pwr" data-s="6" d="M %.1f %.1f L %.1f %.1f" stroke="%s" stroke-width="2.2" fill="none"/>'
+e('<path class="w sw g-pwr" data-s="6" data-net="VCC" d="M %.1f %.1f L %.1f %.1f" stroke="%s" stroke-width="2.2" fill="none"/>'
   % (X(2), Y(1, 'R+B'), X(2), Y(2, 'R+T'), RED))
-e('<path class="w sw g-pwr" data-s="6" d="M %.1f %.1f L %.1f %.1f" stroke="%s" stroke-width="2.2" fill="none"/>'
+e('<path class="w sw g-pwr" data-s="6" data-net="GND" d="M %.1f %.1f L %.1f %.1f" stroke="%s" stroke-width="2.2" fill="none"/>'
   % (X(4), Y(1, 'R-B'), X(4), Y(2, 'R-T'), BLK))
 
 for p in PARTS:

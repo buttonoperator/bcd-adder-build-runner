@@ -1841,360 +1841,360 @@
 <text class="collab" x="1228.0" y="494">55</text>
 <text class="collab" x="1338.0" y="494">60</text>
 <text class="btitle" x="22" y="477">BOARD 2   DECODER AND DISPLAY</text>
-<path class="w sw g-pwr" data-s="7" d="M 304.0 184.8 L 304.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="304.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="304.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 458.0 237.6 L 458.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="458.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="458.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 986.0 184.8 L 986.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="986.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="986.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 1140.0 237.6 L 1140.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="1140.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="1140.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 546.0 184.8 L 546.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="546.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="546.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 678.0 237.6 L 678.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="678.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="678.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 766.0 184.8 L 766.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="766.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="766.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 898.0 237.6 L 898.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="898.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="898.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 194.0 704.0 L 194.0 519.2" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="194.0" cy="704.0" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="194.0" cy="519.2" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 348.0 756.8 L 348.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="348.0" cy="756.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="348.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="13" d="M 62.0 184.8 L 62.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="62.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="62.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 84.0 184.8 L 84.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="84.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="84.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 106.0 184.8 L 106.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="106.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="106.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 128.0 184.8 L 128.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="128.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="128.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 150.0 184.8 L 150.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="150.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="150.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 172.0 184.8 L 172.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="172.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="172.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 194.0 184.8 L 194.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="194.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="194.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 216.0 184.8 L 216.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="216.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="216.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 304.0 184.8 L 304.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="304.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="304.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 458.0 237.6 L 458.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="458.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="458.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 986.0 184.8 L 986.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="986.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="986.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 1140.0 237.6 L 1140.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="1140.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="1140.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 546.0 184.8 L 546.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="546.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="546.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 678.0 237.6 L 678.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="678.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="678.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 766.0 184.8 L 766.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="766.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="766.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 898.0 237.6 L 898.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="898.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="898.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 194.0 704.0 L 194.0 519.2" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="194.0" cy="704.0" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="194.0" cy="519.2" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 348.0 756.8 L 348.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="348.0" cy="756.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="348.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 62.0 184.8 L 62.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="62.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="62.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 84.0 184.8 L 84.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="84.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="84.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 106.0 184.8 L 106.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="106.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="106.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 128.0 184.8 L 128.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="128.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="128.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 150.0 184.8 L 150.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="150.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="150.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 172.0 184.8 L 172.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="172.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="172.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 194.0 184.8 L 194.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="194.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="194.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 216.0 184.8 L 216.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="216.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="216.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<g class="sw g-in" data-s="14" data-net="A0">
 <line x1="62.0" y1="303.6" x2="62.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="57.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="62.0" y="335.0">10k</text>
 <circle cx="62.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="62.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 62.0 325.6 L 62.0 338.8 L 392.0 338.8 L 392.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="62.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="392.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A0" d="M 62.0 325.6 L 62.0 338.8 L 392.0 338.8 L 392.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A0" cx="62.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A0" cx="392.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="A1">
 <line x1="84.0" y1="303.6" x2="84.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="79.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="84.0" y="335.0">10k</text>
 <circle cx="84.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="84.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 84.0 325.6 L 84.0 345.8 L 348.0 345.8 L 348.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="84.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="348.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A1" d="M 84.0 325.6 L 84.0 345.8 L 348.0 345.8 L 348.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A1" cx="84.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A1" cx="348.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="A2">
 <line x1="106.0" y1="303.6" x2="106.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="101.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="106.0" y="335.0">10k</text>
 <circle cx="106.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="106.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 106.0 325.6 L 106.0 352.9 L 348.0 352.9 L 348.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="106.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="348.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A2" d="M 106.0 325.6 L 106.0 352.9 L 348.0 352.9 L 348.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A2" cx="106.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A2" cx="348.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="A3">
 <line x1="128.0" y1="303.6" x2="128.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="123.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="128.0" y="335.0">10k</text>
 <circle cx="128.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="128.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 128.0 325.6 L 128.0 359.9 L 392.0 359.9 L 392.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="128.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="392.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A3" d="M 128.0 325.6 L 128.0 359.9 L 392.0 359.9 L 392.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A3" cx="128.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A3" cx="392.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B0">
 <line x1="150.0" y1="303.6" x2="150.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="145.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="150.0" y="335.0">10k</text>
 <circle cx="150.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="150.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 150.0 325.6 L 150.0 367.0 L 414.0 367.0 L 414.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="150.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="414.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="16" data-net="B0" d="M 150.0 325.6 L 150.0 367.0 L 414.0 367.0 L 414.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B0" cx="150.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B0" cx="414.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B1">
 <line x1="172.0" y1="303.6" x2="172.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="167.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="172.0" y="335.0">10k</text>
 <circle cx="172.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="172.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 172.0 325.6 L 172.0 374.0 L 326.0 374.0 L 326.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="172.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="326.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="16" data-net="B1" d="M 172.0 325.6 L 172.0 374.0 L 326.0 374.0 L 326.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B1" cx="172.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B1" cx="326.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B2">
 <line x1="194.0" y1="303.6" x2="194.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="189.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="194.0" y="335.0">10k</text>
 <circle cx="194.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="194.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 194.0 325.6 L 194.0 381.0 L 326.0 381.0 L 326.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="194.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="326.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="16" data-net="B2" d="M 194.0 325.6 L 194.0 381.0 L 326.0 381.0 L 326.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B2" cx="194.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B2" cx="326.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B3">
 <line x1="216.0" y1="303.6" x2="216.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="211.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="216.0" y="335.0">10k</text>
 <circle cx="216.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="216.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 216.0 325.6 L 216.0 388.1 L 414.0 388.1 L 414.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="216.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="414.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<path class="w sw g-z" data-s="18" d="M 370.0 237.6 L 370.0 391.6 L 1074.0 391.6 L 1074.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="370.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1074.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 304.0 237.6 L 304.0 385.0 L 1030.0 385.0 L 1030.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1030.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 370.0 184.8 L 370.0 50.6 L 1030.0 50.6 L 1030.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1030.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 436.0 184.8 L 436.0 63.8 L 1074.0 63.8 L 1074.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1074.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 436.0 184.8 L 436.0 365.2 L 546.0 365.2 L 546.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="546.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 370.0 184.8 L 370.0 358.6 L 568.0 358.6 L 568.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="568.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 436.0 184.8 L 436.0 352.0 L 612.0 352.0 L 612.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="612.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 304.0 237.6 L 304.0 345.4 L 634.0 345.4 L 634.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="634.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="20" d="M 458.0 184.8 L 458.0 79.2 L 854.0 79.2 L 854.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="20" cx="458.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="20" cx="854.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-corr" data-s="20" d="M 590.0 237.6 L 590.0 341.0 L 766.0 341.0 L 766.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="20" cx="590.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="20" cx="766.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="20" d="M 656.0 237.6 L 656.0 349.8 L 788.0 349.8 L 788.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="20" cx="656.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="20" cx="788.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="20" d="M 810.0 237.6 L 810.0 358.6 L 832.0 358.6 L 832.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="20" cx="810.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="20" cx="832.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="21" d="M 876.0 237.6 L 876.0 367.4 L 1008.0 367.4 L 1008.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="21" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="21" cx="1008.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="21" d="M 876.0 237.6 L 876.0 376.2 L 1008.0 376.2 L 1008.0 184.8" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="21" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="21" cx="1008.0" cy="184.8" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="22" d="M 876.0 237.6 L 876.0 385.0 L 1228.0 385.0 L 1228.0 325.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="22" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="22" cx="1228.0" cy="325.6" r="3.4" fill="#2f9e5e"/>
-<g class="sw g-corr" data-s="22">
+<path class="w sw g-in" data-s="16" data-net="B3" d="M 216.0 325.6 L 216.0 388.1 L 414.0 388.1 L 414.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B3" cx="216.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B3" cx="414.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<path class="w sw g-z" data-s="18" data-net="Z0" d="M 370.0 237.6 L 370.0 391.6 L 1074.0 391.6 L 1074.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z0" cx="370.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z0" cx="1074.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="18" data-net="Z1" d="M 304.0 237.6 L 304.0 385.0 L 1030.0 385.0 L 1030.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z1" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z1" cx="1030.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="18" data-net="Z2" d="M 370.0 184.8 L 370.0 50.6 L 1030.0 50.6 L 1030.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z2" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z2" cx="1030.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="18" data-net="Z3" d="M 436.0 184.8 L 436.0 63.8 L 1074.0 63.8 L 1074.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z3" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z3" cx="1074.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z3" d="M 436.0 184.8 L 436.0 365.2 L 546.0 365.2 L 546.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="546.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z2" d="M 370.0 184.8 L 370.0 358.6 L 568.0 358.6 L 568.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z2" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z2" cx="568.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z3" d="M 436.0 184.8 L 436.0 352.0 L 612.0 352.0 L 612.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="612.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z1" d="M 304.0 237.6 L 304.0 345.4 L 634.0 345.4 L 634.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z1" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z1" cx="634.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="20" data-net="K" d="M 458.0 184.8 L 458.0 79.2 L 854.0 79.2 L 854.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="20" data-net="K" cx="458.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="20" data-net="K" cx="854.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-corr" data-s="20" data-net="Z3·Z2" d="M 590.0 237.6 L 590.0 341.0 L 766.0 341.0 L 766.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z2" cx="590.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z2" cx="766.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="20" data-net="Z3·Z1" d="M 656.0 237.6 L 656.0 349.8 L 788.0 349.8 L 788.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z1" cx="656.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z1" cx="788.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="20" data-net="N3" d="M 810.0 237.6 L 810.0 358.6 L 832.0 358.6 L 832.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="20" data-net="N3" cx="810.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="20" data-net="N3" cx="832.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="21" data-net="C" d="M 876.0 237.6 L 876.0 367.4 L 1008.0 367.4 L 1008.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="1008.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="21" data-net="C" d="M 876.0 237.6 L 876.0 376.2 L 1008.0 376.2 L 1008.0 184.8" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="1008.0" cy="184.8" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="22" data-net="C" d="M 876.0 237.6 L 876.0 385.0 L 1228.0 385.0 L 1228.0 325.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="22" data-net="C" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="22" data-net="C" cx="1228.0" cy="325.6" r="3.4" fill="#2f9e5e"/>
+<g class="sw g-corr" data-s="22" data-net="LED">
 <line x1="1228.0" y1="281.6" x2="1294.0" y2="281.6" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="1248.0" y="277.1" width="26" height="9" rx="2"/>
 <text class="reslab" x="1261.0" y="273.1">330</text>
 <circle cx="1228.0" cy="281.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="1294.0" cy="281.6" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-tie" data-s="10" d="M 656.0 184.8 L 656.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="656.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="656.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 634.0 184.8 L 634.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="634.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="634.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 590.0 184.8 L 590.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="590.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="590.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 568.0 184.8 L 568.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="568.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="568.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 876.0 184.8 L 876.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="876.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="876.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 854.0 184.8 L 854.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="854.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="854.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 810.0 184.8 L 810.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="810.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="810.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 788.0 184.8 L 788.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="788.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="788.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 1096.0 184.8 L 1096.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 436.0 237.6 L 436.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="436.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="436.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 1118.0 237.6 L 1118.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="1118.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="1118.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 1096.0 237.6 L 1096.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="12" d="M 282.0 756.8 L 282.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="12" cx="282.0" cy="756.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="12" cx="282.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="12" d="M 238.0 756.8 L 238.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="12" cx="238.0" cy="756.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-tie" data-s="12" cx="238.0" cy="941.6" r="3.4" fill="#d1495b"/>
-<path class="w sw g-tie" data-s="12" d="M 260.0 756.8 L 260.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="12" cx="260.0" cy="756.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-tie" data-s="12" cx="260.0" cy="941.6" r="3.4" fill="#d1495b"/>
-<path class="w sw g-sbus" data-s="23" d="M 1052.0 237.6 L 1052.0 459.8 L 326.0 459.8 L 326.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="1052.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="326.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-sbus" data-s="23" d="M 986.0 237.6 L 986.0 469.7 L 194.0 469.7 L 194.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="986.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="194.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-sbus" data-s="23" d="M 1052.0 184.8 L 1052.0 479.6 L 216.0 479.6 L 216.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="1052.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="216.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-sbus" data-s="23" d="M 1118.0 184.8 L 1118.0 489.5 L 304.0 489.5 L 304.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="1118.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="304.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-seg" data-s="25" d="M 260.0 704.0 L 260.0 556.6 L 458.0 556.6 L 458.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="260.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="458.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 656.0 184.8 L 656.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="656.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="656.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 634.0 184.8 L 634.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="634.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="634.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 590.0 184.8 L 590.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="590.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="590.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 568.0 184.8 L 568.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="568.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="568.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 876.0 184.8 L 876.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="876.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="876.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 854.0 184.8 L 854.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="854.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="854.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 810.0 184.8 L 810.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="810.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="810.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 788.0 184.8 L 788.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="788.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="788.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 1096.0 184.8 L 1096.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 436.0 237.6 L 436.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="436.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="436.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 1118.0 237.6 L 1118.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1118.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1118.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 1096.0 237.6 L 1096.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="12" data-net="GND" d="M 282.0 756.8 L 282.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="12" data-net="GND" cx="282.0" cy="756.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="12" data-net="GND" cx="282.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="12" data-net="VCC" d="M 238.0 756.8 L 238.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="238.0" cy="756.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="238.0" cy="941.6" r="3.4" fill="#d1495b"/>
+<path class="w sw g-tie" data-s="12" data-net="VCC" d="M 260.0 756.8 L 260.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="260.0" cy="756.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="260.0" cy="941.6" r="3.4" fill="#d1495b"/>
+<path class="w sw g-sbus" data-s="23" data-net="S0" d="M 1052.0 237.6 L 1052.0 459.8 L 326.0 459.8 L 326.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S0" cx="1052.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S0" cx="326.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-sbus" data-s="23" data-net="S1" d="M 986.0 237.6 L 986.0 469.7 L 194.0 469.7 L 194.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S1" cx="986.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S1" cx="194.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-sbus" data-s="23" data-net="S2" d="M 1052.0 184.8 L 1052.0 479.6 L 216.0 479.6 L 216.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S2" cx="1052.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S2" cx="216.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-sbus" data-s="23" data-net="S3" d="M 1118.0 184.8 L 1118.0 489.5 L 304.0 489.5 L 304.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S3" cx="1118.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S3" cx="304.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-seg" data-s="25" data-net="a" d="M 260.0 704.0 L 260.0 556.6 L 458.0 556.6 L 458.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="a" cx="260.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="a" cx="458.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="a">
 <line x1="458.0" y1="616.0" x2="502.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="467.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="480.0" y="607.5">330</text>
 <circle cx="458.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="502.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 502.0 638.0 L 502.0 605.0 L 1184.0 605.0 L 1184.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="502.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1184.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 282.0 704.0 L 282.0 563.2 L 546.0 563.2 L 546.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="282.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="546.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="a" d="M 502.0 638.0 L 502.0 605.0 L 1184.0 605.0 L 1184.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="a" cx="502.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="a" cx="1184.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="b" d="M 282.0 704.0 L 282.0 563.2 L 546.0 563.2 L 546.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="b" cx="282.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="b" cx="546.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="b">
 <line x1="546.0" y1="616.0" x2="590.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="555.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="568.0" y="607.5">330</text>
 <circle cx="546.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="590.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 590.0 638.0 L 590.0 598.4 L 1206.0 598.4 L 1206.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="590.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1206.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 304.0 704.0 L 304.0 569.8 L 634.0 569.8 L 634.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="304.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="634.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="b" d="M 590.0 638.0 L 590.0 598.4 L 1206.0 598.4 L 1206.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="b" cx="590.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="b" cx="1206.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="c" d="M 304.0 704.0 L 304.0 569.8 L 634.0 569.8 L 634.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="c" cx="304.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="c" cx="634.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="c">
 <line x1="634.0" y1="616.0" x2="678.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="643.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="656.0" y="607.5">330</text>
 <circle cx="634.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="678.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 678.0 638.0 L 678.0 591.8 L 1184.0 591.8 L 1184.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="678.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1184.0" cy="756.8" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 326.0 704.0 L 326.0 576.4 L 722.0 576.4 L 722.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="326.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="722.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="c" d="M 678.0 638.0 L 678.0 591.8 L 1184.0 591.8 L 1184.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="c" cx="678.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="c" cx="1184.0" cy="756.8" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="d" d="M 326.0 704.0 L 326.0 576.4 L 722.0 576.4 L 722.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="d" cx="326.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="d" cx="722.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="d">
 <line x1="722.0" y1="616.0" x2="766.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="731.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="744.0" y="607.5">330</text>
 <circle cx="722.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="766.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 766.0 638.0 L 766.0 585.2 L 1140.0 585.2 L 1140.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="766.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1140.0" cy="756.8" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 348.0 704.0 L 348.0 583.0 L 810.0 583.0 L 810.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="348.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="810.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="d" d="M 766.0 638.0 L 766.0 585.2 L 1140.0 585.2 L 1140.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="d" cx="766.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="d" cx="1140.0" cy="756.8" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="e" d="M 348.0 704.0 L 348.0 583.0 L 810.0 583.0 L 810.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="e" cx="348.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="e" cx="810.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="e">
 <line x1="810.0" y1="616.0" x2="854.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="819.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="832.0" y="607.5">330</text>
 <circle cx="810.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="854.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 854.0 638.0 L 854.0 578.6 L 1118.0 578.6 L 1118.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="854.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1118.0" cy="756.8" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 216.0 704.0 L 216.0 589.6 L 898.0 589.6 L 898.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="216.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="898.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="e" d="M 854.0 638.0 L 854.0 578.6 L 1118.0 578.6 L 1118.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="e" cx="854.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="e" cx="1118.0" cy="756.8" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="f" d="M 216.0 704.0 L 216.0 589.6 L 898.0 589.6 L 898.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="f" cx="216.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="f" cx="898.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="f">
 <line x1="898.0" y1="616.0" x2="942.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="907.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="920.0" y="607.5">330</text>
 <circle cx="898.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="942.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 942.0 638.0 L 942.0 572.0 L 1140.0 572.0 L 1140.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="942.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1140.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 238.0 704.0 L 238.0 596.2 L 986.0 596.2 L 986.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="238.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="986.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="f" d="M 942.0 638.0 L 942.0 572.0 L 1140.0 572.0 L 1140.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="f" cx="942.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="f" cx="1140.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="g" d="M 238.0 704.0 L 238.0 596.2 L 986.0 596.2 L 986.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="g" cx="238.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="g" cx="986.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="g">
 <line x1="986.0" y1="616.0" x2="1030.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="995.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="1008.0" y="607.5">330</text>
 <circle cx="986.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="1030.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 1030.0 638.0 L 1030.0 565.4 L 1118.0 565.4 L 1118.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="1030.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1118.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="27" d="M 1162.0 756.8 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="756.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<path class="w sw g-seg" data-s="27" d="M 1162.0 704.0 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="704.0" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<g class="sw g-corr" data-s="22">
+<path class="w sw g-seg" data-s="26" data-net="g" d="M 1030.0 638.0 L 1030.0 565.4 L 1118.0 565.4 L 1118.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="g" cx="1030.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="g" cx="1118.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="27" data-net="GND" d="M 1162.0 756.8 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="756.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<path class="w sw g-seg" data-s="27" data-net="GND" d="M 1162.0 704.0 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="704.0" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<g class="sw g-corr" data-s="22" data-net="LED">
 <line x1="1294.0" y1="325.6" x2="1338.0" y2="325.6" stroke="#2f9e5e" stroke-width="1.8"/>
 <circle class="led" cx="1316.0" cy="325.6" r="8"/>
 <text class="reslab" x="1316.0" y="312.6">LED1 tens</text>
 </g>
-<path class="w sw g-corr" data-s="22" d="M 1338.0 303.6 L 1338.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="22" cx="1338.0" cy="303.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-corr" data-s="22" cx="1338.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="5" d="M 1382.0 22.0 L 1404.0 22.0 L 1404.0 400.4 L 1382.0 400.4" stroke="#3d4451" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="5" d="M 40.0 0.0 L 27.9 0.0 L 27.9 422.4 L 40.0 422.4" stroke="#d1495b" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="5" d="M 1382.0 541.2 L 1404.0 541.2 L 1404.0 919.6 L 1382.0 919.6" stroke="#3d4451" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="5" d="M 40.0 519.2 L 27.9 519.2 L 27.9 941.6 L 40.0 941.6" stroke="#d1495b" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="6" d="M 62.0 422.4 L 62.0 519.2" stroke="#d1495b" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="6" d="M 106.0 400.4 L 106.0 541.2" stroke="#3d4451" stroke-width="2.2" fill="none"/>
+<path class="w sw g-corr" data-s="22" data-net="GND" d="M 1338.0 303.6 L 1338.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="22" data-net="GND" cx="1338.0" cy="303.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-corr" data-s="22" data-net="GND" cx="1338.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="5" data-net="GND" d="M 1382.0 22.0 L 1404.0 22.0 L 1404.0 400.4 L 1382.0 400.4" stroke="#3d4451" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="5" data-net="VCC" d="M 40.0 0.0 L 27.9 0.0 L 27.9 422.4 L 40.0 422.4" stroke="#d1495b" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="5" data-net="GND" d="M 1382.0 541.2 L 1404.0 541.2 L 1404.0 919.6 L 1382.0 919.6" stroke="#3d4451" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="5" data-net="VCC" d="M 40.0 519.2 L 27.9 519.2 L 27.9 941.6 L 40.0 941.6" stroke="#d1495b" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="6" data-net="VCC" d="M 62.0 422.4 L 62.0 519.2" stroke="#d1495b" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="6" data-net="GND" d="M 106.0 400.4 L 106.0 541.2" stroke="#3d4451" stroke-width="2.2" fill="none"/>
 <rect class="ic" x="52.8" y="176.0" width="172.5" height="70.4" rx="3"/>
 <path class="notch" d="M 52.8 204.2 a 7 7 0 0 0 0 14"/>
 <text class="iclab" x="139.0" y="215.2">SW1  8-POS DIP</text>

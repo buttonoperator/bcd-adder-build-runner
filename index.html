@@ -8,6 +8,7 @@
   --accent:#1f5f8b; --accent-soft:#e3edf4; --done:#2f9e5e;
   --board:#e4e1d8; --board-edge:#c9c4b8; --chan:#d0ccc1; --hole:#a9a399;
   --ic:#2b2e33; --ic-fg:#e9e6df; --res:#cfa86a; --led:#4fbf72;
+  --sel:#c2410c;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
 }
@@ -16,9 +17,11 @@
   --accent:#6fb3dd; --accent-soft:#1c2a33; --done:#4fbf72;
   --board:#2a2d32; --board-edge:#3a3e45; --chan:#1f2226; --hole:#5d636b;
   --ic:#0e1013; --ic-fg:#d6d3cc; --res:#b08a4e; --led:#4fbf72;
+  --sel:#f0914a;
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
+  --sel:#f0914a;
   --bg:#15171a; --surface:#1d2024; --fg:#e8e6e1; --muted:#9aa0a8; --line:#32363c;
   --accent:#6fb3dd; --accent-soft:#1c2a33; --done:#4fbf72;
   --board:#2a2d32; --board-edge:#3a3e45; --chan:#1f2226; --hole:#5d636b;
@@ -217,7 +220,8 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 #cm .cpart{font:400 9.5px var(--mono);fill:#9aa0a8;text-anchor:middle}
 #cm .pad{fill:var(--surface);stroke:var(--line);stroke-width:1}
 #cm .pnum{font:600 9.5px var(--mono);fill:var(--muted);text-anchor:middle}
-#cm .pnet{font:500 10px var(--mono);fill:#8d929a}
+#cm .pnet{font:600 10px var(--mono);fill:#8d929a}
+#cm .pds{font:400 7.5px var(--mono);fill:#6d727a;letter-spacing:.04em}
 #cm .pnl{text-anchor:start}
 #cm .pnr{text-anchor:end}
 #cm .pin.wired .pad{fill:var(--done);stroke:var(--done)}
@@ -226,6 +230,23 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 #cm .pin.now .pad{fill:var(--accent);stroke:var(--accent)}
 #cm .pin.now .pnum{fill:#fff}
 #cm .pin.now .pnet{fill:#fff;font-weight:600}
+#cm .pin[data-net]{cursor:pointer}
+#cm .pin[data-net]:hover .pad{stroke:var(--sel);stroke-width:2}
+/* traced net */
+#cm .pin.sel .pad{stroke:var(--sel);stroke-width:2.5}
+#cm .pin.sel .pnet{fill:var(--sel)}
+#cm.tracing .pin:not(.sel){opacity:.35}
+#cm.tracing .ro,#cm.tracing .rostem{opacity:.45}
+#bb .sw.sel{opacity:1}
+#bb .w.sel{stroke-width:4.4}
+#bb .wd.sel{r:5}
+#bb.tracing .sw:not(.sel){opacity:.06}
+.trace{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-family:var(--mono);
+  font-size:11px;color:var(--muted);min-height:22px}
+.trace b{color:var(--sel);font-size:12px}
+.trace .pins{color:var(--fg)}
+.trace button{font:600 10px var(--mono);padding:3px 8px;border-radius:5px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
 /* breadboard diagram */
 #bb .bd{fill:var(--board);stroke:var(--board-edge);stroke-width:1.5}
 #bb .ch{fill:var(--chan)}
@@ -435,92 +456,108 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   </div>
   <div class="panes" id="panes">
   <div class="pane" id="ppin">
-    <p class="ptitle">Chips, left to right in signal order &mdash; pins, and the levels each one produces</p>
+    <p class="ptitle">Chips, left to right in signal order &mdash; click any pin to trace its net</p>
     <div class="cmap" tabindex="0" aria-label="IC pin map for this step, scrollable">
 <svg id="cm" viewBox="0 0 1247 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pin map of every IC in the build, with the logic levels each one produces"><g class="pkgwrap">
 <rect class="cbody" id="c-SW1" x="30.0" y="40.0" width="104.0" height="262.0" rx="6"/>
 <path class="cnotch" d="M 73.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="82.0" y="62.0">SW1</text>
 <text class="cpart" x="82.0" y="75.0">DIP switch</text>
-<g class="pin" id="p-SW1-1">
+<g class="pin" id="p-SW1-1" data-net="A0">
 <rect class="pad" x="6.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="97.8">1</text>
-<text class="pnet pnl" x="37.0" y="97.8">A0</text>
+<text class="pnet pnl" x="37.0" y="94.8">A0</text>
+<text class="pds pnl" x="37.0" y="104.4">SW1</text>
 </g>
-<g class="pin" id="p-SW1-16">
+<g class="pin" id="p-SW1-16" data-net="VCC">
 <rect class="pad" x="135.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="97.8">16</text>
-<text class="pnet pnr" x="127.0" y="97.8">+5</text>
+<text class="pnet pnr" x="127.0" y="94.8">+5</text>
+<text class="pds pnr" x="127.0" y="104.4">SW1</text>
 </g>
-<g class="pin" id="p-SW1-2">
+<g class="pin" id="p-SW1-2" data-net="A1">
 <rect class="pad" x="6.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="123.8">2</text>
-<text class="pnet pnl" x="37.0" y="123.8">A1</text>
+<text class="pnet pnl" x="37.0" y="120.8">A1</text>
+<text class="pds pnl" x="37.0" y="130.4">SW2</text>
 </g>
-<g class="pin" id="p-SW1-15">
+<g class="pin" id="p-SW1-15" data-net="VCC">
 <rect class="pad" x="135.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="123.8">15</text>
-<text class="pnet pnr" x="127.0" y="123.8">+5</text>
+<text class="pnet pnr" x="127.0" y="120.8">+5</text>
+<text class="pds pnr" x="127.0" y="130.4">SW2</text>
 </g>
-<g class="pin" id="p-SW1-3">
+<g class="pin" id="p-SW1-3" data-net="A2">
 <rect class="pad" x="6.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="149.8">3</text>
-<text class="pnet pnl" x="37.0" y="149.8">A2</text>
+<text class="pnet pnl" x="37.0" y="146.8">A2</text>
+<text class="pds pnl" x="37.0" y="156.4">SW3</text>
 </g>
-<g class="pin" id="p-SW1-14">
+<g class="pin" id="p-SW1-14" data-net="VCC">
 <rect class="pad" x="135.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="149.8">14</text>
-<text class="pnet pnr" x="127.0" y="149.8">+5</text>
+<text class="pnet pnr" x="127.0" y="146.8">+5</text>
+<text class="pds pnr" x="127.0" y="156.4">SW3</text>
 </g>
-<g class="pin" id="p-SW1-4">
+<g class="pin" id="p-SW1-4" data-net="A3">
 <rect class="pad" x="6.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="175.8">4</text>
-<text class="pnet pnl" x="37.0" y="175.8">A3</text>
+<text class="pnet pnl" x="37.0" y="172.8">A3</text>
+<text class="pds pnl" x="37.0" y="182.4">SW4</text>
 </g>
-<g class="pin" id="p-SW1-13">
+<g class="pin" id="p-SW1-13" data-net="VCC">
 <rect class="pad" x="135.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="175.8">13</text>
-<text class="pnet pnr" x="127.0" y="175.8">+5</text>
+<text class="pnet pnr" x="127.0" y="172.8">+5</text>
+<text class="pds pnr" x="127.0" y="182.4">SW4</text>
 </g>
-<g class="pin" id="p-SW1-5">
+<g class="pin" id="p-SW1-5" data-net="B0">
 <rect class="pad" x="6.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="201.8">5</text>
-<text class="pnet pnl" x="37.0" y="201.8">B0</text>
+<text class="pnet pnl" x="37.0" y="198.8">B0</text>
+<text class="pds pnl" x="37.0" y="208.4">SW5</text>
 </g>
-<g class="pin" id="p-SW1-12">
+<g class="pin" id="p-SW1-12" data-net="VCC">
 <rect class="pad" x="135.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="201.8">12</text>
-<text class="pnet pnr" x="127.0" y="201.8">+5</text>
+<text class="pnet pnr" x="127.0" y="198.8">+5</text>
+<text class="pds pnr" x="127.0" y="208.4">SW5</text>
 </g>
-<g class="pin" id="p-SW1-6">
+<g class="pin" id="p-SW1-6" data-net="B1">
 <rect class="pad" x="6.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="227.8">6</text>
-<text class="pnet pnl" x="37.0" y="227.8">B1</text>
+<text class="pnet pnl" x="37.0" y="224.8">B1</text>
+<text class="pds pnl" x="37.0" y="234.4">SW6</text>
 </g>
-<g class="pin" id="p-SW1-11">
+<g class="pin" id="p-SW1-11" data-net="VCC">
 <rect class="pad" x="135.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="227.8">11</text>
-<text class="pnet pnr" x="127.0" y="227.8">+5</text>
+<text class="pnet pnr" x="127.0" y="224.8">+5</text>
+<text class="pds pnr" x="127.0" y="234.4">SW6</text>
 </g>
-<g class="pin" id="p-SW1-7">
+<g class="pin" id="p-SW1-7" data-net="B2">
 <rect class="pad" x="6.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="253.8">7</text>
-<text class="pnet pnl" x="37.0" y="253.8">B2</text>
+<text class="pnet pnl" x="37.0" y="250.8">B2</text>
+<text class="pds pnl" x="37.0" y="260.4">SW7</text>
 </g>
-<g class="pin" id="p-SW1-10">
+<g class="pin" id="p-SW1-10" data-net="VCC">
 <rect class="pad" x="135.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="253.8">10</text>
-<text class="pnet pnr" x="127.0" y="253.8">+5</text>
+<text class="pnet pnr" x="127.0" y="250.8">+5</text>
+<text class="pds pnr" x="127.0" y="260.4">SW7</text>
 </g>
-<g class="pin" id="p-SW1-8">
+<g class="pin" id="p-SW1-8" data-net="B3">
 <rect class="pad" x="6.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="17.5" y="279.8">8</text>
-<text class="pnet pnl" x="37.0" y="279.8">B3</text>
+<text class="pnet pnl" x="37.0" y="276.8">B3</text>
+<text class="pds pnl" x="37.0" y="286.4">SW8</text>
 </g>
-<g class="pin" id="p-SW1-9">
+<g class="pin" id="p-SW1-9" data-net="VCC">
 <rect class="pad" x="135.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="146.5" y="279.8">9</text>
-<text class="pnet pnr" x="127.0" y="279.8">+5</text>
+<text class="pnet pnr" x="127.0" y="276.8">+5</text>
+<text class="pds pnr" x="127.0" y="286.4">SW8</text>
 </g>
 <line class="rostem" x1="82.0" y1="302.0" x2="82.0" y2="330.0"/>
 <g class="ro" id="ro-SW1">
@@ -536,85 +573,100 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="cnotch" d="M 248.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="257.0" y="62.0">U1</text>
 <text class="cpart" x="257.0" y="75.0">74HC283</text>
-<g class="pin" id="p-U1-1">
+<g class="pin" id="p-U1-1" data-net="Z1">
 <rect class="pad" x="181.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="97.8">1</text>
-<text class="pnet pnl" x="212.0" y="97.8">Z1</text>
+<text class="pnet pnl" x="212.0" y="94.8">Z1</text>
+<text class="pds pnl" x="212.0" y="104.4">Σ2</text>
 </g>
-<g class="pin" id="p-U1-16">
+<g class="pin" id="p-U1-16" data-net="VCC">
 <rect class="pad" x="310.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="97.8">16</text>
-<text class="pnet pnr" x="302.0" y="97.8">+5</text>
+<text class="pnet pnr" x="302.0" y="94.8">+5</text>
+<text class="pds pnr" x="302.0" y="104.4">VCC</text>
 </g>
-<g class="pin" id="p-U1-2">
+<g class="pin" id="p-U1-2" data-net="B1">
 <rect class="pad" x="181.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="123.8">2</text>
-<text class="pnet pnl" x="212.0" y="123.8">B1</text>
+<text class="pnet pnl" x="212.0" y="120.8">B1</text>
+<text class="pds pnl" x="212.0" y="130.4">B2</text>
 </g>
-<g class="pin" id="p-U1-15">
+<g class="pin" id="p-U1-15" data-net="B2">
 <rect class="pad" x="310.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="123.8">15</text>
-<text class="pnet pnr" x="302.0" y="123.8">B2</text>
+<text class="pnet pnr" x="302.0" y="120.8">B2</text>
+<text class="pds pnr" x="302.0" y="130.4">B3</text>
 </g>
-<g class="pin" id="p-U1-3">
+<g class="pin" id="p-U1-3" data-net="A1">
 <rect class="pad" x="181.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="149.8">3</text>
-<text class="pnet pnl" x="212.0" y="149.8">A1</text>
+<text class="pnet pnl" x="212.0" y="146.8">A1</text>
+<text class="pds pnl" x="212.0" y="156.4">A2</text>
 </g>
-<g class="pin" id="p-U1-14">
+<g class="pin" id="p-U1-14" data-net="A2">
 <rect class="pad" x="310.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="149.8">14</text>
-<text class="pnet pnr" x="302.0" y="149.8">A2</text>
+<text class="pnet pnr" x="302.0" y="146.8">A2</text>
+<text class="pds pnr" x="302.0" y="156.4">A3</text>
 </g>
-<g class="pin" id="p-U1-4">
+<g class="pin" id="p-U1-4" data-net="Z0">
 <rect class="pad" x="181.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="175.8">4</text>
-<text class="pnet pnl" x="212.0" y="175.8">Z0</text>
+<text class="pnet pnl" x="212.0" y="172.8">Z0</text>
+<text class="pds pnl" x="212.0" y="182.4">Σ1</text>
 </g>
-<g class="pin" id="p-U1-13">
+<g class="pin" id="p-U1-13" data-net="Z2">
 <rect class="pad" x="310.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="175.8">13</text>
-<text class="pnet pnr" x="302.0" y="175.8">Z2</text>
+<text class="pnet pnr" x="302.0" y="172.8">Z2</text>
+<text class="pds pnr" x="302.0" y="182.4">Σ3</text>
 </g>
-<g class="pin" id="p-U1-5">
+<g class="pin" id="p-U1-5" data-net="A0">
 <rect class="pad" x="181.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="201.8">5</text>
-<text class="pnet pnl" x="212.0" y="201.8">A0</text>
+<text class="pnet pnl" x="212.0" y="198.8">A0</text>
+<text class="pds pnl" x="212.0" y="208.4">A1</text>
 </g>
-<g class="pin" id="p-U1-12">
+<g class="pin" id="p-U1-12" data-net="A3">
 <rect class="pad" x="310.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="201.8">12</text>
-<text class="pnet pnr" x="302.0" y="201.8">A3</text>
+<text class="pnet pnr" x="302.0" y="198.8">A3</text>
+<text class="pds pnr" x="302.0" y="208.4">A4</text>
 </g>
-<g class="pin" id="p-U1-6">
+<g class="pin" id="p-U1-6" data-net="B0">
 <rect class="pad" x="181.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="227.8">6</text>
-<text class="pnet pnl" x="212.0" y="227.8">B0</text>
+<text class="pnet pnl" x="212.0" y="224.8">B0</text>
+<text class="pds pnl" x="212.0" y="234.4">B1</text>
 </g>
-<g class="pin" id="p-U1-11">
+<g class="pin" id="p-U1-11" data-net="B3">
 <rect class="pad" x="310.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="227.8">11</text>
-<text class="pnet pnr" x="302.0" y="227.8">B3</text>
+<text class="pnet pnr" x="302.0" y="224.8">B3</text>
+<text class="pds pnr" x="302.0" y="234.4">B4</text>
 </g>
-<g class="pin" id="p-U1-7">
+<g class="pin" id="p-U1-7" data-net="GND">
 <rect class="pad" x="181.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="253.8">7</text>
-<text class="pnet pnl" x="212.0" y="253.8">0</text>
+<text class="pnet pnl" x="212.0" y="250.8">0</text>
+<text class="pds pnl" x="212.0" y="260.4">C0</text>
 </g>
-<g class="pin" id="p-U1-10">
+<g class="pin" id="p-U1-10" data-net="Z3">
 <rect class="pad" x="310.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="253.8">10</text>
-<text class="pnet pnr" x="302.0" y="253.8">Z3</text>
+<text class="pnet pnr" x="302.0" y="250.8">Z3</text>
+<text class="pds pnr" x="302.0" y="260.4">Σ4</text>
 </g>
-<g class="pin" id="p-U1-8">
+<g class="pin" id="p-U1-8" data-net="GND">
 <rect class="pad" x="181.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="192.5" y="279.8">8</text>
-<text class="pnet pnl" x="212.0" y="279.8">GND</text>
+<text class="pnet pnl" x="212.0" y="276.8">GND</text>
 </g>
-<g class="pin" id="p-U1-9">
+<g class="pin" id="p-U1-9" data-net="K">
 <rect class="pad" x="310.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="321.5" y="279.8">9</text>
-<text class="pnet pnr" x="302.0" y="279.8">K</text>
+<text class="pnet pnr" x="302.0" y="276.8">K</text>
+<text class="pds pnr" x="302.0" y="286.4">C4</text>
 </g>
 <line class="rostem" x1="257.0" y1="302.0" x2="257.0" y2="330.0"/>
 <g class="ro" id="ro-U1">
@@ -630,75 +682,88 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="cnotch" d="M 423.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="432.0" y="62.0">U3</text>
 <text class="cpart" x="432.0" y="75.0">74HC08</text>
-<g class="pin" id="p-U3-1">
+<g class="pin" id="p-U3-1" data-net="Z3">
 <rect class="pad" x="356.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="97.8">1</text>
-<text class="pnet pnl" x="387.0" y="97.8">Z3</text>
+<text class="pnet pnl" x="387.0" y="94.8">Z3</text>
+<text class="pds pnl" x="387.0" y="104.4">1A</text>
 </g>
-<g class="pin" id="p-U3-14">
+<g class="pin" id="p-U3-14" data-net="VCC">
 <rect class="pad" x="485.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="97.8">14</text>
-<text class="pnet pnr" x="477.0" y="97.8">+5</text>
+<text class="pnet pnr" x="477.0" y="94.8">+5</text>
+<text class="pds pnr" x="477.0" y="104.4">VCC</text>
 </g>
-<g class="pin" id="p-U3-2">
+<g class="pin" id="p-U3-2" data-net="Z2">
 <rect class="pad" x="356.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="123.8">2</text>
-<text class="pnet pnl" x="387.0" y="123.8">Z2</text>
+<text class="pnet pnl" x="387.0" y="120.8">Z2</text>
+<text class="pds pnl" x="387.0" y="130.4">1B</text>
 </g>
-<g class="pin" id="p-U3-13">
+<g class="pin" id="p-U3-13" data-net="GND">
 <rect class="pad" x="485.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="123.8">13</text>
-<text class="pnet pnr" x="477.0" y="123.8">0</text>
+<text class="pnet pnr" x="477.0" y="120.8">0</text>
+<text class="pds pnr" x="477.0" y="130.4">4B</text>
 </g>
-<g class="pin" id="p-U3-3">
+<g class="pin" id="p-U3-3" data-net="Z3·Z2">
 <rect class="pad" x="356.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="149.8">3</text>
-<text class="pnet pnl" x="387.0" y="149.8">Z3·Z2</text>
+<text class="pnet pnl" x="387.0" y="146.8">Z3·Z2</text>
+<text class="pds pnl" x="387.0" y="156.4">1Y</text>
 </g>
-<g class="pin" id="p-U3-12">
+<g class="pin" id="p-U3-12" data-net="GND">
 <rect class="pad" x="485.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="149.8">12</text>
-<text class="pnet pnr" x="477.0" y="149.8">0</text>
+<text class="pnet pnr" x="477.0" y="146.8">0</text>
+<text class="pds pnr" x="477.0" y="156.4">4A</text>
 </g>
-<g class="pin" id="p-U3-4">
+<g class="pin" id="p-U3-4" data-net="Z3">
 <rect class="pad" x="356.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="175.8">4</text>
-<text class="pnet pnl" x="387.0" y="175.8">Z3</text>
+<text class="pnet pnl" x="387.0" y="172.8">Z3</text>
+<text class="pds pnl" x="387.0" y="182.4">2A</text>
 </g>
-<g class="pin" id="p-U3-11">
+<g class="pin dead" id="p-U3-11">
 <rect class="pad" x="485.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="175.8">11</text>
-<text class="pnet pnr" x="477.0" y="175.8">n/c</text>
+<text class="pnet pnr" x="477.0" y="172.8">n/c</text>
+<text class="pds pnr" x="477.0" y="182.4">4Y</text>
 </g>
-<g class="pin" id="p-U3-5">
+<g class="pin" id="p-U3-5" data-net="Z1">
 <rect class="pad" x="356.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="201.8">5</text>
-<text class="pnet pnl" x="387.0" y="201.8">Z1</text>
+<text class="pnet pnl" x="387.0" y="198.8">Z1</text>
+<text class="pds pnl" x="387.0" y="208.4">2B</text>
 </g>
-<g class="pin" id="p-U3-10">
+<g class="pin" id="p-U3-10" data-net="GND">
 <rect class="pad" x="485.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="201.8">10</text>
-<text class="pnet pnr" x="477.0" y="201.8">0</text>
+<text class="pnet pnr" x="477.0" y="198.8">0</text>
+<text class="pds pnr" x="477.0" y="208.4">3B</text>
 </g>
-<g class="pin" id="p-U3-6">
+<g class="pin" id="p-U3-6" data-net="Z3·Z1">
 <rect class="pad" x="356.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="227.8">6</text>
-<text class="pnet pnl" x="387.0" y="227.8">Z3·Z1</text>
+<text class="pnet pnl" x="387.0" y="224.8">Z3·Z1</text>
+<text class="pds pnl" x="387.0" y="234.4">2Y</text>
 </g>
-<g class="pin" id="p-U3-9">
+<g class="pin" id="p-U3-9" data-net="GND">
 <rect class="pad" x="485.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="227.8">9</text>
-<text class="pnet pnr" x="477.0" y="227.8">0</text>
+<text class="pnet pnr" x="477.0" y="224.8">0</text>
+<text class="pds pnr" x="477.0" y="234.4">3A</text>
 </g>
-<g class="pin" id="p-U3-7">
+<g class="pin" id="p-U3-7" data-net="GND">
 <rect class="pad" x="356.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="367.5" y="253.8">7</text>
-<text class="pnet pnl" x="387.0" y="253.8">GND</text>
+<text class="pnet pnl" x="387.0" y="250.8">GND</text>
 </g>
-<g class="pin" id="p-U3-8">
+<g class="pin dead" id="p-U3-8">
 <rect class="pad" x="485.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="496.5" y="253.8">8</text>
-<text class="pnet pnr" x="477.0" y="253.8">n/c</text>
+<text class="pnet pnr" x="477.0" y="250.8">n/c</text>
+<text class="pds pnr" x="477.0" y="260.4">3Y</text>
 </g>
 <line class="rostem" x1="432.0" y1="276.0" x2="432.0" y2="330.0"/>
 <g class="ro" id="ro-U3">
@@ -714,75 +779,88 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="cnotch" d="M 598.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="607.0" y="62.0">U4</text>
 <text class="cpart" x="607.0" y="75.0">74HC32</text>
-<g class="pin" id="p-U4-1">
+<g class="pin" id="p-U4-1" data-net="Z3·Z2">
 <rect class="pad" x="531.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="97.8">1</text>
-<text class="pnet pnl" x="562.0" y="97.8">Z3·Z2</text>
+<text class="pnet pnl" x="562.0" y="94.8">Z3·Z2</text>
+<text class="pds pnl" x="562.0" y="104.4">1A</text>
 </g>
-<g class="pin" id="p-U4-14">
+<g class="pin" id="p-U4-14" data-net="VCC">
 <rect class="pad" x="660.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="97.8">14</text>
-<text class="pnet pnr" x="652.0" y="97.8">+5</text>
+<text class="pnet pnr" x="652.0" y="94.8">+5</text>
+<text class="pds pnr" x="652.0" y="104.4">VCC</text>
 </g>
-<g class="pin" id="p-U4-2">
+<g class="pin" id="p-U4-2" data-net="Z3·Z1">
 <rect class="pad" x="531.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="123.8">2</text>
-<text class="pnet pnl" x="562.0" y="123.8">Z3·Z1</text>
+<text class="pnet pnl" x="562.0" y="120.8">Z3·Z1</text>
+<text class="pds pnl" x="562.0" y="130.4">1B</text>
 </g>
-<g class="pin" id="p-U4-13">
+<g class="pin" id="p-U4-13" data-net="GND">
 <rect class="pad" x="660.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="123.8">13</text>
-<text class="pnet pnr" x="652.0" y="123.8">0</text>
+<text class="pnet pnr" x="652.0" y="120.8">0</text>
+<text class="pds pnr" x="652.0" y="130.4">4B</text>
 </g>
-<g class="pin" id="p-U4-3">
+<g class="pin" id="p-U4-3" data-net="N3">
 <rect class="pad" x="531.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="149.8">3</text>
-<text class="pnet pnl" x="562.0" y="149.8">N3</text>
+<text class="pnet pnl" x="562.0" y="146.8">N3</text>
+<text class="pds pnl" x="562.0" y="156.4">1Y</text>
 </g>
-<g class="pin" id="p-U4-12">
+<g class="pin" id="p-U4-12" data-net="GND">
 <rect class="pad" x="660.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="149.8">12</text>
-<text class="pnet pnr" x="652.0" y="149.8">0</text>
+<text class="pnet pnr" x="652.0" y="146.8">0</text>
+<text class="pds pnr" x="652.0" y="156.4">4A</text>
 </g>
-<g class="pin" id="p-U4-4">
+<g class="pin" id="p-U4-4" data-net="N3">
 <rect class="pad" x="531.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="175.8">4</text>
-<text class="pnet pnl" x="562.0" y="175.8">N3</text>
+<text class="pnet pnl" x="562.0" y="172.8">N3</text>
+<text class="pds pnl" x="562.0" y="182.4">2A</text>
 </g>
-<g class="pin" id="p-U4-11">
+<g class="pin dead" id="p-U4-11">
 <rect class="pad" x="660.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="175.8">11</text>
-<text class="pnet pnr" x="652.0" y="175.8">n/c</text>
+<text class="pnet pnr" x="652.0" y="172.8">n/c</text>
+<text class="pds pnr" x="652.0" y="182.4">4Y</text>
 </g>
-<g class="pin" id="p-U4-5">
+<g class="pin" id="p-U4-5" data-net="K">
 <rect class="pad" x="531.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="201.8">5</text>
-<text class="pnet pnl" x="562.0" y="201.8">K</text>
+<text class="pnet pnl" x="562.0" y="198.8">K</text>
+<text class="pds pnl" x="562.0" y="208.4">2B</text>
 </g>
-<g class="pin" id="p-U4-10">
+<g class="pin" id="p-U4-10" data-net="GND">
 <rect class="pad" x="660.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="201.8">10</text>
-<text class="pnet pnr" x="652.0" y="201.8">0</text>
+<text class="pnet pnr" x="652.0" y="198.8">0</text>
+<text class="pds pnr" x="652.0" y="208.4">3B</text>
 </g>
-<g class="pin" id="p-U4-6">
+<g class="pin" id="p-U4-6" data-net="C">
 <rect class="pad" x="531.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="227.8">6</text>
-<text class="pnet pnl" x="562.0" y="227.8">C</text>
+<text class="pnet pnl" x="562.0" y="224.8">C</text>
+<text class="pds pnl" x="562.0" y="234.4">2Y</text>
 </g>
-<g class="pin" id="p-U4-9">
+<g class="pin" id="p-U4-9" data-net="GND">
 <rect class="pad" x="660.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="227.8">9</text>
-<text class="pnet pnr" x="652.0" y="227.8">0</text>
+<text class="pnet pnr" x="652.0" y="224.8">0</text>
+<text class="pds pnr" x="652.0" y="234.4">3A</text>
 </g>
-<g class="pin" id="p-U4-7">
+<g class="pin" id="p-U4-7" data-net="GND">
 <rect class="pad" x="531.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="542.5" y="253.8">7</text>
-<text class="pnet pnl" x="562.0" y="253.8">GND</text>
+<text class="pnet pnl" x="562.0" y="250.8">GND</text>
 </g>
-<g class="pin" id="p-U4-8">
+<g class="pin dead" id="p-U4-8">
 <rect class="pad" x="660.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="671.5" y="253.8">8</text>
-<text class="pnet pnr" x="652.0" y="253.8">n/c</text>
+<text class="pnet pnr" x="652.0" y="250.8">n/c</text>
+<text class="pds pnr" x="652.0" y="260.4">3Y</text>
 </g>
 <line class="rostem" x1="607.0" y1="276.0" x2="607.0" y2="330.0"/>
 <g class="ro" id="ro-U4">
@@ -798,85 +876,100 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="cnotch" d="M 773.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="782.0" y="62.0">U2</text>
 <text class="cpart" x="782.0" y="75.0">74HC283</text>
-<g class="pin" id="p-U2-1">
+<g class="pin" id="p-U2-1" data-net="S1">
 <rect class="pad" x="706.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="97.8">1</text>
-<text class="pnet pnl" x="737.0" y="97.8">S1</text>
+<text class="pnet pnl" x="737.0" y="94.8">S1</text>
+<text class="pds pnl" x="737.0" y="104.4">Σ2</text>
 </g>
-<g class="pin" id="p-U2-16">
+<g class="pin" id="p-U2-16" data-net="VCC">
 <rect class="pad" x="835.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="97.8">16</text>
-<text class="pnet pnr" x="827.0" y="97.8">+5</text>
+<text class="pnet pnr" x="827.0" y="94.8">+5</text>
+<text class="pds pnr" x="827.0" y="104.4">VCC</text>
 </g>
-<g class="pin" id="p-U2-2">
+<g class="pin" id="p-U2-2" data-net="C">
 <rect class="pad" x="706.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="123.8">2</text>
-<text class="pnet pnl" x="737.0" y="123.8">C</text>
+<text class="pnet pnl" x="737.0" y="120.8">C</text>
+<text class="pds pnl" x="737.0" y="130.4">B2</text>
 </g>
-<g class="pin" id="p-U2-15">
+<g class="pin" id="p-U2-15" data-net="C">
 <rect class="pad" x="835.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="123.8">15</text>
-<text class="pnet pnr" x="827.0" y="123.8">C</text>
+<text class="pnet pnr" x="827.0" y="120.8">C</text>
+<text class="pds pnr" x="827.0" y="130.4">B3</text>
 </g>
-<g class="pin" id="p-U2-3">
+<g class="pin" id="p-U2-3" data-net="Z1">
 <rect class="pad" x="706.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="149.8">3</text>
-<text class="pnet pnl" x="737.0" y="149.8">Z1</text>
+<text class="pnet pnl" x="737.0" y="146.8">Z1</text>
+<text class="pds pnl" x="737.0" y="156.4">A2</text>
 </g>
-<g class="pin" id="p-U2-14">
+<g class="pin" id="p-U2-14" data-net="Z2">
 <rect class="pad" x="835.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="149.8">14</text>
-<text class="pnet pnr" x="827.0" y="149.8">Z2</text>
+<text class="pnet pnr" x="827.0" y="146.8">Z2</text>
+<text class="pds pnr" x="827.0" y="156.4">A3</text>
 </g>
-<g class="pin" id="p-U2-4">
+<g class="pin" id="p-U2-4" data-net="S0">
 <rect class="pad" x="706.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="175.8">4</text>
-<text class="pnet pnl" x="737.0" y="175.8">S0</text>
+<text class="pnet pnl" x="737.0" y="172.8">S0</text>
+<text class="pds pnl" x="737.0" y="182.4">Σ1</text>
 </g>
-<g class="pin" id="p-U2-13">
+<g class="pin" id="p-U2-13" data-net="S2">
 <rect class="pad" x="835.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="175.8">13</text>
-<text class="pnet pnr" x="827.0" y="175.8">S2</text>
+<text class="pnet pnr" x="827.0" y="172.8">S2</text>
+<text class="pds pnr" x="827.0" y="182.4">Σ3</text>
 </g>
-<g class="pin" id="p-U2-5">
+<g class="pin" id="p-U2-5" data-net="Z0">
 <rect class="pad" x="706.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="201.8">5</text>
-<text class="pnet pnl" x="737.0" y="201.8">Z0</text>
+<text class="pnet pnl" x="737.0" y="198.8">Z0</text>
+<text class="pds pnl" x="737.0" y="208.4">A1</text>
 </g>
-<g class="pin" id="p-U2-12">
+<g class="pin" id="p-U2-12" data-net="Z3">
 <rect class="pad" x="835.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="201.8">12</text>
-<text class="pnet pnr" x="827.0" y="201.8">Z3</text>
+<text class="pnet pnr" x="827.0" y="198.8">Z3</text>
+<text class="pds pnr" x="827.0" y="208.4">A4</text>
 </g>
-<g class="pin" id="p-U2-6">
+<g class="pin" id="p-U2-6" data-net="GND">
 <rect class="pad" x="706.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="227.8">6</text>
-<text class="pnet pnl" x="737.0" y="227.8">0</text>
+<text class="pnet pnl" x="737.0" y="224.8">0</text>
+<text class="pds pnl" x="737.0" y="234.4">B1</text>
 </g>
-<g class="pin" id="p-U2-11">
+<g class="pin" id="p-U2-11" data-net="GND">
 <rect class="pad" x="835.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="227.8">11</text>
-<text class="pnet pnr" x="827.0" y="227.8">0</text>
+<text class="pnet pnr" x="827.0" y="224.8">0</text>
+<text class="pds pnr" x="827.0" y="234.4">B4</text>
 </g>
-<g class="pin" id="p-U2-7">
+<g class="pin" id="p-U2-7" data-net="GND">
 <rect class="pad" x="706.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="253.8">7</text>
-<text class="pnet pnl" x="737.0" y="253.8">0</text>
+<text class="pnet pnl" x="737.0" y="250.8">0</text>
+<text class="pds pnl" x="737.0" y="260.4">C0</text>
 </g>
-<g class="pin" id="p-U2-10">
+<g class="pin" id="p-U2-10" data-net="S3">
 <rect class="pad" x="835.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="253.8">10</text>
-<text class="pnet pnr" x="827.0" y="253.8">S3</text>
+<text class="pnet pnr" x="827.0" y="250.8">S3</text>
+<text class="pds pnr" x="827.0" y="260.4">Σ4</text>
 </g>
-<g class="pin" id="p-U2-8">
+<g class="pin" id="p-U2-8" data-net="GND">
 <rect class="pad" x="706.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="717.5" y="279.8">8</text>
-<text class="pnet pnl" x="737.0" y="279.8">GND</text>
+<text class="pnet pnl" x="737.0" y="276.8">GND</text>
 </g>
-<g class="pin" id="p-U2-9">
+<g class="pin dead" id="p-U2-9">
 <rect class="pad" x="835.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="846.5" y="279.8">9</text>
-<text class="pnet pnr" x="827.0" y="279.8">n/c</text>
+<text class="pnet pnr" x="827.0" y="276.8">n/c</text>
+<text class="pds pnr" x="827.0" y="286.4">C4</text>
 </g>
 <line class="rostem" x1="782.0" y1="302.0" x2="782.0" y2="330.0"/>
 <g class="ro" id="ro-U2">
@@ -892,85 +985,91 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="cnotch" d="M 948.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="957.0" y="62.0">U5</text>
 <text class="cpart" x="957.0" y="75.0">CD4511</text>
-<g class="pin" id="p-U5-1">
+<g class="pin" id="p-U5-1" data-net="S1">
 <rect class="pad" x="881.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="97.8">1</text>
-<text class="pnet pnl" x="912.0" y="97.8">S1</text>
+<text class="pnet pnl" x="912.0" y="94.8">S1</text>
+<text class="pds pnl" x="912.0" y="104.4">B</text>
 </g>
-<g class="pin" id="p-U5-16">
+<g class="pin" id="p-U5-16" data-net="VCC">
 <rect class="pad" x="1010.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="97.8">16</text>
-<text class="pnet pnr" x="1002.0" y="97.8">+5</text>
+<text class="pnet pnr" x="1002.0" y="94.8">+5</text>
+<text class="pds pnr" x="1002.0" y="104.4">VDD</text>
 </g>
-<g class="pin" id="p-U5-2">
+<g class="pin" id="p-U5-2" data-net="S2">
 <rect class="pad" x="881.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="123.8">2</text>
-<text class="pnet pnl" x="912.0" y="123.8">S2</text>
+<text class="pnet pnl" x="912.0" y="120.8">S2</text>
+<text class="pds pnl" x="912.0" y="130.4">C</text>
 </g>
-<g class="pin" id="p-U5-15">
+<g class="pin" id="p-U5-15" data-net="f">
 <rect class="pad" x="1010.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="123.8">15</text>
-<text class="pnet pnr" x="1002.0" y="123.8">f</text>
+<text class="pnet pnr" x="1002.0" y="120.8">f</text>
 </g>
-<g class="pin" id="p-U5-3">
+<g class="pin" id="p-U5-3" data-net="VCC">
 <rect class="pad" x="881.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="149.8">3</text>
-<text class="pnet pnl" x="912.0" y="149.8">/LT</text>
+<text class="pnet pnl" x="912.0" y="146.8">/LT</text>
 </g>
-<g class="pin" id="p-U5-14">
+<g class="pin" id="p-U5-14" data-net="g">
 <rect class="pad" x="1010.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="149.8">14</text>
-<text class="pnet pnr" x="1002.0" y="149.8">g</text>
+<text class="pnet pnr" x="1002.0" y="146.8">g</text>
 </g>
-<g class="pin" id="p-U5-4">
+<g class="pin" id="p-U5-4" data-net="VCC">
 <rect class="pad" x="881.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="175.8">4</text>
-<text class="pnet pnl" x="912.0" y="175.8">/BL</text>
+<text class="pnet pnl" x="912.0" y="172.8">/BL</text>
 </g>
-<g class="pin" id="p-U5-13">
+<g class="pin" id="p-U5-13" data-net="a">
 <rect class="pad" x="1010.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="175.8">13</text>
-<text class="pnet pnr" x="1002.0" y="175.8">a</text>
+<text class="pnet pnr" x="1002.0" y="172.8">a</text>
 </g>
-<g class="pin" id="p-U5-5">
+<g class="pin" id="p-U5-5" data-net="GND">
 <rect class="pad" x="881.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="201.8">5</text>
-<text class="pnet pnl" x="912.0" y="201.8">LE</text>
+<text class="pnet pnl" x="912.0" y="198.8">LE</text>
 </g>
-<g class="pin" id="p-U5-12">
+<g class="pin" id="p-U5-12" data-net="b">
 <rect class="pad" x="1010.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="201.8">12</text>
-<text class="pnet pnr" x="1002.0" y="201.8">b</text>
+<text class="pnet pnr" x="1002.0" y="198.8">b</text>
 </g>
-<g class="pin" id="p-U5-6">
+<g class="pin" id="p-U5-6" data-net="S3">
 <rect class="pad" x="881.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="227.8">6</text>
-<text class="pnet pnl" x="912.0" y="227.8">S3</text>
+<text class="pnet pnl" x="912.0" y="224.8">S3</text>
+<text class="pds pnl" x="912.0" y="234.4">D</text>
 </g>
-<g class="pin" id="p-U5-11">
+<g class="pin" id="p-U5-11" data-net="c">
 <rect class="pad" x="1010.0" y="216.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="227.8">11</text>
-<text class="pnet pnr" x="1002.0" y="227.8">c</text>
+<text class="pnet pnr" x="1002.0" y="224.8">c</text>
 </g>
-<g class="pin" id="p-U5-7">
+<g class="pin" id="p-U5-7" data-net="S0">
 <rect class="pad" x="881.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="253.8">7</text>
-<text class="pnet pnl" x="912.0" y="253.8">S0</text>
+<text class="pnet pnl" x="912.0" y="250.8">S0</text>
+<text class="pds pnl" x="912.0" y="260.4">A</text>
 </g>
-<g class="pin" id="p-U5-10">
+<g class="pin" id="p-U5-10" data-net="d">
 <rect class="pad" x="1010.0" y="242.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="253.8">10</text>
-<text class="pnet pnr" x="1002.0" y="253.8">d</text>
+<text class="pnet pnr" x="1002.0" y="250.8">d</text>
 </g>
-<g class="pin" id="p-U5-8">
+<g class="pin" id="p-U5-8" data-net="GND">
 <rect class="pad" x="881.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="892.5" y="279.8">8</text>
-<text class="pnet pnl" x="912.0" y="279.8">GND</text>
+<text class="pnet pnl" x="912.0" y="276.8">GND</text>
+<text class="pds pnl" x="912.0" y="286.4">VSS</text>
 </g>
-<g class="pin" id="p-U5-9">
+<g class="pin" id="p-U5-9" data-net="e">
 <rect class="pad" x="1010.0" y="268.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1021.5" y="279.8">9</text>
-<text class="pnet pnr" x="1002.0" y="279.8">e</text>
+<text class="pnet pnr" x="1002.0" y="276.8">e</text>
 </g>
 <line class="rostem" x1="957.0" y1="302.0" x2="957.0" y2="330.0"/>
 <g class="ro" id="ro-U5">
@@ -986,55 +1085,55 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="cnotch" d="M 1123.0 40.0 a 9 9 0 0 0 18 0"/>
 <text class="cref" x="1132.0" y="62.0">DS1</text>
 <text class="cpart" x="1132.0" y="75.0">7-seg CC</text>
-<g class="pin" id="p-DS1-1">
+<g class="pin" id="p-DS1-1" data-net="e">
 <rect class="pad" x="1056.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1067.5" y="97.8">1</text>
-<text class="pnet pnl" x="1087.0" y="97.8">e</text>
+<text class="pnet pnl" x="1087.0" y="94.8">e</text>
 </g>
-<g class="pin" id="p-DS1-10">
+<g class="pin" id="p-DS1-10" data-net="g">
 <rect class="pad" x="1185.0" y="86.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1196.5" y="97.8">10</text>
-<text class="pnet pnr" x="1177.0" y="97.8">g</text>
+<text class="pnet pnr" x="1177.0" y="94.8">g</text>
 </g>
-<g class="pin" id="p-DS1-2">
+<g class="pin" id="p-DS1-2" data-net="d">
 <rect class="pad" x="1056.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1067.5" y="123.8">2</text>
-<text class="pnet pnl" x="1087.0" y="123.8">d</text>
+<text class="pnet pnl" x="1087.0" y="120.8">d</text>
 </g>
-<g class="pin" id="p-DS1-9">
+<g class="pin" id="p-DS1-9" data-net="f">
 <rect class="pad" x="1185.0" y="112.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1196.5" y="123.8">9</text>
-<text class="pnet pnr" x="1177.0" y="123.8">f</text>
+<text class="pnet pnr" x="1177.0" y="120.8">f</text>
 </g>
-<g class="pin" id="p-DS1-3">
+<g class="pin" id="p-DS1-3" data-net="GND">
 <rect class="pad" x="1056.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1067.5" y="149.8">3</text>
-<text class="pnet pnl" x="1087.0" y="149.8">CC</text>
+<text class="pnet pnl" x="1087.0" y="146.8">CC</text>
 </g>
-<g class="pin" id="p-DS1-8">
+<g class="pin" id="p-DS1-8" data-net="GND">
 <rect class="pad" x="1185.0" y="138.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1196.5" y="149.8">8</text>
-<text class="pnet pnr" x="1177.0" y="149.8">CC</text>
+<text class="pnet pnr" x="1177.0" y="146.8">CC</text>
 </g>
-<g class="pin" id="p-DS1-4">
+<g class="pin" id="p-DS1-4" data-net="c">
 <rect class="pad" x="1056.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1067.5" y="175.8">4</text>
-<text class="pnet pnl" x="1087.0" y="175.8">c</text>
+<text class="pnet pnl" x="1087.0" y="172.8">c</text>
 </g>
-<g class="pin" id="p-DS1-7">
+<g class="pin" id="p-DS1-7" data-net="a">
 <rect class="pad" x="1185.0" y="164.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1196.5" y="175.8">7</text>
-<text class="pnet pnr" x="1177.0" y="175.8">a</text>
+<text class="pnet pnr" x="1177.0" y="172.8">a</text>
 </g>
-<g class="pin" id="p-DS1-5">
+<g class="pin dead" id="p-DS1-5">
 <rect class="pad" x="1056.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1067.5" y="201.8">5</text>
-<text class="pnet pnl" x="1087.0" y="201.8">dp</text>
+<text class="pnet pnl" x="1087.0" y="198.8">dp</text>
 </g>
-<g class="pin" id="p-DS1-6">
+<g class="pin" id="p-DS1-6" data-net="b">
 <rect class="pad" x="1185.0" y="190.0" width="23.0" height="16.0" rx="3"/>
 <text class="pnum" x="1196.5" y="201.8">6</text>
-<text class="pnet pnr" x="1177.0" y="201.8">b</text>
+<text class="pnet pnr" x="1177.0" y="198.8">b</text>
 </g>
 <line class="rostem" x1="1132.0" y1="224.0" x2="1132.0" y2="330.0"/>
 <g class="ro" id="ro-DS1">
@@ -1045,6 +1144,10 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <text class="rol2" id="rol2-DS1" x="1067.0" y="373.0"></text>
 </g>
 </g></svg>
+    </div>
+    <div class="trace" id="trace">
+      <span class="thint" id="thint">Bold names are this build's signals. Small grey names are
+      the chip's own pin names, which number from&nbsp;1 where this build numbers from&nbsp;0.</span>
     </div>
     <div class="legend">
       <span><i class="n"></i>this step</span>
@@ -2898,360 +3001,360 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <text class="collab" x="1228.0" y="494">55</text>
 <text class="collab" x="1338.0" y="494">60</text>
 <text class="btitle" x="22" y="477">BOARD 2   DECODER AND DISPLAY</text>
-<path class="w sw g-pwr" data-s="7" d="M 304.0 184.8 L 304.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="304.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="304.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 458.0 237.6 L 458.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="458.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="458.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 986.0 184.8 L 986.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="986.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="986.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 1140.0 237.6 L 1140.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="1140.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="1140.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 546.0 184.8 L 546.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="546.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="546.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 678.0 237.6 L 678.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="678.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="678.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 766.0 184.8 L 766.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="766.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="766.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 898.0 237.6 L 898.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="898.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="898.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="7" d="M 194.0 704.0 L 194.0 519.2" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="194.0" cy="704.0" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="7" cx="194.0" cy="519.2" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="7" d="M 348.0 756.8 L 348.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="7" cx="348.0" cy="756.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-pwr" data-s="7" cx="348.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="13" d="M 62.0 184.8 L 62.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="62.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="62.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 84.0 184.8 L 84.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="84.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="84.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 106.0 184.8 L 106.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="106.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="106.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 128.0 184.8 L 128.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="128.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="128.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 150.0 184.8 L 150.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="150.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="150.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 172.0 184.8 L 172.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="172.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="172.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 194.0 184.8 L 194.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="194.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="194.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<path class="w sw g-pwr" data-s="13" d="M 216.0 184.8 L 216.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-pwr" data-s="13" cx="216.0" cy="184.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-pwr" data-s="13" cx="216.0" cy="0.0" r="3.4" fill="#d1495b"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 304.0 184.8 L 304.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="304.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="304.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 458.0 237.6 L 458.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="458.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="458.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 986.0 184.8 L 986.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="986.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="986.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 1140.0 237.6 L 1140.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="1140.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="1140.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 546.0 184.8 L 546.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="546.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="546.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 678.0 237.6 L 678.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="678.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="678.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 766.0 184.8 L 766.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="766.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="766.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 898.0 237.6 L 898.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="898.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="898.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="7" data-net="VCC" d="M 194.0 704.0 L 194.0 519.2" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="194.0" cy="704.0" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="VCC" cx="194.0" cy="519.2" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="7" data-net="GND" d="M 348.0 756.8 L 348.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="348.0" cy="756.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-pwr" data-s="7" data-net="GND" cx="348.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 62.0 184.8 L 62.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="62.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="62.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 84.0 184.8 L 84.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="84.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="84.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 106.0 184.8 L 106.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="106.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="106.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 128.0 184.8 L 128.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="128.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="128.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 150.0 184.8 L 150.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="150.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="150.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 172.0 184.8 L 172.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="172.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="172.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 194.0 184.8 L 194.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="194.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="194.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<path class="w sw g-pwr" data-s="13" data-net="VCC" d="M 216.0 184.8 L 216.0 0.0" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="216.0" cy="184.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-pwr" data-s="13" data-net="VCC" cx="216.0" cy="0.0" r="3.4" fill="#d1495b"/>
+<g class="sw g-in" data-s="14" data-net="A0">
 <line x1="62.0" y1="303.6" x2="62.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="57.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="62.0" y="335.0">10k</text>
 <circle cx="62.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="62.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 62.0 325.6 L 62.0 338.8 L 392.0 338.8 L 392.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="62.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="392.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A0" d="M 62.0 325.6 L 62.0 338.8 L 392.0 338.8 L 392.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A0" cx="62.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A0" cx="392.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="A1">
 <line x1="84.0" y1="303.6" x2="84.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="79.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="84.0" y="335.0">10k</text>
 <circle cx="84.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="84.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 84.0 325.6 L 84.0 345.8 L 348.0 345.8 L 348.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="84.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="348.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A1" d="M 84.0 325.6 L 84.0 345.8 L 348.0 345.8 L 348.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A1" cx="84.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A1" cx="348.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="A2">
 <line x1="106.0" y1="303.6" x2="106.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="101.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="106.0" y="335.0">10k</text>
 <circle cx="106.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="106.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 106.0 325.6 L 106.0 352.9 L 348.0 352.9 L 348.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="106.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="348.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A2" d="M 106.0 325.6 L 106.0 352.9 L 348.0 352.9 L 348.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A2" cx="106.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A2" cx="348.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="A3">
 <line x1="128.0" y1="303.6" x2="128.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="123.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="128.0" y="335.0">10k</text>
 <circle cx="128.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="128.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="15" d="M 128.0 325.6 L 128.0 359.9 L 392.0 359.9 L 392.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="15" cx="128.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="15" cx="392.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="15" data-net="A3" d="M 128.0 325.6 L 128.0 359.9 L 392.0 359.9 L 392.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="15" data-net="A3" cx="128.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="15" data-net="A3" cx="392.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B0">
 <line x1="150.0" y1="303.6" x2="150.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="145.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="150.0" y="335.0">10k</text>
 <circle cx="150.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="150.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 150.0 325.6 L 150.0 367.0 L 414.0 367.0 L 414.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="150.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="414.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="16" data-net="B0" d="M 150.0 325.6 L 150.0 367.0 L 414.0 367.0 L 414.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B0" cx="150.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B0" cx="414.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B1">
 <line x1="172.0" y1="303.6" x2="172.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="167.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="172.0" y="335.0">10k</text>
 <circle cx="172.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="172.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 172.0 325.6 L 172.0 374.0 L 326.0 374.0 L 326.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="172.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="326.0" cy="237.6" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="16" data-net="B1" d="M 172.0 325.6 L 172.0 374.0 L 326.0 374.0 L 326.0 237.6" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B1" cx="172.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B1" cx="326.0" cy="237.6" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B2">
 <line x1="194.0" y1="303.6" x2="194.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="189.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="194.0" y="335.0">10k</text>
 <circle cx="194.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="194.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 194.0 325.6 L 194.0 381.0 L 326.0 381.0 L 326.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="194.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="326.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<g class="sw g-in" data-s="14">
+<path class="w sw g-in" data-s="16" data-net="B2" d="M 194.0 325.6 L 194.0 381.0 L 326.0 381.0 L 326.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B2" cx="194.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B2" cx="326.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<g class="sw g-in" data-s="14" data-net="B3">
 <line x1="216.0" y1="303.6" x2="216.0" y2="400.4" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="211.5" y="339.0" width="9" height="26" rx="2"/>
 <text class="reslab" x="216.0" y="335.0">10k</text>
 <circle cx="216.0" cy="303.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="216.0" cy="400.4" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-in" data-s="16" d="M 216.0 325.6 L 216.0 388.1 L 414.0 388.1 L 414.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
-<circle class="wd sw g-in" data-s="16" cx="216.0" cy="325.6" r="3.4" fill="#e08b2a"/>
-<circle class="wd sw g-in" data-s="16" cx="414.0" cy="184.8" r="3.4" fill="#e08b2a"/>
-<path class="w sw g-z" data-s="18" d="M 370.0 237.6 L 370.0 391.6 L 1074.0 391.6 L 1074.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="370.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1074.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 304.0 237.6 L 304.0 385.0 L 1030.0 385.0 L 1030.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1030.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 370.0 184.8 L 370.0 50.6 L 1030.0 50.6 L 1030.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1030.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 436.0 184.8 L 436.0 63.8 L 1074.0 63.8 L 1074.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="18" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="18" cx="1074.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 436.0 184.8 L 436.0 365.2 L 546.0 365.2 L 546.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="546.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 370.0 184.8 L 370.0 358.6 L 568.0 358.6 L 568.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="568.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 436.0 184.8 L 436.0 352.0 L 612.0 352.0 L 612.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="612.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="19" d="M 304.0 237.6 L 304.0 345.4 L 634.0 345.4 L 634.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="19" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="19" cx="634.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="20" d="M 458.0 184.8 L 458.0 79.2 L 854.0 79.2 L 854.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
-<circle class="wd sw g-z" data-s="20" cx="458.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<circle class="wd sw g-z" data-s="20" cx="854.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-corr" data-s="20" d="M 590.0 237.6 L 590.0 341.0 L 766.0 341.0 L 766.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="20" cx="590.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="20" cx="766.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="20" d="M 656.0 237.6 L 656.0 349.8 L 788.0 349.8 L 788.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="20" cx="656.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="20" cx="788.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="20" d="M 810.0 237.6 L 810.0 358.6 L 832.0 358.6 L 832.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="20" cx="810.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="20" cx="832.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="21" d="M 876.0 237.6 L 876.0 367.4 L 1008.0 367.4 L 1008.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="21" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="21" cx="1008.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="21" d="M 876.0 237.6 L 876.0 376.2 L 1008.0 376.2 L 1008.0 184.8" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="21" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="21" cx="1008.0" cy="184.8" r="3.4" fill="#2f9e5e"/>
-<path class="w sw g-corr" data-s="22" d="M 876.0 237.6 L 876.0 385.0 L 1228.0 385.0 L 1228.0 325.6" stroke="#2f9e5e" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="22" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
-<circle class="wd sw g-corr" data-s="22" cx="1228.0" cy="325.6" r="3.4" fill="#2f9e5e"/>
-<g class="sw g-corr" data-s="22">
+<path class="w sw g-in" data-s="16" data-net="B3" d="M 216.0 325.6 L 216.0 388.1 L 414.0 388.1 L 414.0 184.8" stroke="#e08b2a" stroke-width="2.2"/>
+<circle class="wd sw g-in" data-s="16" data-net="B3" cx="216.0" cy="325.6" r="3.4" fill="#e08b2a"/>
+<circle class="wd sw g-in" data-s="16" data-net="B3" cx="414.0" cy="184.8" r="3.4" fill="#e08b2a"/>
+<path class="w sw g-z" data-s="18" data-net="Z0" d="M 370.0 237.6 L 370.0 391.6 L 1074.0 391.6 L 1074.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z0" cx="370.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z0" cx="1074.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="18" data-net="Z1" d="M 304.0 237.6 L 304.0 385.0 L 1030.0 385.0 L 1030.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z1" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z1" cx="1030.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="18" data-net="Z2" d="M 370.0 184.8 L 370.0 50.6 L 1030.0 50.6 L 1030.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z2" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z2" cx="1030.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="18" data-net="Z3" d="M 436.0 184.8 L 436.0 63.8 L 1074.0 63.8 L 1074.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z3" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="18" data-net="Z3" cx="1074.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z3" d="M 436.0 184.8 L 436.0 365.2 L 546.0 365.2 L 546.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="546.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z2" d="M 370.0 184.8 L 370.0 358.6 L 568.0 358.6 L 568.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z2" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z2" cx="568.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z3" d="M 436.0 184.8 L 436.0 352.0 L 612.0 352.0 L 612.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z3" cx="612.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="19" data-net="Z1" d="M 304.0 237.6 L 304.0 345.4 L 634.0 345.4 L 634.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z1" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="19" data-net="Z1" cx="634.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-z" data-s="20" data-net="K" d="M 458.0 184.8 L 458.0 79.2 L 854.0 79.2 L 854.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
+<circle class="wd sw g-z" data-s="20" data-net="K" cx="458.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
+<circle class="wd sw g-z" data-s="20" data-net="K" cx="854.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
+<path class="w sw g-corr" data-s="20" data-net="Z3·Z2" d="M 590.0 237.6 L 590.0 341.0 L 766.0 341.0 L 766.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z2" cx="590.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z2" cx="766.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="20" data-net="Z3·Z1" d="M 656.0 237.6 L 656.0 349.8 L 788.0 349.8 L 788.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z1" cx="656.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="20" data-net="Z3·Z1" cx="788.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="20" data-net="N3" d="M 810.0 237.6 L 810.0 358.6 L 832.0 358.6 L 832.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="20" data-net="N3" cx="810.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="20" data-net="N3" cx="832.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="21" data-net="C" d="M 876.0 237.6 L 876.0 367.4 L 1008.0 367.4 L 1008.0 237.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="1008.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="21" data-net="C" d="M 876.0 237.6 L 876.0 376.2 L 1008.0 376.2 L 1008.0 184.8" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="21" data-net="C" cx="1008.0" cy="184.8" r="3.4" fill="#2f9e5e"/>
+<path class="w sw g-corr" data-s="22" data-net="C" d="M 876.0 237.6 L 876.0 385.0 L 1228.0 385.0 L 1228.0 325.6" stroke="#2f9e5e" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="22" data-net="C" cx="876.0" cy="237.6" r="3.4" fill="#2f9e5e"/>
+<circle class="wd sw g-corr" data-s="22" data-net="C" cx="1228.0" cy="325.6" r="3.4" fill="#2f9e5e"/>
+<g class="sw g-corr" data-s="22" data-net="LED">
 <line x1="1228.0" y1="281.6" x2="1294.0" y2="281.6" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="1248.0" y="277.1" width="26" height="9" rx="2"/>
 <text class="reslab" x="1261.0" y="273.1">330</text>
 <circle cx="1228.0" cy="281.6" r="3.2" fill="#9a7b4f"/>
 <circle cx="1294.0" cy="281.6" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-tie" data-s="10" d="M 656.0 184.8 L 656.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="656.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="656.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 634.0 184.8 L 634.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="634.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="634.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 590.0 184.8 L 590.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="590.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="590.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 568.0 184.8 L 568.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="568.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="568.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 876.0 184.8 L 876.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="876.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="876.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 854.0 184.8 L 854.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="854.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="854.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 810.0 184.8 L 810.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="810.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="810.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="10" d="M 788.0 184.8 L 788.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="10" cx="788.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="10" cx="788.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 1096.0 184.8 L 1096.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="184.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="22.0" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 436.0 237.6 L 436.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="436.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="436.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 1118.0 237.6 L 1118.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="1118.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="1118.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="11" d="M 1096.0 237.6 L 1096.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="237.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="11" cx="1096.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="12" d="M 282.0 756.8 L 282.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="12" cx="282.0" cy="756.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-tie" data-s="12" cx="282.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<path class="w sw g-tie" data-s="12" d="M 238.0 756.8 L 238.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="12" cx="238.0" cy="756.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-tie" data-s="12" cx="238.0" cy="941.6" r="3.4" fill="#d1495b"/>
-<path class="w sw g-tie" data-s="12" d="M 260.0 756.8 L 260.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
-<circle class="wd sw g-tie" data-s="12" cx="260.0" cy="756.8" r="3.4" fill="#d1495b"/>
-<circle class="wd sw g-tie" data-s="12" cx="260.0" cy="941.6" r="3.4" fill="#d1495b"/>
-<path class="w sw g-sbus" data-s="23" d="M 1052.0 237.6 L 1052.0 459.8 L 326.0 459.8 L 326.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="1052.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="326.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-sbus" data-s="23" d="M 986.0 237.6 L 986.0 469.7 L 194.0 469.7 L 194.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="986.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="194.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-sbus" data-s="23" d="M 1052.0 184.8 L 1052.0 479.6 L 216.0 479.6 L 216.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="1052.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="216.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-sbus" data-s="23" d="M 1118.0 184.8 L 1118.0 489.5 L 304.0 489.5 L 304.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
-<circle class="wd sw g-sbus" data-s="23" cx="1118.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
-<circle class="wd sw g-sbus" data-s="23" cx="304.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
-<path class="w sw g-seg" data-s="25" d="M 260.0 704.0 L 260.0 556.6 L 458.0 556.6 L 458.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="260.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="458.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 656.0 184.8 L 656.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="656.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="656.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 634.0 184.8 L 634.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="634.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="634.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 590.0 184.8 L 590.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="590.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="590.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 568.0 184.8 L 568.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="568.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="568.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 876.0 184.8 L 876.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="876.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="876.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 854.0 184.8 L 854.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="854.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="854.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 810.0 184.8 L 810.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="810.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="810.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="10" data-net="GND" d="M 788.0 184.8 L 788.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="788.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="10" data-net="GND" cx="788.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 1096.0 184.8 L 1096.0 22.0" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="184.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="22.0" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 436.0 237.6 L 436.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="436.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="436.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 1118.0 237.6 L 1118.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1118.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1118.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="11" data-net="GND" d="M 1096.0 237.6 L 1096.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="237.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="11" data-net="GND" cx="1096.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="12" data-net="GND" d="M 282.0 756.8 L 282.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="12" data-net="GND" cx="282.0" cy="756.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-tie" data-s="12" data-net="GND" cx="282.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<path class="w sw g-tie" data-s="12" data-net="VCC" d="M 238.0 756.8 L 238.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="238.0" cy="756.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="238.0" cy="941.6" r="3.4" fill="#d1495b"/>
+<path class="w sw g-tie" data-s="12" data-net="VCC" d="M 260.0 756.8 L 260.0 941.6" stroke="#d1495b" stroke-width="2.2"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="260.0" cy="756.8" r="3.4" fill="#d1495b"/>
+<circle class="wd sw g-tie" data-s="12" data-net="VCC" cx="260.0" cy="941.6" r="3.4" fill="#d1495b"/>
+<path class="w sw g-sbus" data-s="23" data-net="S0" d="M 1052.0 237.6 L 1052.0 459.8 L 326.0 459.8 L 326.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S0" cx="1052.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S0" cx="326.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-sbus" data-s="23" data-net="S1" d="M 986.0 237.6 L 986.0 469.7 L 194.0 469.7 L 194.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S1" cx="986.0" cy="237.6" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S1" cx="194.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-sbus" data-s="23" data-net="S2" d="M 1052.0 184.8 L 1052.0 479.6 L 216.0 479.6 L 216.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S2" cx="1052.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S2" cx="216.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-sbus" data-s="23" data-net="S3" d="M 1118.0 184.8 L 1118.0 489.5 L 304.0 489.5 L 304.0 756.8" stroke="#8b5cf6" stroke-width="2.2"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S3" cx="1118.0" cy="184.8" r="3.4" fill="#8b5cf6"/>
+<circle class="wd sw g-sbus" data-s="23" data-net="S3" cx="304.0" cy="756.8" r="3.4" fill="#8b5cf6"/>
+<path class="w sw g-seg" data-s="25" data-net="a" d="M 260.0 704.0 L 260.0 556.6 L 458.0 556.6 L 458.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="a" cx="260.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="a" cx="458.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="a">
 <line x1="458.0" y1="616.0" x2="502.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="467.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="480.0" y="607.5">330</text>
 <circle cx="458.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="502.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 502.0 638.0 L 502.0 605.0 L 1184.0 605.0 L 1184.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="502.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1184.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 282.0 704.0 L 282.0 563.2 L 546.0 563.2 L 546.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="282.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="546.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="a" d="M 502.0 638.0 L 502.0 605.0 L 1184.0 605.0 L 1184.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="a" cx="502.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="a" cx="1184.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="b" d="M 282.0 704.0 L 282.0 563.2 L 546.0 563.2 L 546.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="b" cx="282.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="b" cx="546.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="b">
 <line x1="546.0" y1="616.0" x2="590.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="555.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="568.0" y="607.5">330</text>
 <circle cx="546.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="590.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 590.0 638.0 L 590.0 598.4 L 1206.0 598.4 L 1206.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="590.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1206.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 304.0 704.0 L 304.0 569.8 L 634.0 569.8 L 634.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="304.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="634.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="b" d="M 590.0 638.0 L 590.0 598.4 L 1206.0 598.4 L 1206.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="b" cx="590.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="b" cx="1206.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="c" d="M 304.0 704.0 L 304.0 569.8 L 634.0 569.8 L 634.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="c" cx="304.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="c" cx="634.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="c">
 <line x1="634.0" y1="616.0" x2="678.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="643.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="656.0" y="607.5">330</text>
 <circle cx="634.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="678.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 678.0 638.0 L 678.0 591.8 L 1184.0 591.8 L 1184.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="678.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1184.0" cy="756.8" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 326.0 704.0 L 326.0 576.4 L 722.0 576.4 L 722.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="326.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="722.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="c" d="M 678.0 638.0 L 678.0 591.8 L 1184.0 591.8 L 1184.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="c" cx="678.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="c" cx="1184.0" cy="756.8" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="d" d="M 326.0 704.0 L 326.0 576.4 L 722.0 576.4 L 722.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="d" cx="326.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="d" cx="722.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="d">
 <line x1="722.0" y1="616.0" x2="766.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="731.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="744.0" y="607.5">330</text>
 <circle cx="722.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="766.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 766.0 638.0 L 766.0 585.2 L 1140.0 585.2 L 1140.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="766.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1140.0" cy="756.8" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 348.0 704.0 L 348.0 583.0 L 810.0 583.0 L 810.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="348.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="810.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="d" d="M 766.0 638.0 L 766.0 585.2 L 1140.0 585.2 L 1140.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="d" cx="766.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="d" cx="1140.0" cy="756.8" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="e" d="M 348.0 704.0 L 348.0 583.0 L 810.0 583.0 L 810.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="e" cx="348.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="e" cx="810.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="e">
 <line x1="810.0" y1="616.0" x2="854.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="819.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="832.0" y="607.5">330</text>
 <circle cx="810.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="854.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 854.0 638.0 L 854.0 578.6 L 1118.0 578.6 L 1118.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="854.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1118.0" cy="756.8" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 216.0 704.0 L 216.0 589.6 L 898.0 589.6 L 898.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="216.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="898.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="e" d="M 854.0 638.0 L 854.0 578.6 L 1118.0 578.6 L 1118.0 756.8" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="e" cx="854.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="e" cx="1118.0" cy="756.8" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="f" d="M 216.0 704.0 L 216.0 589.6 L 898.0 589.6 L 898.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="f" cx="216.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="f" cx="898.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="f">
 <line x1="898.0" y1="616.0" x2="942.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="907.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="920.0" y="607.5">330</text>
 <circle cx="898.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="942.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 942.0 638.0 L 942.0 572.0 L 1140.0 572.0 L 1140.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="942.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1140.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="25" d="M 238.0 704.0 L 238.0 596.2 L 986.0 596.2 L 986.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="25" cx="238.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="25" cx="986.0" cy="616.0" r="3.4" fill="#c2410c"/>
-<g class="sw g-seg" data-s="24">
+<path class="w sw g-seg" data-s="26" data-net="f" d="M 942.0 638.0 L 942.0 572.0 L 1140.0 572.0 L 1140.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="f" cx="942.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="f" cx="1140.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="25" data-net="g" d="M 238.0 704.0 L 238.0 596.2 L 986.0 596.2 L 986.0 616.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="25" data-net="g" cx="238.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="25" data-net="g" cx="986.0" cy="616.0" r="3.4" fill="#c2410c"/>
+<g class="sw g-seg" data-s="24" data-net="g">
 <line x1="986.0" y1="616.0" x2="1030.0" y2="616.0" stroke="#9a7b4f" stroke-width="1.8"/>
 <rect class="res" x="995.0" y="611.5" width="26" height="9" rx="2"/>
 <text class="reslab" x="1008.0" y="607.5">330</text>
 <circle cx="986.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 <circle cx="1030.0" cy="616.0" r="3.2" fill="#9a7b4f"/>
 </g>
-<path class="w sw g-seg" data-s="26" d="M 1030.0 638.0 L 1030.0 565.4 L 1118.0 565.4 L 1118.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="26" cx="1030.0" cy="638.0" r="3.4" fill="#c2410c"/>
-<circle class="wd sw g-seg" data-s="26" cx="1118.0" cy="704.0" r="3.4" fill="#c2410c"/>
-<path class="w sw g-seg" data-s="27" d="M 1162.0 756.8 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="756.8" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<path class="w sw g-seg" data-s="27" d="M 1162.0 704.0 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="704.0" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-seg" data-s="27" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
-<g class="sw g-corr" data-s="22">
+<path class="w sw g-seg" data-s="26" data-net="g" d="M 1030.0 638.0 L 1030.0 565.4 L 1118.0 565.4 L 1118.0 704.0" stroke="#c2410c" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="26" data-net="g" cx="1030.0" cy="638.0" r="3.4" fill="#c2410c"/>
+<circle class="wd sw g-seg" data-s="26" data-net="g" cx="1118.0" cy="704.0" r="3.4" fill="#c2410c"/>
+<path class="w sw g-seg" data-s="27" data-net="GND" d="M 1162.0 756.8 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="756.8" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<path class="w sw g-seg" data-s="27" data-net="GND" d="M 1162.0 704.0 L 1162.0 919.6" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="704.0" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-seg" data-s="27" data-net="GND" cx="1162.0" cy="919.6" r="3.4" fill="#3d4451"/>
+<g class="sw g-corr" data-s="22" data-net="LED">
 <line x1="1294.0" y1="325.6" x2="1338.0" y2="325.6" stroke="#2f9e5e" stroke-width="1.8"/>
 <circle class="led" cx="1316.0" cy="325.6" r="8"/>
 <text class="reslab" x="1316.0" y="312.6">LED1 tens</text>
 </g>
-<path class="w sw g-corr" data-s="22" d="M 1338.0 303.6 L 1338.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
-<circle class="wd sw g-corr" data-s="22" cx="1338.0" cy="303.6" r="3.4" fill="#3d4451"/>
-<circle class="wd sw g-corr" data-s="22" cx="1338.0" cy="400.4" r="3.4" fill="#3d4451"/>
-<path class="w sw g-pwr" data-s="5" d="M 1382.0 22.0 L 1404.0 22.0 L 1404.0 400.4 L 1382.0 400.4" stroke="#3d4451" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="5" d="M 40.0 0.0 L 27.9 0.0 L 27.9 422.4 L 40.0 422.4" stroke="#d1495b" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="5" d="M 1382.0 541.2 L 1404.0 541.2 L 1404.0 919.6 L 1382.0 919.6" stroke="#3d4451" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="5" d="M 40.0 519.2 L 27.9 519.2 L 27.9 941.6 L 40.0 941.6" stroke="#d1495b" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="6" d="M 62.0 422.4 L 62.0 519.2" stroke="#d1495b" stroke-width="2.2" fill="none"/>
-<path class="w sw g-pwr" data-s="6" d="M 106.0 400.4 L 106.0 541.2" stroke="#3d4451" stroke-width="2.2" fill="none"/>
+<path class="w sw g-corr" data-s="22" data-net="GND" d="M 1338.0 303.6 L 1338.0 400.4" stroke="#3d4451" stroke-width="2.2"/>
+<circle class="wd sw g-corr" data-s="22" data-net="GND" cx="1338.0" cy="303.6" r="3.4" fill="#3d4451"/>
+<circle class="wd sw g-corr" data-s="22" data-net="GND" cx="1338.0" cy="400.4" r="3.4" fill="#3d4451"/>
+<path class="w sw g-pwr" data-s="5" data-net="GND" d="M 1382.0 22.0 L 1404.0 22.0 L 1404.0 400.4 L 1382.0 400.4" stroke="#3d4451" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="5" data-net="VCC" d="M 40.0 0.0 L 27.9 0.0 L 27.9 422.4 L 40.0 422.4" stroke="#d1495b" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="5" data-net="GND" d="M 1382.0 541.2 L 1404.0 541.2 L 1404.0 919.6 L 1382.0 919.6" stroke="#3d4451" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="5" data-net="VCC" d="M 40.0 519.2 L 27.9 519.2 L 27.9 941.6 L 40.0 941.6" stroke="#d1495b" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="6" data-net="VCC" d="M 62.0 422.4 L 62.0 519.2" stroke="#d1495b" stroke-width="2.2" fill="none"/>
+<path class="w sw g-pwr" data-s="6" data-net="GND" d="M 106.0 400.4 L 106.0 541.2" stroke="#3d4451" stroke-width="2.2" fill="none"/>
 <rect class="ic" x="52.8" y="176.0" width="172.5" height="70.4" rx="3"/>
 <path class="notch" d="M 52.8 204.2 a 7 7 0 0 0 0 14"/>
 <text class="iclab" x="139.0" y="215.2">SW1  8-POS DIP</text>
@@ -4100,7 +4203,7 @@ var STEPS = [
   y:"Goal: pin down the three bits C never touches. U2's B3 and B0 stay at zero so its B "
     + "inputs can only ever read 0000 or 0110, never anything in between. Both carry-ins are "
     + "grounded because neither adder has a stage below it.",
-  W:[["U1 pin 7 (C0)","GND"],["U2 pin 7 (C0)","GND"],["U2 pin 6 (B1)","GND"],["U2 pin 11 (B4)","GND"]]},
+  W:[["U1 pin 7 (C0)","GND"],["U2 pin 7 (C0)","GND"],["U2 pin 6 (B0)","GND"],["U2 pin 11 (B3)","GND"]]},
  {g:"Tie-offs", t:"Strap the CD4511", w:"Three control pins",
   d:"Do not skip this one.",
   W:[["U5 pin 3 (/LT)","+5 V"],["U5 pin 4 (/BL)","+5 V"],["U5 pin 5 (LE)","GND"]],
@@ -4153,7 +4256,7 @@ var STEPS = [
     + "presents 0110 (six) when high and 0000 when low. Binary rolls over at 16 but decimal "
     + "rolls over at 10, so adding that six forces the rollover and leaves the right ones "
     + "digit behind.",
-  W:[["U4 pin 6 (C)","U2 pin 15 (B3)"],["U4 pin 6 (C)","U2 pin 2 (B2)"]],
+  W:[["U4 pin 6 (C)","U2 pin 15 (B2)"],["U4 pin 6 (C)","U2 pin 2 (B1)"]],
   fk:"Why", f:"With pins 6 and 11 already grounded, U2's B inputs read 0110 when C is high. That is the +6."},
  {g:"Correction logic", t:"Wire the tens LED", w:"Board 1, columns 55 to 60",
   d:"C drives the tens digit directly.",
@@ -4319,7 +4422,7 @@ function expand(list){
 
   var el = {};
   ['count','phase','pct','fill','where','title','detail','wires','wbody','flag','flagk','flagt',
-   'go','back','groups','reset','ppin','pbb','ball','bbnote','goal','goalt',
+   'go','back','groups','reset','ppin','pbb','ball','bbnote','goal','goalt','trace',
    'zin','zout','zfit','zlab','undo','dia',
    'pzin','pzout','pzfit','pzlab','panes','rcount','rtitle','rwhere',
    'opa','opb','bitsa','bitsb','lsum','lread','tled','ttext','lnote','outs'].forEach(function(k){ el[k] = document.getElementById(k); });
@@ -4333,6 +4436,58 @@ function expand(list){
   Array.prototype.forEach.call(document.querySelectorAll('#cm .cbody'), function(r){
     bodyEls[r.id.slice(2)] = r;
   });
+
+  // ---- trace a net: click a pin, light every pin and wire on the same net ----
+  var selNet = null;
+  var netPins = {};
+  Array.prototype.forEach.call(document.querySelectorAll('#cm .pin[data-net]'), function(g){
+    var n = g.getAttribute('data-net');
+    (netPins[n] = netPins[n] || []).push(g.id.slice(2).replace(/-(\d+)$/, ' pin $1'));
+    g.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      setTrace(selNet === n ? null : n);
+    });
+  });
+
+  function setTrace(n){
+    selNet = n;
+    if (bbMapEl) bbMapEl.classList.toggle('tracing', !!n);
+    if (bb) bb.classList.toggle('tracing', !!n);
+    Array.prototype.forEach.call(document.querySelectorAll('#cm .pin'), function(g){
+      g.classList.toggle('sel', !!n && g.getAttribute('data-net') === n);
+    });
+    if (bb) {
+      Array.prototype.forEach.call(bb.querySelectorAll('.sw'), function(w){
+        w.classList.toggle('sel', !!n && w.getAttribute('data-net') === n);
+      });
+    }
+    el.trace.textContent = '';
+    if (!n) {
+      var hint = document.createElement('span');
+      hint.innerHTML = "Bold names are this build&#39;s signals. Small grey names are the "
+        + "chip&#39;s own pin names, which number from&nbsp;1 where this build numbers "
+        + "from&nbsp;0.";
+      el.trace.appendChild(hint);
+      return;
+    }
+    var nm = document.createElement('b'); nm.textContent = n;
+    var pins = document.createElement('span');
+    pins.className = 'pins';
+    pins.textContent = (netPins[n] || []).join(', ');
+    var wires = bb ? bb.querySelectorAll('.w[data-net="' + n + '"]').length : 0;
+    var cnt = document.createElement('span');
+    cnt.textContent = wires ? wires + ' on the board' : 'rail net';
+    var clr = document.createElement('button');
+    clr.type = 'button'; clr.textContent = 'clear';
+    clr.addEventListener('click', function(){ setTrace(null); });
+    el.trace.appendChild(nm); el.trace.appendChild(pins);
+    el.trace.appendChild(cnt); el.trace.appendChild(clr);
+  }
+  if (bbMapEl) {
+    bbMapEl.addEventListener('click', function(ev){
+      if (!ev.target.closest || !ev.target.closest('.pin[data-net]')) setTrace(null);
+    });
+  }
 
   function paintMap(){
     var now = {}, wired = {}, seat = {};
@@ -4351,6 +4506,11 @@ function expand(list){
     Object.keys(bodyEls).forEach(function(r){
       bodyEls[r].classList.toggle('seat', !!seat[r]);
     });
+    if (selNet) {
+      Object.keys(pinEls).forEach(function(k){
+        pinEls[k].classList.toggle('sel', pinEls[k].getAttribute('data-net') === selNet);
+      });
+    }
   }
 
   // breadboard, scoped to the current step
@@ -4374,6 +4534,7 @@ function expand(list){
       bbSteps[k].forEach(function(n){
         n.classList.toggle('wnow', now);
         n.classList.toggle('wdone', wired);
+        if (selNet) n.classList.toggle('sel', n.getAttribute('data-net') === selNet);
       });
     });
     if (el.bbnote) {
@@ -4448,6 +4609,7 @@ function expand(list){
     else if (ev.key === '+' || ev.key === '=') { zoomBy(1); ev.preventDefault(); }
     else if (ev.key === '-' || ev.key === '_') { zoomBy(-1); ev.preventDefault(); }
     else if (ev.key === '0') { zi = 2; applyZoom(); ev.preventDefault(); }
+    else if (ev.key === 'Escape' && selNet) { setTrace(null); ev.preventDefault(); }
   });
   function step(d){
     var n = Math.min(STEPS.length - 1, Math.max(0, cur + d));
