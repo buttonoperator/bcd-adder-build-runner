@@ -48,14 +48,22 @@ for i in range(nsteps):
 silent = sorted(i for i in stamps if wrows[i] == 0)
 
 # --- unique ids ---
-for i in ('bb', 'cm', 'fl', 'tpin', 'tbb', 'tboth', 'ppin', 'pbb', 'ball', 'bbnote',
-          'zin', 'zout', 'zfit', 'zlab', 'undo', 'dia', 'diabar' if False else 'dtitle',
-          'dwhere', 'tfull', 'pzin', 'pzout', 'pzfit', 'pzlab'):
+for i in ('bb', 'cm', 'fl', 'ppin', 'pbb', 'ball', 'bbnote', 'panes',
+          'zin', 'zout', 'zfit', 'zlab', 'undo', 'dia',
+          'pzin', 'pzout', 'pzfit', 'pzlab',
+          'rcount', 'rtitle', 'rwhere', 'opa', 'opb', 'bitsa', 'bitsb',
+          'lsum', 'lread', 'tled', 'ttext', 'lnote', 'seg7'):
     if t.count('id="%s"' % i) != 1:
         err.append('id="%s" appears %d times' % (i, t.count('id="%s"' % i)))
 
 # --- no leftovers from the old group-level scheme ---
-for dead in ('BBG', 'BBALL', 'BBNAME', 'n-pwr', 'd-pwr'):
+for ref in ('SW1', 'U1', 'U2', 'U3', 'U4', 'U5', 'DS1'):
+    for pre in ('ro-', 'rotag-', 'rol1-', 'rol2-'):
+        if t.count('id="%s%s"' % (pre, ref)) != 1:
+            err.append('missing readout id %s%s' % (pre, ref))
+
+for dead in ('BBG', 'BBALL', 'BBNAME', 'n-pwr', 'd-pwr',
+             'setView', 'setFull', 'tfull', 'diabar', 'panes.split', 'lgrid'):
     if dead in t:
         err.append('stale reference: %s' % dead)
 

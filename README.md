@@ -73,13 +73,17 @@ gates wired to the wrong sum bits.
   carries. Pins light blue for the current step and green once wired.
 - **A step-scoped breadboard diagram.** All 254 drawn wire elements carry their step index,
   so only the current step's connections are lit; completed wires dim, future wires ghost.
-- **An interactive logic-level map.** Set any two BCD digits and it solves the whole circuit,
-  showing what a meter should read at every pin — operands, `K` and `Z3..Z0`, both AND terms,
-  `C`, `S3..S0`, and all seven segment drives. Lines stay dashed until you reach the step that
-  wires them, so the map fills in as you build. A live seven-segment preview shows the digit,
-  including the CD4511's tail-less 6 and 9.
-- **Both diagrams side by side**, with the step list in a sticky rail beside them, so the whole
-  build fits in one view. Independent diagram zoom (50–320%), whole-page zoom, full-window mode.
+- **Logic levels under every chip.** Set any two operands in the rail and the page solves the
+  whole circuit, printing what each IC produces in a readout below it: the operands on SW1,
+  `K` and `Z3..Z0` on U1, both AND terms on U3, `C` on U4, `S3..S0` on U2, the segment pattern
+  on U5, and the digit on DS1. A readout reads **NOW** once the step that wires it is done, and
+  **TARGET → step N** before that, so an unwired chip still tells you what it owes you.
+- **Binary as well as decimal.** Each operand has 8/4/2/1 bit toggles, so you can drive values
+  above 9 and watch what the correction logic does with input that is not valid BCD.
+- **A seven-segment preview** using the CD4511's real patterns, including its tail-less 6 and 9.
+- **One screen.** The step list sits in a sticky rail, the pin map and breadboard stack in the
+  working area, and both panes scroll inside bounded heights. Diagram zoom (60–300%, where 100%
+  fits the pane) and whole-page zoom.
 - **Progress saved** in `localStorage`, with per-step undo.
 - Reference drawers: adder theory, signal flow schematic, pinouts, parts list,
   troubleshooting, and test vectors.
@@ -89,10 +93,8 @@ gates wired to the wrong sum bits.
 | Key | Action |
 |---|---|
 | <kbd>←</kbd> <kbd>→</kbd> | previous / next step |
-| <kbd>+</kbd> <kbd>−</kbd> | zoom the diagram |
+| <kbd>+</kbd> <kbd>−</kbd> | zoom the diagrams |
 | <kbd>0</kbd> | reset diagram zoom |
-| <kbd>F</kbd> | full window |
-| <kbd>Esc</kbd> | exit full window |
 
 ---
 
@@ -134,7 +136,7 @@ result before writing:
 |---|---|
 | `src/gen.py` | `bb.svg` — hole-accurate breadboard placement, wires stamped by step |
 | `src/gen2.py` | `flow.svg` — signal flow schematic |
-| `src/gen3.py` | `chips.svg` — IC pin map, every pin individually addressable |
+| `src/gen3.py` | `chips.svg` — pin map in signal order, every pin and readout addressable |
 | `src/build.py` | inlines all three into `src/template.html` → `index.html` |
 
 `src/template.html` holds the step data, the page CSS, and the runner logic, with
