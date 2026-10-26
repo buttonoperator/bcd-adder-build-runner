@@ -1,0 +1,1073 @@
+<title>BCD Adder Build Runner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one step on screen at a time. Progress pinned at top, everything else folded away. */
+:root{
+  --bg:#f3f1ec; --surface:#fffefb; --fg:#1d2024; --muted:#6a6f78; --line:#d9d5cc;
+  --accent:#1f5f8b; --accent-soft:#e3edf4; --done:#2f9e5e;
+  --board:#e4e1d8; --board-edge:#c9c4b8; --chan:#d0ccc1; --hole:#a9a399;
+  --ic:#2b2e33; --ic-fg:#e9e6df; --res:#cfa86a; --led:#4fbf72;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15171a; --surface:#1d2024; --fg:#e8e6e1; --muted:#9aa0a8; --line:#32363c;
+  --accent:#6fb3dd; --accent-soft:#1c2a33; --done:#4fbf72;
+  --board:#2a2d32; --board-edge:#3a3e45; --chan:#1f2226; --hole:#5d636b;
+  --ic:#0e1013; --ic-fg:#d6d3cc; --res:#b08a4e; --led:#4fbf72;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#15171a; --surface:#1d2024; --fg:#e8e6e1; --muted:#9aa0a8; --line:#32363c;
+  --accent:#6fb3dd; --accent-soft:#1c2a33; --done:#4fbf72;
+  --board:#2a2d32; --board-edge:#3a3e45; --chan:#1f2226; --hole:#5d636b;
+  --ic:#0e1013; --ic-fg:#d6d3cc; --res:#b08a4e; --led:#4fbf72;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.5;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 80px}
+
+/* masthead */
+.mast{padding-block:26px 18px;border-bottom:1px solid var(--line)}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent)}
+.mast h1{margin:9px 0 0;font-size:31px;line-height:1.12;letter-spacing:-.022em;font-weight:700}
+.mast h1 .sub{display:block;font-size:17px;font-weight:500;color:var(--muted);
+  letter-spacing:-.01em;margin-top:5px}
+.lede{margin:13px 0 0;color:var(--fg);font-size:14.5px;max-width:62ch}
+.lede + .lede{margin-top:8px;color:var(--muted)}
+.specs{display:flex;gap:6px;flex-wrap:wrap;margin-top:15px}
+.specs span{font:600 10.5px var(--mono);border:1px solid var(--line);border-radius:999px;
+  padding:4px 10px;color:var(--muted);background:var(--surface);letter-spacing:.03em}
+.pzoom{display:flex;align-items:center;gap:3px;margin-top:16px;flex-wrap:wrap}
+.pzoom .lbl{font:500 11px var(--mono);color:var(--muted);margin-right:6px}
+.pzoom button{padding:5px 0;width:34px;font:600 14px var(--mono);line-height:1}
+.pzoom button.wide{width:auto;padding:5px 10px;font-size:11px}
+
+/* full-window diagrams */
+body.fs{overflow:hidden}
+.dia.full{position:fixed;inset:0;z-index:50;background:var(--bg);
+  padding:max(8px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-right,0px))
+          max(10px,env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));
+  display:flex;flex-direction:column;gap:8px;margin:0}
+.dia.full .pane{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:7px}
+.dia.full .cmap,.dia.full .bbwrap{flex:1 1 auto;min-height:0;overflow:auto}
+.dia.full .tabs,.dia.full .legend,.dia.full .bbfoot,.dia.full .hint{flex:0 0 auto}
+.dia.full .hint{display:none}
+.diabar{display:none;align-items:baseline;gap:10px;flex-wrap:wrap;flex:0 0 auto}
+.dia.full .diabar{display:flex}
+.diabar b{font-size:16px}
+.diabar span{font:500 11.5px var(--mono);color:var(--muted)}
+
+/* progress header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);
+  padding-block:14px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--line)}
+.topline{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.count{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em}
+.phase{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.pct{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.track{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.fill{height:100%;background:var(--accent);width:0;border-radius:3px}
+
+/* current step */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:24px 22px;margin-top:22px;display:flex;flex-direction:column;gap:16px}
+.card h2{font-size:clamp(22px,5vw,30px);line-height:1.15;margin:0;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+.card .where{font-family:var(--mono);font-size:12.5px;color:var(--accent);background:var(--accent-soft);
+  align-self:flex-start;padding:5px 10px;border-radius:6px}
+.card p{margin:0;font-size:16px;max-width:52ch}
+.wires{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+.wires td{padding:7px 0;border-bottom:1px solid var(--line)}
+.wires tr:last-child td{border-bottom:0}
+.wires td.a{width:44%}
+.wires td.arr{width:34px;color:var(--muted);text-align:center}
+.wires td.n{width:auto;color:var(--muted);text-align:right;font-size:12px}
+.flag{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border-radius:8px;padding:11px 13px;
+  font-size:14px;border:1px solid var(--line)}
+.flag b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+  flex:none;padding-top:3px}
+.acts{display:flex;gap:10px;align-items:center;margin-top:2px;flex-wrap:wrap}
+button{font-family:var(--sans);cursor:pointer;border-radius:9px;border:1px solid var(--line);
+  background:var(--surface);color:var(--fg);font-size:15px;padding:12px 18px;font-weight:500}
+button.go{background:var(--accent);border-color:var(--accent);color:#fff;flex:1 1 auto;min-width:160px;font-weight:600}
+button.go.redo{background:var(--surface);color:var(--fg);border-color:var(--line)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:disabled{opacity:.4;cursor:default}
+
+/* step map */
+.map{margin-top:26px;display:flex;flex-direction:column;gap:14px}
+.maph{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.grp{display:flex;flex-direction:column;gap:6px}
+.grpn{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{width:30px;height:30px;padding:0;border-radius:8px;font-family:var(--mono);font-size:11.5px;
+  display:grid;place-items:center;color:var(--muted)}
+.pill[data-s="done"]{background:var(--done);border-color:var(--done);color:#fff}
+.pill[data-s="now"]{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+
+/* reference drawers */
+.ref{margin-top:34px;display:flex;flex-direction:column;gap:8px}
+details{border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+summary{cursor:pointer;padding:14px 16px;font-weight:600;font-size:15px;list-style:none;
+  display:flex;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);color:var(--accent);font-size:15px;width:12px}
+details[open] summary::before{content:"\2212"}
+.body{padding:0 16px 18px;display:flex;flex-direction:column;gap:14px}
+.body p{font-size:14.5px;margin:0;max-width:60ch;color:var(--fg)}
+h3{font-size:12px;margin:0;font-family:var(--mono);font-weight:600;letter-spacing:.06em}
+table.t{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+.t th,.t td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.t th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.t td.m{font-family:var(--mono)}
+.t td.dim{color:var(--muted)}
+.tbl{overflow-x:auto}
+.eq{font-family:var(--mono);font-size:14px;background:var(--bg);border:1px solid var(--line);
+  border-radius:6px;padding:11px 13px;overflow-x:auto}
+.frame{border:1px solid var(--line);border-radius:8px;background:var(--board-edge);
+  overflow-x:auto;overflow-y:hidden;padding:12px}
+.frame.flat{background:var(--surface)}
+.frame svg{display:block;height:auto;min-width:1180px;max-width:none}
+.frame.flat svg{min-width:1340px}
+.hint{font-family:var(--mono);font-size:11px;color:var(--muted)}
+footer{margin-top:30px;color:var(--muted);font-size:12px;font-family:var(--mono);
+  border-top:1px solid var(--line);padding-top:14px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
+/* live chip pin map */
+.cmap{border:1px solid var(--line);border-radius:10px;background:var(--bg);
+  overflow-x:auto;overflow-y:hidden;padding:10px}
+.cmap svg{display:block;height:auto;min-width:620px;max-width:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;border:1px solid var(--line);display:block}
+.legend i.n{background:var(--accent);border-color:var(--accent)}
+.legend i.d{background:var(--done);border-color:var(--done)}
+.legend i.u{background:var(--surface)}
+#cm .cbody{fill:var(--ic);stroke:#000;stroke-width:1}
+#cm .cbody.seat{stroke:var(--accent);stroke-width:2.5}
+#cm .cnotch{fill:var(--bg);stroke:none}
+#cm .cref{font:600 13px var(--mono);fill:var(--ic-fg);text-anchor:middle}
+#cm .cpart{font:400 9.5px var(--mono);fill:#9aa0a8;text-anchor:middle}
+#cm .pad{fill:var(--surface);stroke:var(--line);stroke-width:1}
+#cm .pnum{font:600 9.5px var(--mono);fill:var(--muted);text-anchor:middle}
+#cm .pnet{font:500 10px var(--mono);fill:#8d929a}
+#cm .pnl{text-anchor:start}
+#cm .pnr{text-anchor:end}
+#cm .pin.wired .pad{fill:var(--done);stroke:var(--done)}
+#cm .pin.wired .pnum{fill:#fff}
+#cm .pin.wired .pnet{fill:var(--ic-fg)}
+#cm .pin.now .pad{fill:var(--accent);stroke:var(--accent)}
+#cm .pin.now .pnum{fill:#fff}
+#cm .pin.now .pnet{fill:#fff;font-weight:600}
+/* breadboard diagram */
+#bb .bd{fill:var(--board);stroke:var(--board-edge);stroke-width:1.5}
+#bb .ch{fill:var(--chan)}
+#bb .rp{stroke:#d1495b;stroke-width:1.2;opacity:.65}
+#bb .rn{stroke:#3d4451;stroke-width:1.2;opacity:.65}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #bb .rn{stroke:#9aa0a8}}
+:root[data-theme="dark"] #bb .rn{stroke:#9aa0a8}
+#bb .hl{fill:var(--hole)}
+#bb .rowlab,#bb .collab{font:400 9px var(--mono);fill:var(--muted);text-anchor:middle}
+#bb .btitle{font:600 12px var(--mono);fill:var(--fg);letter-spacing:.1em}
+#bb .ic{fill:var(--ic);stroke:#000;stroke-width:1}
+#bb .notch{fill:var(--board);stroke:none}
+#bb .iclab{font:600 12px var(--mono);fill:var(--ic-fg);text-anchor:middle;letter-spacing:.06em}
+#bb .pinlab{font:500 8.5px var(--mono);fill:var(--muted);text-anchor:start}
+#bb .w{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#bb .res{fill:var(--res);stroke:#6b5428;stroke-width:1}
+#bb .reslab{font:500 9px var(--mono);fill:var(--muted);text-anchor:middle}
+#bb .led{fill:var(--led);stroke:#1f6b3c;stroke-width:1.2}
+#bb.h-pwr .g-pwr,#bb.h-in .g-in,#bb.h-z .g-z,#bb.h-corr .g-corr,
+#bb.h-sbus .g-sbus,#bb.h-seg .g-seg,#bb.h-tie .g-tie{display:none}
+/* view tabs in the step card */
+.tabs{display:flex;gap:6px;margin:16px 0 0}
+.tabs button{font:600 12px var(--mono);padding:7px 13px;border:1px solid var(--line);
+  border-radius:7px;background:var(--surface);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.pane[hidden]{display:none}
+.zoom{margin-left:auto;display:flex;align-items:center;gap:3px}
+.zoom button{padding:5px 0;width:34px;font:600 14px var(--mono);line-height:1}
+.zoom button.wide{width:auto;padding:5px 10px;font-size:11px}
+.tabs button.wide{padding:7px 11px;font-size:11px}
+.tabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.zlab{font:600 11px var(--mono);color:var(--muted);min-width:44px;text-align:center}
+.undo{background:none;border:none;color:var(--muted);font:500 11.5px var(--mono);
+  text-decoration:underline;cursor:pointer;padding:4px 2px}
+.undo:hover{color:var(--fg)}
+.keys{font:500 11px var(--mono);color:var(--muted);margin-top:9px}
+.keys kbd{font-family:var(--mono);border:1px solid var(--line);border-radius:4px;
+  padding:1px 5px;background:var(--bg);font-size:10.5px}
+/* explainer */
+.why{border-left:3px solid var(--accent);padding:2px 0 2px 13px;margin:14px 0}
+.why h4{margin:0 0 6px;font:600 13px var(--mono);letter-spacing:.04em}
+.why p{margin:0 0 7px}
+.warn{border-left-color:#d1495b}
+.t td.hi{background:var(--bg);font-weight:600}
+.t tr.pass td:last-child{color:var(--done)}
+
+.bbwrap{border:1px solid var(--line);border-radius:10px;background:var(--board-edge);
+  overflow-x:auto;margin-top:10px;padding:5px}
+.bbwrap svg{display:block;height:auto;min-width:1180px;max-width:none}
+.bbfoot{display:flex;align-items:center;gap:14px;margin-top:9px;flex-wrap:wrap}
+.bbfoot label{font:500 11.5px var(--mono);color:var(--muted);display:flex;
+  align-items:center;gap:6px;cursor:pointer}
+.bbnote{font:500 11.5px var(--mono);color:var(--muted)}
+/* step-scoped breadboard: dim every wire, light the ones for this step */
+#bb.step .sw{opacity:.07}
+#bb.step .sw.wdone{opacity:.72}
+#bb.step .sw.wnow{opacity:1}
+#bb.step .w.wnow{stroke-width:3.8}
+#bb.step .wd.wnow{r:4.4}
+@media (prefers-reduced-motion:no-preference){
+  #bb .sw{transition:opacity .2s ease}
+}
+/* flow diagram */
+#fl .pkg{fill:var(--surface);stroke:var(--fg);stroke-width:1.5}
+#fl .pkgt{font:600 13px var(--mono);fill:var(--fg);text-anchor:middle}
+#fl .pkgs{font:400 10.5px var(--mono);fill:var(--muted);text-anchor:middle}
+#fl .pkgr{stroke:var(--line);stroke-width:1}
+#fl .pkgx{font:400 9.5px var(--mono);fill:var(--muted);text-anchor:middle}
+#fl .pd{fill:var(--bg);stroke:var(--fg);stroke-width:1.2}
+#fl .pn{font:600 9px var(--mono);fill:var(--fg);text-anchor:middle}
+#fl .pname{font:500 11px var(--mono);fill:var(--fg)}
+#fl .pl{text-anchor:start}
+#fl .pr{text-anchor:end}
+#fl .gate{fill:var(--surface);stroke:var(--fg);stroke-width:1.5}
+#fl .lead{stroke:var(--fg);stroke-width:1.3}
+#fl .gl{font:600 11px var(--mono);fill:var(--fg);text-anchor:middle}
+#fl .grp{font:600 11px var(--mono);fill:var(--muted);letter-spacing:.1em}
+#fl .net{fill:none;stroke-width:1.8;stroke-linejoin:round}
+#fl .nl{font:600 10.5px var(--mono);text-anchor:middle}
+#fl .gndl{font:500 10px var(--mono);fill:var(--muted);text-anchor:end}
+#fl .gndl2{font:500 10px var(--mono);fill:var(--muted);text-anchor:start}
+#fl .nc{font:400 9.5px var(--mono);fill:var(--muted);text-anchor:end}
+#fl .sw{fill:var(--surface);stroke:var(--fg);stroke-width:1.2}
+#fl .swl{font:600 11px var(--mono);fill:var(--fg);text-anchor:middle}
+#fl .disp{fill:var(--surface);stroke:var(--fg);stroke-width:1.5}
+#fl .segl{stroke:var(--muted);stroke-width:5;stroke-linecap:round;opacity:.42}
+#fl .segt{font:600 9px var(--mono);fill:var(--accent);text-anchor:middle}
+#fl .segp{font:600 9.5px var(--mono);fill:#c2410c;text-anchor:middle}
+#fl .res{fill:var(--res);stroke:#6b5428;stroke-width:1}
+#fl .ledd{fill:var(--led);stroke:#1f6b3c;stroke-width:1.2}
+#fl .gnds{stroke:var(--fg);stroke-width:2}
+#fl .div{stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 5}
+#fl .bdiv{font:600 10px var(--mono);fill:var(--muted);text-anchor:end;letter-spacing:.1em}
+#fl .bdiv2{font:600 10px var(--mono);fill:var(--muted);text-anchor:start;letter-spacing:.1em}
+@media (prefers-reduced-motion:no-preference){
+  .fill{transition:width .25s ease}
+  button{transition:background .15s,border-color .15s}
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow">EEL 3705 &middot; Hands-On Project 2</div>
+  <h1>Single-Digit BCD Adder
+    <span class="sub">Two cascaded 4-bit adders with automatic +6 correction</span></h1>
+  <p class="lede">Enter two BCD digits on a DIP switch and the circuit adds them, detects any
+  answer past 9, corrects it by six, and shows the result on a seven-segment display with an
+  LED for the tens.</p>
+  <p class="lede">This page is the build itself. It walks all 30 connections one at a time and
+  lights up the exact pins and wires for the step you are on, so you never have to hunt through
+  a static diagram to find your place.</p>
+  <div class="specs">
+    <span>5 ICs</span><span>2 breadboards</span><span>30 steps</span>
+    <span>74HC283 &times;2</span><span>74HC08</span><span>74HC32</span><span>CD4511</span>
+  </div>
+  <div class="pzoom">
+    <span class="lbl">page</span>
+    <button id="pzout" aria-label="Make the page smaller" title="Smaller">&minus;</button>
+    <span class="zlab" id="pzlab">100%</span>
+    <button id="pzin" aria-label="Make the page bigger" title="Bigger">+</button>
+    <button id="pzfit" class="wide" aria-label="Reset page size" title="Reset">reset</button>
+  </div>
+</header>
+
+<div class="top">
+  <div class="topline">
+    <span class="count" id="count">Step 1 of 30</span>
+    <span class="phase" id="phase">Seat the parts</span>
+    <span class="pct" id="pct">0%</span>
+  </div>
+  <div class="track"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="card">
+  <span class="where" id="where"></span>
+  <h2 id="title"></h2>
+  <p id="detail"></p>
+  <table class="wires" id="wires" hidden><tbody id="wbody"></tbody></table>
+  <div class="dia" id="dia">
+  <div class="diabar"><b id="dtitle"></b><span id="dwhere"></span></div>
+  <div class="tabs" role="tablist" aria-label="Diagram view">
+    <button id="tpin" role="tab" aria-selected="true" aria-controls="ppin">Pin map</button>
+    <button id="tbb" role="tab" aria-selected="false" aria-controls="pbb">Breadboard</button>
+    <button id="tboth" role="tab" aria-selected="false">Both</button>
+    <button id="tfull" class="wide" aria-pressed="false" title="Fill the window (F)">&#9974; full window</button>
+    <span class="zoom">
+      <button id="zout" aria-label="Zoom out" title="Zoom out">&minus;</button>
+      <span class="zlab" id="zlab">100%</span>
+      <button id="zin" aria-label="Zoom in" title="Zoom in">+</button>
+      <button id="zfit" class="wide" aria-label="Reset zoom" title="Reset zoom">reset</button>
+    </span>
+  </div>
+  <div class="pane" id="ppin" role="tabpanel" aria-labelledby="tpin">
+    <div class="cmap" tabindex="0" aria-label="IC pin map for this step, scrollable">
+<!--CHIPS-->
+    </div>
+    <div class="legend">
+      <span><i class="n"></i>this step</span>
+      <span><i class="d"></i>already wired</span>
+      <span><i class="u"></i>not yet</span>
+    </div>
+  </div>
+  <div class="pane" id="pbb" role="tabpanel" aria-labelledby="tbb" hidden>
+    <div class="bbwrap" tabindex="0" aria-label="Breadboard diagram for this step, scrollable">
+<!--SVG-->
+    </div>
+    <div class="bbfoot">
+      <label><input type="checkbox" id="ball"> show every wire</label>
+      <span class="bbnote" id="bbnote"></span>
+    </div>
+    <p class="hint">Scroll sideways to reach column 63. Wires pass under the chips where they
+    cross one. Lit wires are this step, dimmed wires are already placed, ghosts are still
+    ahead of you.</p>
+  </div>
+  </div>
+  <div class="flag" id="flag" hidden><b id="flagk">Check</b><span id="flagt"></span></div>
+  <div class="acts">
+    <button class="go" id="go">Done &rarr;</button>
+    <button id="back">&larr; Back one step</button>
+    <button class="undo" id="undo" hidden>unmark this step</button>
+  </div>
+  <p class="keys"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> move a step &middot;
+  <kbd>+</kbd> <kbd>&minus;</kbd> zoom the diagram &middot; <kbd>0</kbd> reset &middot;
+  <kbd>F</kbd> full window &middot; <kbd>Esc</kbd> exit</p>
+</div>
+
+<div class="map">
+  <div class="maph">All steps &mdash; tap any to jump</div>
+  <div id="groups"></div>
+</div>
+
+<div class="ref">
+  <details open>
+    <summary>What the two adders are actually doing</summary>
+    <div class="body">
+
+      <p>Each 74HC283 is not one full adder. It is <b>four full adders in one package</b>, chained
+      internally, so it adds two 4-bit numbers in one shot. You have two of those packages, U1 and
+      U2, doing two different jobs.</p>
+
+      <div class="why">
+        <h4>U1 &mdash; the plain binary sum</h4>
+        <p>U1 knows nothing about BCD. It adds A and B as ordinary binary and hands you a
+        <b>5-bit answer</b>. Four of those bits come out of the sum pins; the fifth is the carry.</p>
+        <div class="tbl"><table class="t">
+          <thead><tr><th>Line</th><th>U1 pin</th><th>Weight</th><th>What it is</th></tr></thead>
+          <tbody>
+            <tr><td class="m">K</td><td class="m">9</td><td class="m">16</td><td>carry out</td></tr>
+            <tr><td class="m">Z3</td><td class="m">10</td><td class="m">8</td><td>sum bit 3</td></tr>
+            <tr><td class="m">Z2</td><td class="m">13</td><td class="m">4</td><td>sum bit 2</td></tr>
+            <tr><td class="m">Z1</td><td class="m">1</td><td class="m">2</td><td>sum bit 1</td></tr>
+            <tr><td class="m">Z0</td><td class="m">4</td><td class="m">1</td><td>sum bit 0</td></tr>
+          </tbody>
+        </table></div>
+        <p>Read them together as one number: <span class="m">K&middot;16 + Z3&middot;8 + Z2&middot;4
+        + Z1&middot;2 + Z0&middot;1</span>. Two BCD digits can only reach 9 + 9, so the range
+        is <b>0 to 18</b>.</p>
+        <p><b>The sums are not a decimal digit.</b> For answers 0 through 9, binary and BCD happen
+        to look identical, so it feels like it is working. From 10 up they split apart. That split
+        is the entire reason the rest of the circuit exists.</p>
+      </div>
+
+      <div class="why">
+        <h4>Why all four Z lines get wired</h4>
+        <p>Because all four are part of the answer. Leave one open and you have thrown away a
+        power of two. They do not all go to the same places, though.</p>
+        <div class="tbl"><table class="t">
+          <thead><tr><th>Line</th><th>Goes to</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td class="m">Z0</td><td class="m">U2 only</td>
+              <td>Part of the number being corrected. The gates ignore it: adding 6 never changes
+              bit 0, and an odd answer tells you nothing about whether it passed 9.</td></tr>
+            <tr><td class="m">Z1</td><td class="m">U2 + U3 pin 5</td><td>Also an input to Z3&middot;Z1</td></tr>
+            <tr><td class="m">Z2</td><td class="m">U2 + U3 pin 2</td><td>Also an input to Z3&middot;Z2</td></tr>
+            <tr><td class="m">Z3</td><td class="m">U2 + U3 pins 1 and 4</td>
+              <td>Feeds <i>both</i> AND gates, which is why one Z3 wire fans out three ways</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="why">
+        <h4>How C gets decided</h4>
+        <div class="eq">C = K + Z3&middot;Z2 + Z3&middot;Z1</div>
+        <p>C asks one question: <b>did the answer go past 9?</b> There are two ways it can,
+        and they need separate detection.</p>
+        <p><b>The K term.</b> K = 1 means the sum reached 16 or more. The most you can ever get is
+        18, so K = 1 means 16, 17 or 18. All three are past 9, so K alone is proof.</p>
+        <p><b>The gate terms</b> catch 10 through 15, where K is still 0. You cannot just use Z3:
+        Z3 is high for 8 through 15, and 8 and 9 are perfectly valid. So you qualify it.
+        Z3&middot;Z2 catches 12&ndash;15, Z3&middot;Z1 catches 10, 11, 14, 15. Together they cover
+        10&ndash;15 and leave 8 (1000) and 9 (1001) alone, because both of those have Z2 and Z1
+        at 0.</p>
+      </div>
+
+      <div class="why warn">
+        <h4>The trap in 9 + 9</h4>
+        <p>9 + 9 = 18. In binary that is <span class="m">10010</span>: K = 1 and
+        Z3..Z0 = <span class="m">0010</span>. <b>The sum pins read 2.</b> They look like a
+        perfectly valid BCD digit. The AND gates see Z3 = 0 and report nothing wrong.</p>
+        <p>Only K knows. This is why the carry term is not optional, and why slide 10's
+        <span class="m">Err = S3S2 + S3S1</span> is incomplete on its own &mdash; the Cy term gets
+        folded back in on slide 11.</p>
+      </div>
+
+      <div class="why">
+        <h4>U2 &mdash; add six, or add nothing</h4>
+        <p>Binary rolls over at 16. Decimal rolls over at 10. The gap is <b>6</b>. When the answer
+        should have carried into the tens but binary did not, adding 6 forces the rollover and
+        drops the remainder exactly where it belongs.</p>
+        <p>U2's A inputs are Z3..Z0. Its B inputs are strapped <span class="m">0&nbsp;C&nbsp;C&nbsp;0</span>,
+        which is <span class="m">0110</span> = 6 when C is high and <span class="m">0000</span> = 0
+        when C is low. One signal, no extra gates. U2 computes <span class="m">Z + 6C</span>, and
+        S3..S0 is the <b>ones digit, always 0 through 9</b>.</p>
+        <p><b>U2 pin 9 is left open on purpose.</b> When correction fires, Z + 6 often overflows
+        past 15 and U2 raises its own carry. That carry says the same thing C already said, and C
+        is the tens digit driving the LED. Wiring it would add nothing.</p>
+      </div>
+
+      <div class="why">
+        <h4>Follow five sums all the way through</h4>
+        <div class="tbl"><table class="t">
+          <thead><tr>
+            <th>Sum</th><th>U1: K Z3Z2Z1Z0</th><th>Why C is what it is</th>
+            <th>U2 adds</th><th>S3..S0</th><th>Shows</th>
+          </tr></thead>
+          <tbody>
+            <tr class="pass"><td class="m">3 + 4</td><td class="m">0 0111</td>
+              <td>Z3 = 0, K = 0 &rarr; C = 0</td><td class="m">0000</td>
+              <td class="m hi">0111</td><td class="m">7, LED off</td></tr>
+            <tr class="pass"><td class="m">7 + 2</td><td class="m">0 1001</td>
+              <td>Z3 = 1 but Z2 = Z1 = 0, K = 0 &rarr; C = 0</td><td class="m">0000</td>
+              <td class="m hi">1001</td><td class="m">9, LED off</td></tr>
+            <tr class="pass"><td class="m">5 + 5</td><td class="m">0 1010</td>
+              <td>Z3&middot;Z1 = 1 &rarr; C = 1</td><td class="m">0110</td>
+              <td class="m hi">0000</td><td class="m">0, LED on = 10</td></tr>
+            <tr class="pass"><td class="m">7 + 5</td><td class="m">0 1100</td>
+              <td>Z3&middot;Z2 = 1 &rarr; C = 1</td><td class="m">0110</td>
+              <td class="m hi">0010</td><td class="m">2, LED on = 12</td></tr>
+            <tr class="pass"><td class="m">9 + 9</td><td class="m">1 0010</td>
+              <td>gates see nothing, K = 1 &rarr; C = 1</td><td class="m">0110</td>
+              <td class="m hi">1000</td><td class="m">8, LED on = 18</td></tr>
+          </tbody>
+        </table></div>
+        <p>Those five exercise every path: no correction, no correction with Z3 high,
+        the Z3&middot;Z1 term, the Z3&middot;Z2 term, and the K term. If all five are right,
+        the logic is right.</p>
+      </div>
+
+      <div class="why">
+        <h4>One line per chip</h4>
+        <div class="tbl"><table class="t">
+          <thead><tr><th>Chip</th><th>Takes in</th><th>Puts out</th><th>Meaning of the output</th></tr></thead>
+          <tbody>
+            <tr><td class="m">U1 74HC283</td><td class="m">A3..A0, B3..B0</td><td class="m">K, Z3..Z0</td>
+              <td>raw binary sum, 0&ndash;18</td></tr>
+            <tr><td class="m">U3 74HC08</td><td class="m">Z3, Z2, Z1</td><td class="m">Z3&middot;Z2, Z3&middot;Z1</td>
+              <td>two partial "past 9" tests</td></tr>
+            <tr><td class="m">U4 74HC32</td><td class="m">those two, K</td><td class="m">C</td>
+              <td>correct-by-six flag, and the tens digit</td></tr>
+            <tr><td class="m">U2 74HC283</td><td class="m">Z3..Z0, 0 C C 0</td><td class="m">S3..S0</td>
+              <td>corrected ones digit, 0&ndash;9</td></tr>
+            <tr><td class="m">U5 CD4511</td><td class="m">S3..S0</td><td class="m">a..g</td>
+              <td>segment drive for that digit</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+    </div>
+  </details>
+
+  <details>
+    <summary>How the circuit works</summary>
+    <div class="body">
+      <p>U1 adds the two operands as plain binary. If the answer is bigger than 9 it is not valid
+      BCD, so four gates raise a signal called <b>C</b>, and U2 adds 6 to fix it.</p>
+      <div class="eq">C = K + Z3&middot;Z2 + Z3&middot;Z1</div>
+      <p>K is U1's carry out, pin 9. Z3..Z0 is U1's sum. C is also the tens digit, so it drives
+      the LED. U2's carry out is not used at all.</p>
+      <p>U2's B inputs are wired 0&nbsp;C&nbsp;C&nbsp;0. That feeds it 0110 (six) when C is high
+      and 0000 when C is low. That one trick is the whole correction.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Signal flow diagram</summary>
+    <div class="body">
+      <p class="hint">Scroll sideways. Subscripts mark the adder: A3&#8321; is U1, S3&#8322; is U2.</p>
+      <div class="frame flat" tabindex="0" aria-label="Signal flow diagram, scrollable">
+<!--FLOW-->
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Pinouts</summary>
+    <div class="body">
+      <h3>74HC283 &mdash; U1 and U2</h3>
+      <div class="tbl"><table class="t">
+        <thead><tr><th>Pin</th><th>Name</th><th>U1</th><th>U2</th></tr></thead>
+        <tbody>
+          <tr><td class="m">1</td><td class="m">&Sigma;2</td><td class="m">Z1</td><td class="m">S1</td></tr>
+          <tr><td class="m">2</td><td class="m">B2</td><td class="m">B1</td><td class="m">C</td></tr>
+          <tr><td class="m">3</td><td class="m">A2</td><td class="m">A1</td><td class="m">Z1</td></tr>
+          <tr><td class="m">4</td><td class="m">&Sigma;1</td><td class="m">Z0</td><td class="m">S0</td></tr>
+          <tr><td class="m">5</td><td class="m">A1</td><td class="m">A0</td><td class="m">Z0</td></tr>
+          <tr><td class="m">6</td><td class="m">B1</td><td class="m">B0</td><td class="m">GND</td></tr>
+          <tr><td class="m">7</td><td class="m">C0</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">8</td><td class="m">GND</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">9</td><td class="m">C4</td><td class="m">K</td><td class="m dim">n/c</td></tr>
+          <tr><td class="m">10</td><td class="m">&Sigma;4</td><td class="m">Z3</td><td class="m">S3</td></tr>
+          <tr><td class="m">11</td><td class="m">B4</td><td class="m">B3</td><td class="m">GND</td></tr>
+          <tr><td class="m">12</td><td class="m">A4</td><td class="m">A3</td><td class="m">Z3</td></tr>
+          <tr><td class="m">13</td><td class="m">&Sigma;3</td><td class="m">Z2</td><td class="m">S2</td></tr>
+          <tr><td class="m">14</td><td class="m">A3</td><td class="m">A2</td><td class="m">Z2</td></tr>
+          <tr><td class="m">15</td><td class="m">B3</td><td class="m">B2</td><td class="m">C</td></tr>
+          <tr><td class="m">16</td><td class="m">VCC</td><td class="m">+5 V</td><td class="m">+5 V</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>74HC08 (U3) and 74HC32 (U4)</h3>
+      <p>Same pin layout on both. U3 is AND, U4 is OR.</p>
+      <div class="tbl"><table class="t">
+        <thead><tr><th>Pin</th><th>Name</th><th>U3 net</th><th>U4 net</th></tr></thead>
+        <tbody>
+          <tr><td class="m">1</td><td class="m">1A</td><td class="m">Z3</td><td class="m">Z3&middot;Z2</td></tr>
+          <tr><td class="m">2</td><td class="m">1B</td><td class="m">Z2</td><td class="m">Z3&middot;Z1</td></tr>
+          <tr><td class="m">3</td><td class="m">1Y</td><td class="m">Z3&middot;Z2</td><td class="m">Z3(Z2+Z1)</td></tr>
+          <tr><td class="m">4</td><td class="m">2A</td><td class="m">Z3</td><td class="m">Z3(Z2+Z1)</td></tr>
+          <tr><td class="m">5</td><td class="m">2B</td><td class="m">Z1</td><td class="m">K</td></tr>
+          <tr><td class="m">6</td><td class="m">2Y</td><td class="m">Z3&middot;Z1</td><td class="m">C</td></tr>
+          <tr><td class="m">7</td><td class="m">GND</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">8</td><td class="m">3Y</td><td class="m dim">n/c</td><td class="m dim">n/c</td></tr>
+          <tr><td class="m">9</td><td class="m">3A</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">10</td><td class="m">3B</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">11</td><td class="m">4Y</td><td class="m dim">n/c</td><td class="m dim">n/c</td></tr>
+          <tr><td class="m">12</td><td class="m">4A</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">13</td><td class="m">4B</td><td class="m">GND</td><td class="m">GND</td></tr>
+          <tr><td class="m">14</td><td class="m">VCC</td><td class="m">+5 V</td><td class="m">+5 V</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>CD4511 &mdash; U5</h3>
+      <p>Seven segment outputs, a to g. No decimal point output: the display's eighth element
+      stays dark unless you wire it yourself through its own resistor.</p>
+      <div class="tbl"><table class="t">
+        <thead><tr><th>Pin</th><th>Name</th><th>Net</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td class="m">1</td><td class="m">B</td><td class="m">S1</td><td>Input bit 1</td></tr>
+          <tr><td class="m">2</td><td class="m">C</td><td class="m">S2</td><td>Input bit 2</td></tr>
+          <tr><td class="m">3</td><td class="m">/LT</td><td class="m">+5 V</td><td>Lamp test. Pull low, all segments light.</td></tr>
+          <tr><td class="m">4</td><td class="m">/BL</td><td class="m">+5 V</td><td>Blanking. Pull low, display goes dark.</td></tr>
+          <tr><td class="m">5</td><td class="m">LE</td><td class="m">GND</td><td>Latch. High freezes the last digit.</td></tr>
+          <tr><td class="m">6</td><td class="m">D</td><td class="m">S3</td><td>Input bit 3, the big one</td></tr>
+          <tr><td class="m">7</td><td class="m">A</td><td class="m">S0</td><td>Input bit 0, the small one</td></tr>
+          <tr><td class="m">8</td><td class="m">VSS</td><td class="m">GND</td><td>Ground</td></tr>
+          <tr><td class="m">9</td><td class="m">e</td><td class="m">seg e</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">10</td><td class="m">d</td><td class="m">seg d</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">11</td><td class="m">c</td><td class="m">seg c</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">12</td><td class="m">b</td><td class="m">seg b</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">13</td><td class="m">a</td><td class="m">seg a</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">14</td><td class="m">g</td><td class="m">seg g</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">15</td><td class="m">f</td><td class="m">seg f</td><td>Through 330 &Omega;</td></tr>
+          <tr><td class="m">16</td><td class="m">VDD</td><td class="m">+5 V</td><td>Supply</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Parts list</summary>
+    <div class="body">
+      <div class="tbl"><table class="t">
+        <thead><tr><th>Qty</th><th>Part</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td class="m">2</td><td class="m">74HC283</td><td>4-bit adders, U1 and U2</td></tr>
+          <tr><td class="m">1</td><td class="m">74HC08</td><td>Quad AND, U3</td></tr>
+          <tr><td class="m">1</td><td class="m">74HC32</td><td>Quad OR, U4</td></tr>
+          <tr><td class="m">1</td><td class="m">CD4511</td><td>BCD to 7-segment, U5</td></tr>
+          <tr><td class="m">1</td><td>8-position DIP switch</td><td>Operand entry</td></tr>
+          <tr><td class="m">1</td><td>Common-cathode 7-segment</td><td>Ones digit</td></tr>
+          <tr><td class="m">1</td><td>LED</td><td>Tens digit</td></tr>
+          <tr><td class="m">8</td><td class="m">10 k&Omega;</td><td>Switch pull-downs</td></tr>
+          <tr><td class="m">8</td><td class="m">330 &Omega;</td><td>7 segments + the LED</td></tr>
+          <tr><td class="m">5</td><td class="m">0.1 &micro;F</td><td>One per chip</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>If something is wrong</summary>
+    <div class="body">
+      <h3>Display is blank</h3>
+      <p>Check CD4511 pin 4 (/BL) is at +5 V and pin 5 (LE) is at ground. Floating CMOS pins are
+      the usual cause. A blank display can also mean an invalid code reached the decoder, which
+      means the correction logic failed.</p>
+      <h3>Display shows nothing but the digit is right on the adder</h3>
+      <p>Wrong display polarity. The CD4511 needs a <b>common cathode</b> part.</p>
+      <h3>LED lights on 7 + 2 = 9</h3>
+      <p>The AND gates are on the wrong bits. They must be Z3 with Z2, and Z3 with Z1. Not Z1 and Z0.</p>
+      <h3>Digits flicker or read wrong</h3>
+      <p>If the adders are 74LS, not 74HC, the CD4511 cannot read their high level. Add 4.7 k&Omega;
+      pull-ups to +5 V on S3..S0.</p>
+      <h3>Everything is dead</h3>
+      <p>Check the rail bridges. The top and bottom rails on a breadboard are not connected to
+      each other unless you jumper them.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Test vectors</summary>
+    <div class="body">
+      <div class="tbl"><table class="t">
+        <thead><tr><th>A</th><th>B</th><th>Display</th><th>LED</th><th>What it proves</th></tr></thead>
+        <tbody>
+          <tr><td class="m">0</td><td class="m">0</td><td class="m">0</td><td>off</td><td>Nothing is stuck high</td></tr>
+          <tr><td class="m">3</td><td class="m">4</td><td class="m">7</td><td>off</td><td>Plain addition works</td></tr>
+          <tr><td class="m">7</td><td class="m">2</td><td class="m">9</td><td>off</td><td>Correction does not fire early</td></tr>
+          <tr><td class="m">5</td><td class="m">5</td><td class="m">0</td><td>on</td><td>Correction fires on an invalid code</td></tr>
+          <tr><td class="m">8</td><td class="m">9</td><td class="m">7</td><td>on</td><td>Correction fires on carry</td></tr>
+          <tr><td class="m">9</td><td class="m">9</td><td class="m">8</td><td>on</td><td>Worst case</td></tr>
+        </tbody>
+      </table></div>
+      <p>The 7 + 2 row is the important one. It is the only test that catches correction logic
+      wired to the wrong bits.</p>
+    </div>
+  </details>
+</div>
+
+<footer>
+  <span id="saved">Progress saves in this browser.</span>
+  <button id="reset">Start over</button>
+</footer>
+</div>
+
+<script>
+var STEPS = [
+ {g:"Seat the parts", t:"Seat the DIP switch", w:"Board 1, columns 2 to 9",
+  d:"8-position switch, straddling the center channel. Pin 1 at the lower left."},
+ {g:"Seat the parts", t:"Seat U1", w:"Board 1, columns 13 to 20",
+  d:"74HC283. Notch faces left, pin 1 at the lower left, across the channel."},
+ {g:"Seat the parts", t:"Seat U3 and U4", w:"Board 1, columns 24 to 30 and 34 to 40",
+  d:"74HC08 first, then 74HC32. Both are 14-pin, both notch left."},
+ {g:"Seat the parts", t:"Seat U2", w:"Board 1, columns 44 to 51",
+  d:"The second 74HC283. Same orientation as U1."},
+ {g:"Seat the parts", t:"Seat U5 and the display", w:"Board 2, columns 8 to 15 and 50 to 54",
+  d:"CD4511 on the left, common-cathode display on the right.",
+  fk:"Check", f:"No bent pins hiding under a chip. Lift and look before you go on."},
+
+ {g:"Power", t:"Bridge the rails", w:"Both boards, both ends",
+  d:"The top and bottom rails are separate strips. Jumper them together or nothing works.",
+  W:[["Board 1 top + rail","Board 1 bottom + rail"],["Board 1 top − rail","Board 1 bottom − rail"],
+     ["Board 2 top + rail","Board 2 bottom + rail"],["Board 2 top − rail","Board 2 bottom − rail"]]},
+ {g:"Power", t:"Link the two boards", w:"Between board 1 and board 2",
+  d:"Two jumpers carry power across.",
+  W:[["Board 1 bottom + rail","Board 2 top + rail"],["Board 1 bottom − rail","Board 2 top − rail"]]},
+ {g:"Power", t:"Power the five chips", w:"10 jumpers",
+  d:"Red to the + rail, black to the − rail.",
+  W:[["U1 pin 16","+5 V"],["U1 pin 8","GND"],["U2 pin 16","+5 V"],["U2 pin 8","GND"],
+     ["U3 pin 14","+5 V"],["U3 pin 7","GND"],["U4 pin 14","+5 V"],["U4 pin 7","GND"],
+     ["U5 pin 16","+5 V"],["U5 pin 8","GND"]]},
+ {g:"Power", t:"Add the decoupling caps", w:"5 × 0.1 µF",
+  d:"One cap across each chip's own power pins, as close to the chip as it will sit."},
+ {g:"Power", t:"Power up and measure", w:"Meter on DC volts",
+  d:"No signal wiring yet. Just power.",
+  fk:"Check", f:"5 V at every VCC pin, 0 V at every GND pin. Then cut power before wiring more."},
+
+ {g:"Tie-offs", t:"Ground the spare gate inputs", w:"U3 and U4",
+  d:"CMOS inputs left floating oscillate and heat up. Every unused input gets grounded.",
+  W:[["U3 pins 9, 10, 12, 13","GND"],["U4 pins 9, 10, 12, 13","GND"]]},
+ {g:"Tie-offs", t:"Ground the constants", w:"Carry-ins and U2's fixed B bits",
+  d:"These four pins are hard zeros in this design.",
+  W:[["U1 pin 7 (C0)","GND"],["U2 pin 7 (C0)","GND"],["U2 pin 6 (B1)","GND"],["U2 pin 11 (B4)","GND"]]},
+ {g:"Tie-offs", t:"Strap the CD4511", w:"Three control pins",
+  d:"Do not skip this one.",
+  W:[["U5 pin 3 (/LT)","+5 V"],["U5 pin 4 (/BL)","+5 V"],["U5 pin 5 (LE)","GND"]],
+  fk:"Why", f:"Leave LE floating and the display latches a stale digit. The circuit looks broken when it is fine."},
+
+ {g:"Operand entry", t:"Feed the switches", w:"8 jumpers to the + rail",
+  d:"The top row of the DIP switch, columns 2 through 9, all go to +5 V."},
+ {g:"Operand entry", t:"Add the pull-downs", w:"8 × 10 kΩ",
+  d:"One resistor from each switch output column down to the − rail.",
+  fk:"Why", f:"Without these, an open switch leaves the input floating and the adder reads garbage."},
+ {g:"Operand entry", t:"Wire operand A into U1", w:"4 wires",
+  d:"A0 is the least significant bit.",
+  W:[["SW1 pos 1 (A0)","U1 pin 5"],["SW1 pos 2 (A1)","U1 pin 3"],
+     ["SW1 pos 3 (A2)","U1 pin 14"],["SW1 pos 4 (A3)","U1 pin 12"]]},
+ {g:"Operand entry", t:"Wire operand B into U1", w:"4 wires",
+  d:"Same pattern, the other half of the switch.",
+  W:[["SW1 pos 5 (B0)","U1 pin 6"],["SW1 pos 6 (B1)","U1 pin 2"],
+     ["SW1 pos 7 (B2)","U1 pin 15"],["SW1 pos 8 (B3)","U1 pin 11"]]},
+ {g:"Operand entry", t:"Check the inputs", w:"Meter or logic probe",
+  d:"Power up. Flip each switch one at a time.",
+  fk:"Check", f:"Each U1 input swings 0 V to 5 V with its own switch, and nothing else moves."},
+
+ {g:"Correction logic", t:"Run the Z bus to U2", w:"4 wires",
+  d:"U1's sum goes straight into U2's A inputs, uncorrected.",
+  W:[["U1 pin 4 (Z0)","U2 pin 5"],["U1 pin 1 (Z1)","U2 pin 3"],
+     ["U1 pin 13 (Z2)","U2 pin 14"],["U1 pin 10 (Z3)","U2 pin 12"]]},
+ {g:"Correction logic", t:"Feed the AND gates", w:"4 wires into U3",
+  d:"Z3 goes to both gates. Watch which bit pairs with it.",
+  W:[["U1 pin 10 (Z3)","U3 pin 1"],["U1 pin 13 (Z2)","U3 pin 2"],
+     ["U1 pin 10 (Z3)","U3 pin 4"],["U1 pin 1 (Z1)","U3 pin 5"]],
+  fk:"Watch", f:"Gate 1 is Z3 with Z2. Gate 2 is Z3 with Z1. Getting these wrong is the most common failure."},
+ {g:"Correction logic", t:"Chain the OR gates", w:"4 wires into U4",
+  d:"Two AND outputs in, then the carry.",
+  W:[["U3 pin 3","U4 pin 1"],["U3 pin 6","U4 pin 2"],
+     ["U4 pin 3","U4 pin 4"],["U1 pin 9 (K)","U4 pin 5"]]},
+ {g:"Correction logic", t:"Deliver C to U2", w:"2 wires",
+  d:"U4 pin 6 is C. It goes to two pins on U2, and nowhere else on the adder.",
+  W:[["U4 pin 6 (C)","U2 pin 15 (B3)"],["U4 pin 6 (C)","U2 pin 2 (B2)"]],
+  fk:"Why", f:"With pins 6 and 11 already grounded, U2's B inputs read 0110 when C is high. That is the +6."},
+ {g:"Correction logic", t:"Wire the tens LED", w:"Board 1, columns 55 to 60",
+  d:"C drives the tens digit directly.",
+  W:[["U4 pin 6 (C)","330 Ω"],["330 Ω","LED anode"],["LED cathode","GND"]]},
+
+ {g:"Display", t:"Wire the S bus", w:"4 wires across to board 2",
+  d:"U2's corrected sum into the decoder. S0 is the least significant bit.",
+  W:[["U2 pin 4 (S0)","U5 pin 7 (A)"],["U2 pin 1 (S1)","U5 pin 1 (B)"],
+     ["U2 pin 13 (S2)","U5 pin 2 (C)"],["U2 pin 10 (S3)","U5 pin 6 (D)"]],
+  fk:"Note", f:"U2 pin 9 stays unconnected. The tens digit comes from C, not from U2."},
+ {g:"Display", t:"Place the segment resistors", w:"Board 2, row J",
+  d:"Seven 330 Ω resistors, each spanning two columns: 20 to 22, 24 to 26, 28 to 30, 32 to 34, 36 to 38, 40 to 42, 44 to 46."},
+ {g:"Display", t:"Decoder into the resistors", w:"7 jumpers",
+  d:"Left end of each resistor.",
+  W:[["U5 pin 13 (a)","col 20"],["U5 pin 12 (b)","col 24"],["U5 pin 11 (c)","col 28"],
+     ["U5 pin 10 (d)","col 32"],["U5 pin 9 (e)","col 36"],["U5 pin 15 (f)","col 40"],
+     ["U5 pin 14 (g)","col 44"]]},
+ {g:"Display", t:"Resistors into the display", w:"7 jumpers",
+  d:"Right end of each resistor. Confirm your display's pinout first.",
+  W:[["col 22","DS1 pin 7 (a)"],["col 26","DS1 pin 6 (b)"],["col 30","DS1 pin 4 (c)"],
+     ["col 34","DS1 pin 2 (d)"],["col 38","DS1 pin 1 (e)"],["col 42","DS1 pin 9 (f)"],
+     ["col 46","DS1 pin 10 (g)"]]},
+ {g:"Display", t:"Ground the display commons", w:"2 jumpers",
+  d:"Both common pins go to ground.",
+  W:[["DS1 pin 3","GND"],["DS1 pin 8","GND"]]},
+ {g:"Display", t:"Lamp test", w:"Jumper U5 pin 3 to ground",
+  d:"Power up, then briefly pull pin 3 low.",
+  fk:"Check", f:"All seven segments light. If one stays dark, that segment's resistor or jumper is the problem. Put pin 3 back to +5 V."},
+
+ {g:"Verify", t:"Run the test vectors", w:"Six switch settings",
+  d:"Open the Test vectors drawer below and work down the list.",
+  fk:"Check", f:"7 + 2 = 9 with the LED off is the one that matters. If the LED lights there, go back to the AND gates."}
+];
+
+// Pins each step touches, in step order. "REF.*" means the whole package.
+var PINS = [
+ ["SW1.*"],
+ ["U1.*"],
+ ["U3.*","U4.*"],
+ ["U2.*"],
+ ["U5.*","DS1.*"],
+ [],
+ [],
+ ["U1.16","U1.8","U2.16","U2.8","U3.14","U3.7","U4.14","U4.7","U5.16","U5.8"],
+ ["U1.16","U1.8","U2.16","U2.8","U3.14","U3.7","U4.14","U4.7","U5.16","U5.8"],
+ ["U1.16","U1.8","U2.16","U2.8","U3.14","U3.7","U4.14","U4.7","U5.16","U5.8"],
+ ["U3.9","U3.10","U3.12","U3.13","U4.9","U4.10","U4.12","U4.13"],
+ ["U1.7","U2.7","U2.6","U2.11"],
+ ["U5.3","U5.4","U5.5"],
+ ["SW1.9","SW1.10","SW1.11","SW1.12","SW1.13","SW1.14","SW1.15","SW1.16"],
+ ["SW1.1","SW1.2","SW1.3","SW1.4","SW1.5","SW1.6","SW1.7","SW1.8"],
+ ["SW1.1","SW1.2","SW1.3","SW1.4","U1.5","U1.3","U1.14","U1.12"],
+ ["SW1.5","SW1.6","SW1.7","SW1.8","U1.6","U1.2","U1.15","U1.11"],
+ ["U1.5","U1.3","U1.14","U1.12","U1.6","U1.2","U1.15","U1.11"],
+ ["U1.4","U1.1","U1.13","U1.10","U2.5","U2.3","U2.14","U2.12"],
+ ["U1.10","U1.13","U1.1","U3.1","U3.2","U3.4","U3.5"],
+ ["U3.3","U3.6","U4.1","U4.2","U4.3","U4.4","U1.9","U4.5"],
+ ["U4.6","U2.15","U2.2"],
+ ["U4.6"],
+ ["U2.4","U2.1","U2.13","U2.10","U5.7","U5.1","U5.2","U5.6"],
+ [],
+ ["U5.13","U5.12","U5.11","U5.10","U5.9","U5.15","U5.14"],
+ ["DS1.7","DS1.6","DS1.4","DS1.2","DS1.1","DS1.9","DS1.10"],
+ ["DS1.3","DS1.8"],
+ ["U5.3"],
+ ["SW1.1","SW1.2","SW1.3","SW1.4","SW1.5","SW1.6","SW1.7","SW1.8"]
+];
+
+var PKGPINS = {SW1:16, U1:16, U2:16, U3:14, U4:14, U5:16, DS1:10};
+
+
+function expand(list){
+  var o = [];
+  (list || []).forEach(function(k){
+    var parts = k.split('.');
+    if (parts[1] === '*') {
+      var n = PKGPINS[parts[0]] || 0;
+      for (var i = 1; i <= n; i++) o.push(parts[0] + '.' + i);
+    } else { o.push(k); }
+  });
+  return o;
+}
+
+(function(){
+  var KEY = "hop2.progress.v1";
+  var cur = 0, done = {}, view = "pin", zi = 2, pzi = 2, full = false;
+  var PZOOM = [0.75, 0.9, 1, 1.15, 1.35, 1.6, 2];
+  var ZOOM = [0.5, 0.7, 1, 1.4, 1.9, 2.5, 3.2];
+  var BASEW = {cm: 722, bb: 1494};   // each SVG's own viewBox width, so 100% is 1:1
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) { var o = JSON.parse(raw); cur = o.cur || 0; done = o.done || {}; view = o.view || "pin"; if (typeof o.zi === "number") zi = o.zi;
+      if (typeof o.pzi === "number") pzi = o.pzi; }
+  } catch (err) {}
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify({cur: cur, done: done, view: view, zi: zi, pzi: pzi})); } catch (err) {}
+  }
+
+  var el = {};
+  ['count','phase','pct','fill','where','title','detail','wires','wbody','flag','flagk','flagt',
+   'go','back','groups','reset','tpin','tbb','tboth','ppin','pbb','ball','bbnote',
+   'zin','zout','zfit','zlab','undo','dia','dtitle','dwhere','tfull',
+   'pzin','pzout','pzfit','pzlab'].forEach(function(k){ el[k] = document.getElementById(k); });
+
+  // pin map elements, keyed "U1.5" and "U1"
+  var bbMapEl = document.getElementById('cm');
+  var pinEls = {}, bodyEls = {};
+  Array.prototype.forEach.call(document.querySelectorAll('#cm .pin'), function(g){
+    pinEls[g.id.slice(2).replace(/-(\d+)$/, '.$1')] = g;
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('#cm .cbody'), function(r){
+    bodyEls[r.id.slice(2)] = r;
+  });
+
+  function paintMap(){
+    var now = {}, wired = {}, seat = {};
+    (PINS[cur] || []).forEach(function(k){
+      if (k.split('.')[1] === '*') seat[k.split('.')[0]] = 1;
+    });
+    expand(PINS[cur]).forEach(function(k){ now[k] = 1; });
+    for (var i = 0; i < STEPS.length; i++) {
+      if (done[i]) expand(PINS[i]).forEach(function(k){ wired[k] = 1; });
+    }
+    Object.keys(pinEls).forEach(function(k){
+      var g = pinEls[k];
+      g.classList.toggle('now', !!now[k]);
+      g.classList.toggle('wired', !now[k] && !!wired[k]);
+    });
+    Object.keys(bodyEls).forEach(function(r){
+      bodyEls[r].classList.toggle('seat', !!seat[r]);
+    });
+  }
+
+  // breadboard, scoped to the current step
+  var bb = document.getElementById('bb');
+
+  // every drawn wire, bucketed by the step that places it
+  var bbSteps = {};
+  if (bb) {
+    Array.prototype.forEach.call(bb.querySelectorAll('.sw'), function(n){
+      var k = n.getAttribute('data-s');
+      (bbSteps[k] = bbSteps[k] || []).push(n);
+    });
+  }
+
+  function paintBB(){
+    if (!bb) return;
+    var all = el.ball && el.ball.checked;
+    bb.classList.toggle('step', !all);
+    Object.keys(bbSteps).forEach(function(k){
+      var i = +k, now = i === cur, wired = !now && !!done[i];
+      bbSteps[k].forEach(function(n){
+        n.classList.toggle('wnow', now);
+        n.classList.toggle('wdone', wired);
+      });
+    });
+    if (el.bbnote) {
+      var mine = bbSteps[cur] || [];
+      el.bbnote.textContent = all ? 'Every wire shown.'
+        : mine.length ? 'Lit: the ' + (STEPS[cur].W ? STEPS[cur].W.length + ' connections'
+                                                    : 'wires') + ' for this step.'
+        : 'This step draws no wires on the board.';
+    }
+  }
+
+  function setView(v){
+    view = v;
+    el.tpin.setAttribute('aria-selected', v === 'pin' ? 'true' : 'false');
+    el.tbb.setAttribute('aria-selected', v === 'bb' ? 'true' : 'false');
+    el.tboth.setAttribute('aria-selected', v === 'both' ? 'true' : 'false');
+    el.ppin.hidden = v === 'bb';
+    el.pbb.hidden = v === 'pin';
+    save();
+  }
+  el.tpin.addEventListener('click', function(){ setView('pin'); });
+  el.tbb.addEventListener('click', function(){ setView('bb'); });
+  el.tboth.addEventListener('click', function(){ setView('both'); });
+  if (el.ball) el.ball.addEventListener('change', paintBB);
+
+  // zoom, shared by both diagrams
+  function applyZoom(){
+    var z = ZOOM[zi];
+    [['cm', bbMapEl], ['bb', bb]].forEach(function(pair){
+      var n = pair[1];
+      if (!n) return;
+      n.style.width = (BASEW[pair[0]] * z) + 'px';
+      n.style.minWidth = '0';
+      n.style.maxWidth = 'none';
+    });
+    el.zlab.textContent = Math.round(z * 100) + '%';
+    el.zout.disabled = zi === 0;
+    el.zin.disabled = zi === ZOOM.length - 1;
+    save();
+  }
+  function zoomBy(d){
+    var n = Math.min(ZOOM.length - 1, Math.max(0, zi + d));
+    if (n !== zi) { zi = n; applyZoom(); }
+  }
+  el.zin.addEventListener('click', function(){ zoomBy(1); });
+  el.zout.addEventListener('click', function(){ zoomBy(-1); });
+  el.zfit.addEventListener('click', function(){ zi = 2; applyZoom(); });
+
+  // whole-page zoom
+  function applyPageZoom(){
+    var z = PZOOM[pzi];
+    document.documentElement.style.zoom = z === 1 ? '' : z;
+    el.pzlab.textContent = Math.round(z * 100) + '%';
+    el.pzout.disabled = pzi === 0;
+    el.pzin.disabled = pzi === PZOOM.length - 1;
+    save();
+  }
+  function pageZoomBy(d){
+    var n = Math.min(PZOOM.length - 1, Math.max(0, pzi + d));
+    if (n !== pzi) { pzi = n; applyPageZoom(); }
+  }
+  el.pzin.addEventListener('click', function(){ pageZoomBy(1); });
+  el.pzout.addEventListener('click', function(){ pageZoomBy(-1); });
+  el.pzfit.addEventListener('click', function(){ pzi = 2; applyPageZoom(); });
+
+  // full-window diagrams
+  function setFull(v){
+    full = v;
+    el.dia.classList.toggle('full', v);
+    document.body.classList.toggle('fs', v);
+    el.tfull.setAttribute('aria-pressed', v ? 'true' : 'false');
+    el.tfull.innerHTML = v ? '&#9974; exit full window' : '&#9974; full window';
+    if (v) el.dia.focus({preventScroll: true});
+  }
+  el.tfull.addEventListener('click', function(){ setFull(!full); });
+
+  document.addEventListener('keydown', function(ev){
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    var t = ev.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (ev.key === 'ArrowRight') { step(1); ev.preventDefault(); }
+    else if (ev.key === 'ArrowLeft') { step(-1); ev.preventDefault(); }
+    else if (ev.key === '+' || ev.key === '=') { zoomBy(1); ev.preventDefault(); }
+    else if (ev.key === '-' || ev.key === '_') { zoomBy(-1); ev.preventDefault(); }
+    else if (ev.key === '0') { zi = 2; applyZoom(); ev.preventDefault(); }
+    else if (ev.key === 'f' || ev.key === 'F') { setFull(!full); ev.preventDefault(); }
+    else if (ev.key === 'Escape' && full) { setFull(false); ev.preventDefault(); }
+  });
+  function step(d){
+    var n = Math.min(STEPS.length - 1, Math.max(0, cur + d));
+    if (n !== cur) { cur = n; save(); render(); }
+  }
+
+  // step map
+  var pills = [];
+  (function(){
+    var last = null, box = null;
+    STEPS.forEach(function(s, i){
+      if (s.g !== last) {
+        last = s.g;
+        var g = document.createElement('div'); g.className = 'grp';
+        var n = document.createElement('div'); n.className = 'grpn'; n.textContent = s.g;
+        box = document.createElement('div'); box.className = 'pills';
+        g.appendChild(n); g.appendChild(box); el.groups.appendChild(g);
+      }
+      var b = document.createElement('button');
+      b.className = 'pill'; b.textContent = String(i + 1);
+      b.setAttribute('aria-label', 'Step ' + (i + 1) + ', ' + s.t);
+      b.addEventListener('click', function(){ cur = i; save(); render(); });
+      box.appendChild(b); pills.push(b);
+    });
+  })();
+
+  function render(){
+    var s = STEPS[cur], n = STEPS.length;
+    var nd = 0; for (var k in done) { if (done[k]) nd++; }
+    el.count.textContent = 'Step ' + (cur + 1) + ' of ' + n;
+    el.phase.textContent = s.g;
+    el.pct.textContent = Math.round(nd / n * 100) + '% done';
+    el.fill.style.width = (nd / n * 100) + '%';
+    el.where.textContent = s.w;
+    el.title.textContent = s.t;
+    el.dtitle.textContent = 'Step ' + (cur + 1) + '  ' + s.t;
+    el.dwhere.textContent = s.w;
+    el.detail.textContent = s.d;
+    el.detail.hidden = !s.d;
+
+    el.wbody.textContent = '';
+    if (s.W) {
+      s.W.forEach(function(w, i){
+        var tr = document.createElement('tr');
+        var a = document.createElement('td'); a.className = 'a'; a.textContent = w[0];
+        var m = document.createElement('td'); m.className = 'arr'; m.textContent = '→';
+        var b = document.createElement('td'); b.textContent = w[1];
+        var c = document.createElement('td'); c.className = 'n'; c.textContent = i + 1;
+        tr.appendChild(a); tr.appendChild(m); tr.appendChild(b); tr.appendChild(c);
+        el.wbody.appendChild(tr);
+      });
+    }
+    el.wires.hidden = !s.W;
+
+    if (s.f) { el.flagk.textContent = s.fk || 'Check'; el.flagt.textContent = s.f; el.flag.hidden = false; }
+    else { el.flag.hidden = true; }
+
+    var isDone = !!done[cur];
+    el.go.textContent = isDone ? 'Already done — next →' : 'Done →';
+    el.go.classList.toggle('redo', isDone);
+    el.back.disabled = cur === 0;
+    el.undo.hidden = !isDone;
+
+    pills.forEach(function(p, i){
+      p.setAttribute('data-s', done[i] ? 'done' : (i === cur ? 'now' : ''));
+    });
+
+    paintMap();
+    paintBB();
+  }
+
+  el.go.addEventListener('click', function(){
+    done[cur] = true;
+    if (cur < STEPS.length - 1) cur++;
+    save(); render();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+  el.back.addEventListener('click', function(){ step(-1); });
+  el.undo.addEventListener('click', function(){
+    delete done[cur];
+    save(); render();
+  });
+  el.reset.addEventListener('click', function(){
+    cur = 0; done = {}; save(); render();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  setView(view);
+  applyZoom();
+  applyPageZoom();
+  render();
+})();
+</script>
