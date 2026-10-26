@@ -171,8 +171,11 @@ Z = {0: U1.hole(4), 1: U1.hole(1), 2: U1.hole(13), 3: U1.hole(10)}
 K = U1.hole(9)
 zpairs = [(Z[0], U2.hole(5)), (Z[1], U2.hole(3)), (Z[2], U2.hole(14)), (Z[3], U2.hole(12)),
           (Z[3], U3.hole(1)), (Z[2], U3.hole(2)), (Z[3], U3.hole(4)), (Z[1], U3.hole(5))]
+# Z2 and Z3 run from U1's top side to U2's top side, so route them over the top of the
+# board instead of dragging them under it. Everything else crosses the channel anyway.
+TOPLANE = {2: 2.3, 3: 2.9}
 for i, (src, dst) in enumerate(zpairs):
-    W(src, dst, BLU, 17.8 - 0.30 * i, 'z', 18 if i < 4 else 19)
+    W(src, dst, BLU, TOPLANE.get(i, 17.8 - 0.30 * i), 'z', 18 if i < 4 else 19)
 W(K, U4.hole(5), BLU, 3.6, 'z', 20)
 
 # correction logic

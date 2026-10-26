@@ -28,10 +28,30 @@
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.5;margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{max-width:720px;margin:0 auto;
+.wrap{max-width:760px;margin:0 auto;
   padding-left:max(16px,env(safe-area-inset-left,0px));
   padding-right:max(16px,env(safe-area-inset-right,0px));
   padding-block:0 80px}
+
+/* two-column shell: step rail beside the working area */
+.shell{display:flex;flex-direction:column;gap:24px;margin-top:22px}
+.rail{display:flex;flex-direction:column;gap:13px;min-width:0}
+.main{display:flex;flex-direction:column;gap:22px;min-width:0}
+.railnow{display:flex;flex-direction:column;gap:3px;padding:11px 13px;border-radius:10px;
+  background:var(--accent-soft);border:1px solid var(--line)}
+.railnow .rn{font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent)}
+.railnow b{font-size:15px;line-height:1.25}
+.railnow .rw{font:500 11px var(--mono);color:var(--muted)}
+@media (min-width:1180px){
+  .wrap{max-width:1560px}
+  .mast,.ref,footer,.top > *{max-width:1000px}
+  .shell{display:grid;grid-template-columns:238px minmax(0,1fr);align-items:start;gap:26px}
+  .rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 86px);
+    max-height:calc(100vh - env(safe-area-inset-top,0px) - 104px);overflow:auto;
+    padding-right:4px}
+  .railnow{position:sticky;top:0;z-index:2}
+}
 
 /* masthead */
 .mast{padding-block:26px 18px;border-bottom:1px solid var(--line)}
@@ -45,10 +65,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .specs{display:flex;gap:6px;flex-wrap:wrap;margin-top:15px}
 .specs span{font:600 10.5px var(--mono);border:1px solid var(--line);border-radius:999px;
   padding:4px 10px;color:var(--muted);background:var(--surface);letter-spacing:.03em}
-.pzoom{display:flex;align-items:center;gap:3px;margin-top:16px;flex-wrap:wrap}
-.pzoom .lbl{font:500 11px var(--mono);color:var(--muted);margin-right:6px}
-.pzoom button{padding:5px 0;width:34px;font:600 14px var(--mono);line-height:1}
-.pzoom button.wide{width:auto;padding:5px 10px;font-size:11px}
+.pzoom{display:flex;align-items:center;gap:2px;margin-left:auto}
+.pzoom .lbl{font:500 10px var(--mono);color:var(--muted);margin-right:4px;
+  letter-spacing:.08em;text-transform:uppercase}
+.pzoom button{padding:3px 0;width:24px;font:600 12px var(--mono);line-height:1;border-radius:5px}
+.pzoom button.wide{width:auto;padding:3px 7px;font-size:10px}
+.pzoom .zlab{font:600 10px var(--mono);min-width:34px}
 
 /* full-window diagrams */
 body.fs{overflow:hidden}
@@ -56,6 +78,7 @@ body.fs{overflow:hidden}
   padding:max(8px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-right,0px))
           max(10px,env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));
   display:flex;flex-direction:column;gap:8px;margin:0}
+.dia.full .panes{flex:1 1 auto;min-height:0}
 .dia.full .pane{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:7px}
 .dia.full .cmap,.dia.full .bbwrap{flex:1 1 auto;min-height:0;overflow:auto}
 .dia.full .tabs,.dia.full .legend,.dia.full .bbfoot,.dia.full .hint{flex:0 0 auto}
@@ -64,6 +87,41 @@ body.fs{overflow:hidden}
 .dia.full .diabar{display:flex}
 .diabar b{font-size:16px}
 .diabar span{font:500 11.5px var(--mono);color:var(--muted)}
+
+/* logic level map */
+.logic{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:18px 18px 20px;display:flex;flex-direction:column;gap:14px}
+.lhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.lhead h3{margin:0;font-size:16px}
+.lin{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}
+.lin label{display:flex;align-items:center;gap:5px;font:600 11px var(--mono);color:var(--muted)}
+.lin input{width:50px;padding:5px 7px;font:600 13px var(--mono);text-align:center;
+  background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:7px}
+.lsum{font:600 12.5px var(--mono);color:var(--accent);background:var(--accent-soft);
+  border-radius:999px;padding:5px 12px}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:12px}
+.lgrp{border:1px solid var(--line);border-radius:10px;padding:9px 10px 10px;background:var(--bg)}
+.lgrp h4{margin:0 0 7px;font:600 10px var(--mono);letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted)}
+.lgrp.live h4{color:var(--accent)}
+.lrow{display:flex;align-items:center;gap:7px;padding:2.5px 0;font-family:var(--mono);font-size:11.5px}
+.lrow .nm{font-weight:600;min-width:42px}
+.lrow .pn{color:var(--muted);font-size:10px;min-width:52px}
+.lv{margin-left:auto;font-weight:600;font-size:10px;letter-spacing:.06em;border-radius:5px;
+  padding:2px 7px;min-width:52px;text-align:center}
+.lv.hi{background:#d1495b;color:#fff}
+.lv.lo{background:var(--line);color:var(--muted)}
+.lv.na{background:transparent;color:var(--muted);border:1px dashed var(--line)}
+.lseg{display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);
+  padding-top:15px}
+.lseg svg{display:block}
+#seg7 .sg{fill:var(--line);opacity:.35}
+#seg7 .sg.on{fill:#d1495b;opacity:1}
+.tens{display:flex;align-items:center;gap:8px;font:600 11.5px var(--mono);color:var(--muted)}
+.tens i{width:15px;height:15px;border-radius:50%;background:var(--line);display:block}
+.tens i.on{background:#d1495b;box-shadow:0 0 9px rgba(209,73,91,.65)}
+.lread{font:600 14px var(--mono)}
+.lnote{font-family:var(--mono);font-size:11px;color:var(--muted);max-width:46ch}
 
 /* progress header */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);
@@ -191,10 +249,18 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   border-radius:7px;background:var(--surface);color:var(--muted);cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .pane[hidden]{display:none}
-.zoom{margin-left:auto;display:flex;align-items:center;gap:3px}
-.zoom button{padding:5px 0;width:34px;font:600 14px var(--mono);line-height:1}
-.zoom button.wide{width:auto;padding:5px 10px;font-size:11px}
-.tabs button.wide{padding:7px 11px;font-size:11px}
+.zoom{margin-left:auto;display:flex;align-items:center;gap:2px}
+.zoom button{padding:3px 0;width:26px;font:600 12px var(--mono);line-height:1;border-radius:5px}
+.zoom button.wide{width:auto;padding:3px 8px;font-size:10px}
+.zoom .zlab{font:600 10px var(--mono);min-width:36px}
+.tabs button{padding:5px 10px;font-size:11px}
+.tabs button.wide{padding:5px 9px;font-size:10.5px}
+.panes{display:flex;flex-direction:column;gap:10px;min-width:0}
+@media (min-width:1180px){
+  .panes.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;
+    align-items:start}
+  .dia.full .panes.split{height:100%}
+}
 .tabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .zlab{font:600 11px var(--mono);color:var(--muted);min-width:44px;text-align:center}
 .undo{background:none;border:none;color:var(--muted);font:500 11.5px var(--mono);
@@ -281,13 +347,6 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
     <span>5 ICs</span><span>2 breadboards</span><span>30 steps</span>
     <span>74HC283 &times;2</span><span>74HC08</span><span>74HC32</span><span>CD4511</span>
   </div>
-  <div class="pzoom">
-    <span class="lbl">page</span>
-    <button id="pzout" aria-label="Make the page smaller" title="Smaller">&minus;</button>
-    <span class="zlab" id="pzlab">100%</span>
-    <button id="pzin" aria-label="Make the page bigger" title="Bigger">+</button>
-    <button id="pzfit" class="wide" aria-label="Reset page size" title="Reset">reset</button>
-  </div>
 </header>
 
 <div class="top">
@@ -295,9 +354,30 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
     <span class="count" id="count">Step 1 of 30</span>
     <span class="phase" id="phase">Seat the parts</span>
     <span class="pct" id="pct">0%</span>
+    <span class="pzoom">
+      <span class="lbl">page</span>
+      <button id="pzout" aria-label="Make the page smaller" title="Smaller">&minus;</button>
+      <span class="zlab" id="pzlab">100%</span>
+      <button id="pzin" aria-label="Make the page bigger" title="Bigger">+</button>
+      <button id="pzfit" class="wide" aria-label="Reset page size" title="Reset">reset</button>
+    </span>
   </div>
   <div class="track"><div class="fill" id="fill"></div></div>
 </div>
+
+<div class="shell">
+
+<aside class="rail">
+  <div class="railnow">
+    <span class="rn" id="rcount">Step 1 of 30</span>
+    <b id="rtitle"></b>
+    <span class="rw" id="rwhere"></span>
+  </div>
+  <div class="maph">All steps &mdash; tap any to jump</div>
+  <div id="groups"></div>
+</aside>
+
+<main class="main">
 
 <div class="card">
   <span class="where" id="where"></span>
@@ -318,6 +398,7 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
       <button id="zfit" class="wide" aria-label="Reset zoom" title="Reset zoom">reset</button>
     </span>
   </div>
+  <div class="panes" id="panes">
   <div class="pane" id="ppin" role="tabpanel" aria-labelledby="tpin">
     <div class="cmap" tabindex="0" aria-label="IC pin map for this step, scrollable">
 <svg id="cm" viewBox="0 0 722 616" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pin map of every IC in the build, highlighted by step"><g class="pkgwrap">
@@ -2864,10 +2945,10 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 <path class="w sw g-z" data-s="18" d="M 304.0 237.6 L 304.0 385.0 L 1030.0 385.0 L 1030.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
 <circle class="wd sw g-z" data-s="18" cx="304.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
 <circle class="wd sw g-z" data-s="18" cx="1030.0" cy="237.6" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 370.0 184.8 L 370.0 378.4 L 1030.0 378.4 L 1030.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
+<path class="w sw g-z" data-s="18" d="M 370.0 184.8 L 370.0 50.6 L 1030.0 50.6 L 1030.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
 <circle class="wd sw g-z" data-s="18" cx="370.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
 <circle class="wd sw g-z" data-s="18" cx="1030.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
-<path class="w sw g-z" data-s="18" d="M 436.0 184.8 L 436.0 371.8 L 1074.0 371.8 L 1074.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
+<path class="w sw g-z" data-s="18" d="M 436.0 184.8 L 436.0 63.8 L 1074.0 63.8 L 1074.0 184.8" stroke="#2f7fd6" stroke-width="2.2"/>
 <circle class="wd sw g-z" data-s="18" cx="436.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
 <circle class="wd sw g-z" data-s="18" cx="1074.0" cy="184.8" r="3.4" fill="#2f7fd6"/>
 <path class="w sw g-z" data-s="19" d="M 436.0 184.8 L 436.0 365.2 L 546.0 365.2 L 546.0 237.6" stroke="#2f7fd6" stroke-width="2.2"/>
@@ -3212,6 +3293,7 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
     ahead of you.</p>
   </div>
   </div>
+  </div>
   <div class="flag" id="flag" hidden><b id="flagk">Check</b><span id="flagt"></span></div>
   <div class="acts">
     <button class="go" id="go">Done &rarr;</button>
@@ -3223,9 +3305,39 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   <kbd>F</kbd> full window &middot; <kbd>Esc</kbd> exit</p>
 </div>
 
-<div class="map">
-  <div class="maph">All steps &mdash; tap any to jump</div>
-  <div id="groups"></div>
+<section class="logic">
+  <div class="lhead">
+    <h3>Logic levels</h3>
+    <div class="lin">
+      <label>A <input type="number" id="opa" min="0" max="9" step="1" value="7"></label>
+      <label>B <input type="number" id="opb" min="0" max="9" step="1" value="5"></label>
+      <span class="lsum" id="lsum"></span>
+    </div>
+  </div>
+  <p class="hint">What a meter should read at every pin with those two digits set.
+  A line stays dashed until you reach the step that wires it, so this fills in as you build.
+  HIGH is about 5&nbsp;V, LOW is about 0&nbsp;V.</p>
+  <div class="lgrid" id="lgrid"></div>
+  <div class="lseg">
+    <svg id="seg7" viewBox="0 0 64 104" width="58" height="94" role="img"
+         aria-label="Seven-segment preview of the displayed digit">
+      <polygon class="sg" id="sg-a" points="14,12 20,6 44,6 50,12 44,18 20,18"/>
+      <polygon class="sg" id="sg-b" points="52,14 58,20 58,44 52,50 46,44 46,20"/>
+      <polygon class="sg" id="sg-c" points="52,54 58,60 58,84 52,90 46,84 46,60"/>
+      <polygon class="sg" id="sg-d" points="14,92 20,86 44,86 50,92 44,98 20,98"/>
+      <polygon class="sg" id="sg-e" points="12,54 18,60 18,84 12,90 6,84 6,60"/>
+      <polygon class="sg" id="sg-f" points="12,14 18,20 18,44 12,50 6,44 6,20"/>
+      <polygon class="sg" id="sg-g" points="14,52 20,46 44,46 50,52 44,58 20,58"/>
+    </svg>
+    <div>
+      <div class="lread" id="lread"></div>
+      <div class="tens"><i id="tled"></i><span id="ttext">tens LED</span></div>
+    </div>
+    <p class="lnote" id="lnote"></p>
+  </div>
+</section>
+
+</main>
 </div>
 
 <div class="ref">
@@ -4040,6 +4152,50 @@ var PINS = [
 
 var PKGPINS = {SW1:16, U1:16, U2:16, U3:14, U4:14, U5:16, DS1:10};
 
+// Logic-level map. Each net: display name, where to probe it, which bit of the
+// solved state it carries, and the step index after which it is actually live.
+var NETS = [
+ {g:"Operand A into U1", ready:15, n:[
+   ["A3","U1 pin 12","a3"], ["A2","U1 pin 14","a2"],
+   ["A1","U1 pin 3","a1"],  ["A0","U1 pin 5","a0"]]},
+ {g:"Operand B into U1", ready:16, n:[
+   ["B3","U1 pin 11","b3"], ["B2","U1 pin 15","b2"],
+   ["B1","U1 pin 2","b1"],  ["B0","U1 pin 6","b0"]]},
+ {g:"U1 binary sum", ready:16, n:[
+   ["K","U1 pin 9","K"],   ["Z3","U1 pin 10","z3"], ["Z2","U1 pin 13","z2"],
+   ["Z1","U1 pin 1","z1"], ["Z0","U1 pin 4","z0"]]},
+ {g:"Correction logic", ready:19, n:[
+   ["Z3·Z2","U3 pin 3","and1"], ["Z3·Z1","U3 pin 6","and2"],
+   ["OR","U4 pin 3","or1", 20], ["C","U4 pin 6","C", 20]]},
+ {g:"U2 corrected sum", ready:21, n:[
+   ["S3","U2 pin 10","s3"], ["S2","U2 pin 13","s2"],
+   ["S1","U2 pin 1","s1"],  ["S0","U2 pin 4","s0"]]},
+ {g:"Segment drive", ready:25, n:[
+   ["a","U5 pin 13","sa"], ["b","U5 pin 12","sb"], ["c","U5 pin 11","sc"],
+   ["d","U5 pin 10","sd"], ["e","U5 pin 9","se"],  ["f","U5 pin 15","sf"],
+   ["g","U5 pin 14","sg"]]}
+];
+
+// CD4511 segment patterns, a..g. Note 6 and 9 are drawn without their tails.
+var SEG7 = ["1111110","0110000","1101101","1111001","0110011",
+            "1011011","0011111","1110000","1111111","1110011"];
+
+function solve(a, b){
+  var sum = a + b;
+  var K = sum >= 16 ? 1 : 0, Z = sum & 15;
+  var z3 = (Z >> 3) & 1, z2 = (Z >> 2) & 1, z1 = (Z >> 1) & 1, z0 = Z & 1;
+  var and1 = z3 & z2, and2 = z3 & z1, or1 = and1 | and2, C = or1 | K;
+  var S = (Z + (C ? 6 : 0)) & 15;
+  var o = {sum:sum, K:K, Z:Z, S:S, C:C, and1:and1, and2:and2, or1:or1,
+           z3:z3, z2:z2, z1:z1, z0:z0,
+           s3:(S>>3)&1, s2:(S>>2)&1, s1:(S>>1)&1, s0:S&1,
+           a3:(a>>3)&1, a2:(a>>2)&1, a1:(a>>1)&1, a0:a&1,
+           b3:(b>>3)&1, b2:(b>>2)&1, b1:(b>>1)&1, b0:b&1};
+  var pat = SEG7[S] || "0000000";
+  ["sa","sb","sc","sd","se","sf","sg"].forEach(function(k, i){ o[k] = +pat[i]; });
+  return o;
+}
+
 
 function expand(list){
   var o = [];
@@ -4072,7 +4228,8 @@ function expand(list){
   ['count','phase','pct','fill','where','title','detail','wires','wbody','flag','flagk','flagt',
    'go','back','groups','reset','tpin','tbb','tboth','ppin','pbb','ball','bbnote',
    'zin','zout','zfit','zlab','undo','dia','dtitle','dwhere','tfull',
-   'pzin','pzout','pzfit','pzlab'].forEach(function(k){ el[k] = document.getElementById(k); });
+   'pzin','pzout','pzfit','pzlab','panes','rcount','rtitle','rwhere',
+   'opa','opb','lsum','lgrid','lread','tled','ttext','lnote'].forEach(function(k){ el[k] = document.getElementById(k); });
 
   // pin map elements, keyed "U1.5" and "U1"
   var bbMapEl = document.getElementById('cm');
@@ -4142,6 +4299,7 @@ function expand(list){
     el.tboth.setAttribute('aria-selected', v === 'both' ? 'true' : 'false');
     el.ppin.hidden = v === 'bb';
     el.pbb.hidden = v === 'pin';
+    el.panes.classList.toggle('split', v === 'both');
     save();
   }
   el.tpin.addEventListener('click', function(){ setView('pin'); });
@@ -4204,6 +4362,7 @@ function expand(list){
     if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
     var t = ev.target, tag = t && t.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (t && t.isContentEditable) return;
     if (ev.key === 'ArrowRight') { step(1); ev.preventDefault(); }
     else if (ev.key === 'ArrowLeft') { step(-1); ev.preventDefault(); }
     else if (ev.key === '+' || ev.key === '=') { zoomBy(1); ev.preventDefault(); }
@@ -4216,6 +4375,71 @@ function expand(list){
     var n = Math.min(STEPS.length - 1, Math.max(0, cur + d));
     if (n !== cur) { cur = n; save(); render(); }
   }
+
+  // logic-level map
+  var segEls = {};
+  ['a','b','c','d','e','f','g'].forEach(function(k){
+    segEls[k] = document.getElementById('sg-' + k);
+  });
+  function digit(el, fallback){
+    var v = parseInt(el.value, 10);
+    if (isNaN(v)) return fallback;
+    return Math.min(9, Math.max(0, v));
+  }
+  function paintLogic(){
+    var a = digit(el.opa, 7), b = digit(el.opb, 5), st = solve(a, b);
+    el.lsum.textContent = a + ' + ' + b + ' = ' + st.sum;
+
+    el.lgrid.textContent = '';
+    NETS.forEach(function(grp){
+      var box = document.createElement('div');
+      box.className = 'lgrp' + (cur === grp.ready ? ' live' : '');
+      var h = document.createElement('h4'); h.textContent = grp.g; box.appendChild(h);
+      grp.n.forEach(function(row){
+        var ready = row[3] === undefined ? grp.ready : row[3];
+        var live = cur >= ready;
+        var r = document.createElement('div'); r.className = 'lrow';
+        var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = row[0];
+        var pn = document.createElement('span'); pn.className = 'pn'; pn.textContent = row[1];
+        var v = document.createElement('span');
+        if (!live) { v.className = 'lv na'; v.textContent = 'step ' + (ready + 1); }
+        else { v.className = 'lv ' + (st[row[2]] ? 'hi' : 'lo');
+               v.textContent = st[row[2]] ? 'HIGH 1' : 'LOW 0'; }
+        r.appendChild(nm); r.appendChild(pn); r.appendChild(v);
+        box.appendChild(r);
+      });
+      el.lgrid.appendChild(box);
+    });
+
+    var shown = cur >= 27;
+    ['a','b','c','d','e','f','g'].forEach(function(k){
+      segEls[k].classList.toggle('on', shown && !!st['s' + k]);
+    });
+    el.lread.textContent = shown
+      ? 'Display reads ' + st.S + (st.C ? ', so the answer is ' + st.sum : '')
+      : 'Display lights from step 28';
+    el.tled.classList.toggle('on', cur >= 22 && !!st.C);
+    el.ttext.textContent = cur < 22 ? 'tens LED — wired at step 23'
+      : st.C ? 'tens LED on — the answer passed 9' : 'tens LED off';
+
+    var note = '';
+    if (st.S === 6 || st.S === 9) {
+      note = 'The CD4511 draws ' + st.S + ' without its tail, so '
+           + (st.S === 6 ? 'segment a stays dark' : 'segments d and e stay dark')
+           + '. That is correct behaviour, not a dead segment.';
+    } else if (st.C && st.K) {
+      note = 'K carried, so U1\'s sum pins read ' + st.Z
+           + ' even though the real answer is ' + st.sum + '. Only K catches this.';
+    } else if (st.C) {
+      note = 'Correction fired, so U2 adds 6 and its own carry out is discarded.';
+    } else if (st.z3) {
+      note = 'Z3 is high but the answer is still valid BCD. If the LED lights here, '
+           + 'your AND gates are on the wrong sum bits.';
+    }
+    el.lnote.textContent = note;
+  }
+  el.opa.addEventListener('input', paintLogic);
+  el.opb.addEventListener('input', paintLogic);
 
   // step map
   var pills = [];
@@ -4248,6 +4472,9 @@ function expand(list){
     el.title.textContent = s.t;
     el.dtitle.textContent = 'Step ' + (cur + 1) + '  ' + s.t;
     el.dwhere.textContent = s.w;
+    el.rcount.textContent = 'Step ' + (cur + 1) + ' of ' + n;
+    el.rtitle.textContent = s.t;
+    el.rwhere.textContent = s.w;
     el.detail.textContent = s.d;
     el.detail.hidden = !s.d;
 
@@ -4277,9 +4504,13 @@ function expand(list){
     pills.forEach(function(p, i){
       p.setAttribute('data-s', done[i] ? 'done' : (i === cur ? 'now' : ''));
     });
+    if (pills[cur] && pills[cur].scrollIntoView) {
+      try { pills[cur].scrollIntoView({block: 'nearest', inline: 'nearest'}); } catch (e) {}
+    }
 
     paintMap();
     paintBB();
+    paintLogic();
   }
 
   el.go.addEventListener('click', function(){

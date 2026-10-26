@@ -73,8 +73,13 @@ gates wired to the wrong sum bits.
   carries. Pins light blue for the current step and green once wired.
 - **A step-scoped breadboard diagram.** All 254 drawn wire elements carry their step index,
   so only the current step's connections are lit; completed wires dim, future wires ghost.
-- **Both diagrams at once**, independent diagram zoom (50–320%), whole-page zoom, and a
-  full-window mode.
+- **An interactive logic-level map.** Set any two BCD digits and it solves the whole circuit,
+  showing what a meter should read at every pin — operands, `K` and `Z3..Z0`, both AND terms,
+  `C`, `S3..S0`, and all seven segment drives. Lines stay dashed until you reach the step that
+  wires them, so the map fills in as you build. A live seven-segment preview shows the digit,
+  including the CD4511's tail-less 6 and 9.
+- **Both diagrams side by side**, with the step list in a sticky rail beside them, so the whole
+  build fits in one view. Independent diagram zoom (50–320%), whole-page zoom, full-window mode.
 - **Progress saved** in `localStorage`, with per-step undo.
 - Reference drawers: adder theory, signal flow schematic, pinouts, parts list,
   troubleshooting, and test vectors.
