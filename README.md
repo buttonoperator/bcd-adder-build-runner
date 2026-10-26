@@ -7,7 +7,11 @@ and an LED for the tens digit.
 Built for EEL 3705 (Fundamentals of Digital Circuits, University of South Florida),
 Hands-On Project 2.
 
-**[Open the build runner](index.html)** — one HTML file, no build step, no dependencies.
+### ▶ [Open the build runner](https://buttonoperator.github.io/bcd-adder-build-runner/)
+
+One HTML file, no build step, no dependencies. Works offline once loaded — clone the repo and
+open [`index.html`](index.html) directly if you would rather not rely on the network at the
+bench.
 
 ---
 
