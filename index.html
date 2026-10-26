@@ -96,6 +96,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .tens i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block;flex:0 0 auto}
 .tens i.on{background:#d1495b;box-shadow:0 0 8px rgba(209,73,91,.6)}
 .lnote{font-family:var(--mono);font-size:10.5px;line-height:1.5;color:var(--muted);margin:0}
+.outs{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:10.5px}
+.outs td{padding:3px 0;border-top:1px solid var(--line);vertical-align:baseline}
+.outs td.k{color:var(--muted);white-space:nowrap;padding-right:7px}
+.outs td.v{font-weight:600;text-align:right;white-space:nowrap}
+.outs tr.pend td{opacity:.45}
+.outs tr.hd td{border-top:none;padding-top:7px;color:var(--muted);font-size:9.5px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600}
 .lwarn{color:#d1495b}
 
 /* per-IC readouts inside the pin map */
@@ -137,7 +144,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   font-size:14px;border:1px solid var(--line)}
 .flag b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
   flex:none;padding-top:3px}
-.acts{display:flex;gap:10px;align-items:center;margin-top:2px;flex-wrap:wrap}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);
+  border-radius:11px;padding:11px;background:var(--surface)}
+.acts .go{flex:1 1 100%}
+.acts #back{flex:1 1 auto}
+.acts .keys{flex:1 1 100%;margin:1px 0 0}
 button{font-family:var(--sans);cursor:pointer;border-radius:9px;border:1px solid var(--line);
   background:var(--surface);color:var(--fg);font-size:15px;padding:12px 18px;font-weight:500}
 button.go{background:var(--accent);border-color:var(--accent);color:#fff;flex:1 1 auto;min-width:160px;font-weight:600}
@@ -173,6 +184,10 @@ table.t{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:
 .t td.m{font-family:var(--mono)}
 .t td.dim{color:var(--muted)}
 .tbl{overflow-x:auto}
+.goal{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0;
+  padding:10px 13px;display:flex;flex-direction:column;gap:4px}
+.goal b{font:600 10px var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--accent)}
+.goal span{font-size:13.5px;line-height:1.55}
 .eq{font-family:var(--mono);font-size:14px;background:var(--bg);border:1px solid var(--line);
   border-radius:6px;padding:11px 13px;overflow-x:auto}
 .frame{border:1px solid var(--line);border-radius:8px;background:var(--board-edge);
@@ -247,7 +262,7 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
 .undo{background:none;border:none;color:var(--muted);font:500 11.5px var(--mono);
   text-decoration:underline;cursor:pointer;padding:4px 2px}
 .undo:hover{color:var(--fg)}
-.keys{font:500 11px var(--mono);color:var(--muted);margin-top:9px}
+.keys{font:500 10px var(--mono);color:var(--muted);margin-top:9px;line-height:1.7}
 .keys kbd{font-family:var(--mono);border:1px solid var(--line);border-radius:4px;
   padding:1px 5px;background:var(--bg);font-size:10.5px}
 /* explainer */
@@ -357,6 +372,14 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   <div class="maph">All steps &mdash; tap any to jump</div>
   <div id="groups"></div>
 
+  <div class="acts">
+    <button class="go" id="go">Done &rarr;</button>
+    <button id="back">&larr; Back</button>
+    <button class="undo" id="undo" hidden>unmark this step</button>
+    <p class="keys"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> step &middot;
+    <kbd>+</kbd> <kbd>&minus;</kbd> zoom &middot; <kbd>0</kbd> reset</p>
+  </div>
+
   <div class="inputs">
     <div class="inhd">Test values</div>
     <div class="op">
@@ -388,6 +411,7 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
         <div class="tens"><i id="tled"></i><span id="ttext">tens LED</span></div>
       </div>
     </div>
+    <table class="outs"><tbody id="outs"></tbody></table>
     <p class="lnote" id="lnote"></p>
   </div>
 </aside>
@@ -398,6 +422,7 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   <span class="where" id="where"></span>
   <h2 id="title"></h2>
   <p id="detail"></p>
+  <div class="goal" id="goal" hidden><b>Why this step</b><span id="goalt"></span></div>
   <table class="wires" id="wires" hidden><tbody id="wbody"></tbody></table>
   <div class="dia" id="dia">
   <div class="tabs">
@@ -3363,13 +3388,6 @@ footer button{font-size:12px;padding:6px 11px;font-family:var(--mono)}
   </div>
   </div>
   <div class="flag" id="flag" hidden><b id="flagk">Check</b><span id="flagt"></span></div>
-  <div class="acts">
-    <button class="go" id="go">Done &rarr;</button>
-    <button id="back">&larr; Back one step</button>
-    <button class="undo" id="undo" hidden>unmark this step</button>
-  </div>
-  <p class="keys"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> move a step &middot;
-  <kbd>+</kbd> <kbd>&minus;</kbd> zoom the diagrams &middot; <kbd>0</kbd> reset</p>
 </div>
 
 
@@ -4079,6 +4097,9 @@ var STEPS = [
   W:[["U3 pins 9, 10, 12, 13","GND"],["U4 pins 9, 10, 12, 13","GND"]]},
  {g:"Tie-offs", t:"Ground the constants", w:"Carry-ins and U2's fixed B bits",
   d:"These four pins are hard zeros in this design.",
+  y:"Goal: pin down the three bits C never touches. U2's B3 and B0 stay at zero so its B "
+    + "inputs can only ever read 0000 or 0110, never anything in between. Both carry-ins are "
+    + "grounded because neither adder has a stage below it.",
   W:[["U1 pin 7 (C0)","GND"],["U2 pin 7 (C0)","GND"],["U2 pin 6 (B1)","GND"],["U2 pin 11 (B4)","GND"]]},
  {g:"Tie-offs", t:"Strap the CD4511", w:"Three control pins",
   d:"Do not skip this one.",
@@ -4104,27 +4125,47 @@ var STEPS = [
 
  {g:"Correction logic", t:"Run the Z bus to U2", w:"4 wires",
   d:"U1's sum goes straight into U2's A inputs, uncorrected.",
+  y:"Goal: put the raw answer where the fix can reach it. Nothing is corrected yet and there "
+    + "is no tens digit yet. U2 is just holding U1's number, waiting to be told whether to add "
+    + "six to it.",
   W:[["U1 pin 4 (Z0)","U2 pin 5"],["U1 pin 1 (Z1)","U2 pin 3"],
      ["U1 pin 13 (Z2)","U2 pin 14"],["U1 pin 10 (Z3)","U2 pin 12"]]},
  {g:"Correction logic", t:"Feed the AND gates", w:"4 wires into U3",
   d:"Z3 goes to both gates. Watch which bit pairs with it.",
+    y:"Goal: build the test for \"past 9, but no carry\". Z3 on its own is high for 8 through "
+    + "15, and 8 and 9 are legal BCD, so each gate qualifies Z3 with a second bit. Z3\u00B7Z2 "
+    + "fires on 12 to 15. Z3\u00B7Z1 fires on 10, 11, 14, 15. Neither fires on 8 (1000) or "
+    + "9 (1001), because both have Z2 and Z1 at zero.",
   W:[["U1 pin 10 (Z3)","U3 pin 1"],["U1 pin 13 (Z2)","U3 pin 2"],
      ["U1 pin 10 (Z3)","U3 pin 4"],["U1 pin 1 (Z1)","U3 pin 5"]],
   fk:"Watch", f:"Gate 1 is Z3 with Z2. Gate 2 is Z3 with Z1. Getting these wrong is the most common failure."},
  {g:"Correction logic", t:"Chain the OR gates", w:"4 wires into U4",
   d:"Two AND outputs in, then the carry.",
+  y:"Goal: collapse three signals into the one decision. The first OR merges the two AND "
+    + "results into \"the sum is 10 through 15\". The second ORs in K, which covers 16 "
+    + "through 18. U4 pin 6 is now high for every answer above 9 and low for every answer 0 "
+    + "through 9. This is the step that creates the tens digit.",
   W:[["U3 pin 3","U4 pin 1"],["U3 pin 6","U4 pin 2"],
      ["U4 pin 3","U4 pin 4"],["U1 pin 9 (K)","U4 pin 5"]]},
  {g:"Correction logic", t:"Deliver C to U2", w:"2 wires",
   d:"U4 pin 6 is C. It goes to two pins on U2, and nowhere else on the adder.",
+  y:"Goal: make C do arithmetic. Landing on B2 and B1 with B3 and B0 already grounded, C "
+    + "presents 0110 (six) when high and 0000 when low. Binary rolls over at 16 but decimal "
+    + "rolls over at 10, so adding that six forces the rollover and leaves the right ones "
+    + "digit behind.",
   W:[["U4 pin 6 (C)","U2 pin 15 (B3)"],["U4 pin 6 (C)","U2 pin 2 (B2)"]],
   fk:"Why", f:"With pins 6 and 11 already grounded, U2's B inputs read 0110 when C is high. That is the +6."},
  {g:"Correction logic", t:"Wire the tens LED", w:"Board 1, columns 55 to 60",
   d:"C drives the tens digit directly.",
+  y:"Goal: show the tens digit. C already is the tens digit: 1 when the answer is 10 through "
+    + "18, 0 otherwise. No second decoder, no extra gate, no wire from U2's carry out. The "
+    + "same signal that triggers the correction lights the lamp.",
   W:[["U4 pin 6 (C)","330 Ω"],["330 Ω","LED anode"],["LED cathode","GND"]]},
 
  {g:"Display", t:"Wire the S bus", w:"4 wires across to board 2",
   d:"U2's corrected sum into the decoder. S0 is the least significant bit.",
+  y:"Goal: hand the finished ones digit over. By this point S3..S0 is guaranteed to be 0 "
+    + "through 9, so the decoder never sees an input it cannot draw.",
   W:[["U2 pin 4 (S0)","U5 pin 7 (A)"],["U2 pin 1 (S1)","U5 pin 1 (B)"],
      ["U2 pin 13 (S2)","U5 pin 2 (C)"],["U2 pin 10 (S3)","U5 pin 6 (D)"]],
   fk:"Note", f:"U2 pin 9 stays unconnected. The tens digit comes from C, not from U2."},
@@ -4191,6 +4232,21 @@ var PKGPINS = {SW1:16, U1:16, U2:16, U3:14, U4:14, U5:16, DS1:10};
 // What each package produces, and the step index after which it is really there.
 // Before that the readout shows the same numbers as a TARGET: what you are
 // working towards, so an unwired chip still tells you what it owes you.
+// Compact output summary for the rail, in signal order.
+var OUTS = [
+ ["U1 74HC283 \u2014 binary sum", null, null],
+ ["Z3..Z0", 16, function(st){ return st.zb + "  (" + st.Z + ")"; }],
+ ["K", 16, function(st){ return String(st.K); }],
+ ["U3 / U4 \u2014 gates", null, null],
+ ["Z3\u00B7Z2", 19, function(st){ return String(st.and1); }],
+ ["Z3\u00B7Z1", 19, function(st){ return String(st.and2); }],
+ ["OR of both", 20, function(st){ return String(st.or1); }],
+ ["C  (tens)", 20, function(st){ return String(st.C); }],
+ ["U2 74HC283 \u2014 corrected", null, null],
+ ["B3..B0 into U2", 21, function(st){ return st.C ? "0110  (+6)" : "0000  (+0)"; }],
+ ["S3..S0", 21, function(st){ return st.sb + "  (" + st.S + ")"; }]
+];
+
 var CHIPOUT = [
  ["SW1", 16, function(st){ return ["A = " + st.ab + "  (" + st.a + ")",
                                    "B = " + st.bb + "  (" + st.b + ")"]; }],
@@ -4263,10 +4319,10 @@ function expand(list){
 
   var el = {};
   ['count','phase','pct','fill','where','title','detail','wires','wbody','flag','flagk','flagt',
-   'go','back','groups','reset','ppin','pbb','ball','bbnote',
+   'go','back','groups','reset','ppin','pbb','ball','bbnote','goal','goalt',
    'zin','zout','zfit','zlab','undo','dia',
    'pzin','pzout','pzfit','pzlab','panes','rcount','rtitle','rwhere',
-   'opa','opb','bitsa','bitsb','lsum','lread','tled','ttext','lnote'].forEach(function(k){ el[k] = document.getElementById(k); });
+   'opa','opb','bitsa','bitsb','lsum','lread','tled','ttext','lnote','outs'].forEach(function(k){ el[k] = document.getElementById(k); });
 
   // pin map elements, keyed "U1.5" and "U1"
   var bbMapEl = document.getElementById('cm');
@@ -4460,6 +4516,24 @@ function expand(list){
       r.l2.textContent = lines[1];
     });
 
+    el.outs.textContent = '';
+    OUTS.forEach(function(row){
+      var tr = document.createElement('tr');
+      if (row[1] === null) {
+        tr.className = 'hd';
+        var td = document.createElement('td');
+        td.colSpan = 2; td.textContent = row[0];
+        tr.appendChild(td);
+      } else {
+        var live = cur >= row[1];
+        if (!live) tr.className = 'pend';
+        var k = document.createElement('td'); k.className = 'k'; k.textContent = row[0];
+        var v = document.createElement('td'); v.className = 'v'; v.textContent = row[2](st);
+        tr.appendChild(k); tr.appendChild(v);
+      }
+      el.outs.appendChild(tr);
+    });
+
     var shown = cur >= 27;
     ['a','b','c','d','e','f','g'].forEach(function(k){
       segEls[k].classList.toggle('on', shown && !!st['s' + k]);
@@ -4492,6 +4566,18 @@ function expand(list){
     }
     el.lnote.textContent = note;
     el.lnote.classList.toggle('lwarn', warn);
+  }
+
+  // Nudge the rail so the active step stays visible. This scrolls the rail only:
+  // scrollIntoView would also scroll the window and throw away the reading position.
+  var railEl = document.querySelector('.rail');
+  function keepPillVisible(){
+    var pill = pills[cur];
+    if (!pill || !railEl) return;
+    if (railEl.scrollHeight <= railEl.clientHeight + 1) return;
+    var pr = pill.getBoundingClientRect(), rr = railEl.getBoundingClientRect();
+    if (pr.top < rr.top) railEl.scrollTop -= (rr.top - pr.top) + 10;
+    else if (pr.bottom > rr.bottom) railEl.scrollTop += (pr.bottom - rr.bottom) + 10;
   }
 
   // step map
@@ -4528,6 +4614,8 @@ function expand(list){
     el.rwhere.textContent = s.w;
     el.detail.textContent = s.d;
     el.detail.hidden = !s.d;
+    el.goalt.textContent = s.y || '';
+    el.goal.hidden = !s.y;
 
     el.wbody.textContent = '';
     if (s.W) {
@@ -4555,9 +4643,7 @@ function expand(list){
     pills.forEach(function(p, i){
       p.setAttribute('data-s', done[i] ? 'done' : (i === cur ? 'now' : ''));
     });
-    if (pills[cur] && pills[cur].scrollIntoView) {
-      try { pills[cur].scrollIntoView({block: 'nearest', inline: 'nearest'}); } catch (e) {}
-    }
+    keepPillVisible();
 
     paintMap();
     paintBB();
@@ -4568,7 +4654,6 @@ function expand(list){
     done[cur] = true;
     if (cur < STEPS.length - 1) cur++;
     save(); render();
-    window.scrollTo({top: 0, behavior: 'smooth'});
   });
   el.back.addEventListener('click', function(){ step(-1); });
   el.undo.addEventListener('click', function(){
@@ -4577,7 +4662,6 @@ function expand(list){
   });
   el.reset.addEventListener('click', function(){
     cur = 0; done = {}; save(); render();
-    window.scrollTo({top: 0, behavior: 'smooth'});
   });
 
   applyZoom();

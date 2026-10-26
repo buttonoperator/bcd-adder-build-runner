@@ -81,9 +81,16 @@ gates wired to the wrong sum bits.
 - **Binary as well as decimal.** Each operand has 8/4/2/1 bit toggles, so you can drive values
   above 9 and watch what the correction logic does with input that is not valid BCD.
 - **A seven-segment preview** using the CD4511's real patterns, including its tail-less 6 and 9.
-- **One screen.** The step list sits in a sticky rail, the pin map and breadboard stack in the
-  working area, and both panes scroll inside bounded heights. Diagram zoom (60–300%, where 100%
-  fits the pane) and whole-page zoom.
+- **"Why this step."** Every step in the correction chain states what that piece of wiring is
+  for: why Z3 has to be qualified by a second bit, why three signals collapse into one, why six
+  is the number that fixes the rollover, and why `C` needs no extra logic to become the tens
+  digit.
+- **A running output summary** in the rail: `Z3..Z0` and `K` off U1, both AND terms, the OR, `C`,
+  what U2's B inputs are presenting, and `S3..S0`. Lines that are not wired yet are dimmed.
+- **One screen, and it stays put.** The step list and controls sit in a sticky rail, the pin map
+  and breadboard stack in the working area, and both panes scroll inside bounded heights.
+  Advancing a step never scrolls the page. Diagram zoom (60–300%, where 100% fits the pane) and
+  whole-page zoom.
 - **Progress saved** in `localStorage`, with per-step undo.
 - Reference drawers: adder theory, signal flow schematic, pinouts, parts list,
   troubleshooting, and test vectors.

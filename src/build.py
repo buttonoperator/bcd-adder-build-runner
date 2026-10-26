@@ -52,7 +52,8 @@ for i in ('bb', 'cm', 'fl', 'ppin', 'pbb', 'ball', 'bbnote', 'panes',
           'zin', 'zout', 'zfit', 'zlab', 'undo', 'dia',
           'pzin', 'pzout', 'pzfit', 'pzlab',
           'rcount', 'rtitle', 'rwhere', 'opa', 'opb', 'bitsa', 'bitsb',
-          'lsum', 'lread', 'tled', 'ttext', 'lnote', 'seg7'):
+          'lsum', 'lread', 'tled', 'ttext', 'lnote', 'seg7',
+          'outs', 'goal', 'goalt'):
     if t.count('id="%s"' % i) != 1:
         err.append('id="%s" appears %d times' % (i, t.count('id="%s"' % i)))
 
@@ -61,6 +62,9 @@ for ref in ('SW1', 'U1', 'U2', 'U3', 'U4', 'U5', 'DS1'):
     for pre in ('ro-', 'rotag-', 'rol1-', 'rol2-'):
         if t.count('id="%s%s"' % (pre, ref)) != 1:
             err.append('missing readout id %s%s' % (pre, ref))
+
+if 'window.scrollTo' in t:
+    err.append('render still jumps the page to the top')
 
 for dead in ('BBG', 'BBALL', 'BBNAME', 'n-pwr', 'd-pwr',
              'setView', 'setFull', 'tfull', 'diabar', 'panes.split', 'lgrid'):
